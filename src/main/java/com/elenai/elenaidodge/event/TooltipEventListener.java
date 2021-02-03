@@ -21,7 +21,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * This single class is based off the class FoodTooltip used by Vazkii in Quark:
+ * https://github.com/Vazkii/Quark/blob/1.12/src/main/java/vazkii/quark/client/feature/FoodTooltip.java
+ * Both Quark and Elenai Dodge are issued under an altered version of the Creative Commons license.
+ * @author Vazkii
+ */	
 public class TooltipEventListener {
+	
 	public static final ResourceLocation ICONS_RESOURCE = new ResourceLocation(ElenaiDodge.MODID, "textures/gui/icons.png");
 
 	public static int divisor = 2;

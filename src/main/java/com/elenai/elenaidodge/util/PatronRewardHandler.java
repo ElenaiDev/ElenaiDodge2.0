@@ -30,18 +30,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * This single class is based off the class PatronRewardHandler used by Vazkii in Quark:
+ * https://github.com/Vazkii/Quark/blob/master/src/main/java/vazkii/quark/base/handler/PatronRewardHandler.java
+ * I have changed a very small amount from their original method, and therefore all credit for this class goes to them.
+ * Both Quark and Elenai Dodge are issued under an altered version of the Creative Commons license.
+ * @author Vazkii
+ */	
 @Mod.EventBusSubscriber(modid = ElenaiDodge.MODID)
 public class PatronRewardHandler {
 
-	/*
-	 * FULL DISCLOSURE
-	 * This single class is based off the class PatronRewardHandler used by Vazkii in Quark:
-	 * https://github.com/Vazkii/Quark/blob/master/src/main/java/vazkii/quark/base/handler/PatronRewardHandler.java
-	 * I have changed a very small amount from their original method, and therefore all credit for this class goes to them.
-	 * Quark is issued under an altered version of the Creative Commons license.
-	 * 
-	 */	
-	
 	private static final ImmutableSet<String> DEV_UUID = ImmutableSet.of(
 			"1f12bbe0-0396-458e-8bb6-49bffdeb46dd",
 			"2436164d-96a1-4fe8-8c0c-a118ff2d9157",
