@@ -20,6 +20,13 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+/**
+ * This single class is based off the class PatronRewardHandler used by Vazkii in Quark:
+ * https://github.com/Vazkii/Quark/blob/master/src/main/java/vazkii/quark/base/handler/PatronRewardHandler.java
+ * I have changed a very small amount from their original method, and therefore all credit for this class goes to them.
+ * Both Quark and Elenai Dodge are issued under an altered version of the Creative Commons license.
+ * @author Vazkii
+ */	
 @Mod.EventBusSubscriber(modid = ElenaiDodge.MODID)
 public class PatronRewardHandler {
 	
