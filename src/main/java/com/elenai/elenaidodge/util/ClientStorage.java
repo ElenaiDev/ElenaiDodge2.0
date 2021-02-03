@@ -14,7 +14,7 @@ public class ClientStorage {
 	public static boolean halfFeathers;
 	public static String weightValues;
 	public static int dodges;
-	public static int weight;
+	public static int weight = 0;
 	public static int regenSpeed;
 
 }

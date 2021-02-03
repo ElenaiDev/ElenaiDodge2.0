@@ -1,21 +1,22 @@
 package com.elenai.elenaidodge.capability.absorption;
 
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.IntNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTPrimitive;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public class AbsorptionStorage implements IStorage<IAbsorption> {
 
 	@Override
-	public INBT writeNBT(Capability<IAbsorption> capability, IAbsorption instance, Direction side) {
-		return IntNBT.valueOf(instance.getAbsorption());
+	public NBTBase writeNBT(Capability<IAbsorption> capability, IAbsorption instance, EnumFacing side) {
+		return new NBTTagInt(instance.getAbsorption());
 	}
 
 	@Override
-	public void readNBT(Capability<IAbsorption> capability, IAbsorption instance, Direction side, INBT nbt) {
-		instance.set(((IntNBT) nbt).getInt());
+	public void readNBT(Capability<IAbsorption> capability, IAbsorption instance, EnumFacing side, NBTBase nbt) {
+		instance.set(((NBTPrimitive) nbt).getInt());
 	}
 
 }

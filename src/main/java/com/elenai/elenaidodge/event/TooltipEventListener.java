@@ -5,21 +5,21 @@ import java.util.Collections;
 import java.util.List;
 
 import com.elenai.elenaidodge.ElenaiDodge;
-import com.elenai.elenaidodge.config.ConfigHandler;
+import com.elenai.elenaidodge.ModConfig;
 import com.elenai.elenaidodge.util.ClientStorage;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.item.ArmorItem;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TooltipEventListener {
 	public static final ResourceLocation ICONS_RESOURCE = new ResourceLocation(ElenaiDodge.MODID, "textures/gui/icons.png");
@@ -33,7 +33,7 @@ public class TooltipEventListener {
 		Collections.addAll(weights, ClientStorage.weightValues.split(","));
 		for (String weight : weights) {
 			String[] itemValue = weight.split("="); // itemValue[0] is id, itemValue[1] is weight
-			if (item.getRegistryName().equals(new ResourceLocation(itemValue[0]))) {
+			if (item == Item.getByNameOrId(itemValue[0])) {
 				weights.clear();
 				return (int) Math.floor(Double.valueOf(itemValue[1]));
 			}
@@ -43,9 +43,10 @@ public class TooltipEventListener {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void makeTooltip(ItemTooltipEvent event) {
-		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ArmorItem && ClientStorage.weightValues != null) {
-			if(ConfigHandler.tooltips) {
+		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemArmor && ClientStorage.weightValues != null) {
+			if(ModConfig.client.hud.tooltips) {
 			int weight =  getWeight(event.getItemStack().getItem());
 			if(weight > 0) {
 			int len = (int) Math.ceil((double) weight / divisor);
@@ -54,20 +55,23 @@ public class TooltipEventListener {
 			for(int i = 0; i < len; i++)
 				s.append("  ");
 			
-			List<ITextComponent> tooltip = event.getToolTip();
+			List<String> tooltip = event.getToolTip();
 			if(tooltip.isEmpty())
-				tooltip.add(new StringTextComponent(s.toString()));
-			else tooltip.add(1, (new StringTextComponent(s.toString())));
+				tooltip.add(s.toString());
+			else tooltip.add(1, s.toString());
 			}
 			}
 		}
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void renderTooltip(RenderTooltipEvent.PostText event) {
-		if (!event.getStack().isEmpty() && event.getStack().getItem() instanceof ArmorItem && ConfigHandler.tooltips) {
+		if (!event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemArmor && ModConfig.client.hud.tooltips) {
 
-			Minecraft mc = Minecraft.getInstance();
+			GlStateManager.pushMatrix();
+			GlStateManager.color(1F, 1F, 1F);
+			Minecraft mc = Minecraft.getMinecraft();
 			mc.getTextureManager().bindTexture(ICONS_RESOURCE);
 			int weight = getWeight(event.getStack().getItem());
 			if (weight < 28) {
@@ -83,21 +87,23 @@ public class TooltipEventListener {
 					if (weight % 2 != 0 && i == 0)
 						u += 9;
 
-					Screen.blit(event.getMatrixStack(), x, y, u, v, 9, 9, 256, 256);
+					Gui.drawModalRectWithCustomSizedTexture(x, y, u, v, 9, 9, 256, 256);
 				}
 			}
+
+			GlStateManager.popMatrix();
 		}
 	}
 
-	   public static int shiftTextByLines(List<? extends ITextProperties> lines, int y) {
-	        for(int i = 1; i < lines.size(); i++) {
-	            String s = lines.get(i).getString();
-	            s = TextFormatting.getTextWithoutFormattingCodes(s);
-	            if(s != null && !s.isEmpty()) {
-	                y += 10 * (i - 1) + 1;
-	                break;
-	            }
-	        }
-	        return y;
-	    }
+	public static int shiftTextByLines(List<String> lines, int y) {
+		for (int i = 1; i < lines.size(); i++) {
+			String s = lines.get(i);
+			s = TextFormatting.getTextWithoutFormattingCodes(s);
+			if (s != null && !s.isEmpty()) {
+				y += 10 * (i - 1) + 1;
+				break;
+			}
+		}
+		return y;
+	}
 }

@@ -1,50 +1,75 @@
 package com.elenai.elenaidodge.network.message;
 
-import java.util.function.Supplier;
-
-import com.elenai.elenaidodge.config.ConfigHandler;
+import com.elenai.elenaidodge.ElenaiDodge;
+import com.elenai.elenaidodge.ModConfig;
 import com.elenai.elenaidodge.util.ClientStorage;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import io.netty.buffer.ByteBuf;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 
-public class CInitPlayerMessage implements IMessage<CInitPlayerMessage> {
+public class CInitPlayerMessage implements IMessage {
+
+	/*
+	 * A Message sent to the client when the player first joins the world.
+	 */
 
 	private int dodges;
 
-	public CInitPlayerMessage() {
+	private boolean messageValid;
 
+	public CInitPlayerMessage() {
+		this.messageValid = false;
 	}
 
 	public CInitPlayerMessage(int dodges) {
 		this.dodges = dodges;
-		
+
+		this.messageValid = true;
 	}
 
 	@Override
-	public void encode(CInitPlayerMessage message, PacketBuffer buffer) {
-		buffer.writeInt(message.dodges);
+	public void fromBytes(ByteBuf buf) {
+		try {
+			this.dodges = buf.readInt();
 
+		} catch (IndexOutOfBoundsException ioe) {
+			ElenaiDodge.LOG.error("Error occured whilst networking!", ioe);
+			return;
+		}
+		this.messageValid = true;
 	}
 
 	@Override
-	public CInitPlayerMessage decode(PacketBuffer buffer) {
-		return new CInitPlayerMessage(buffer.readInt());
+	public void toBytes(ByteBuf buf) {
+		if (!this.messageValid) {
+			return;
+		}
+		buf.writeInt(dodges);
+
 	}
 
-	@Override
-	public void handle(CInitPlayerMessage message, Supplier<Context> supplier) {
-		supplier.get().enqueueWork(() -> {
-			
-			ClientStorage.dodges = message.dodges;
-			if(ConfigHandler.tutorial) {
-			ClientStorage.shownTutorial = false;
-			ClientStorage.tutorialDodges = 0;
+	public static class Handler implements IMessageHandler<CInitPlayerMessage, IMessage> {
+
+		@Override
+		public IMessage onMessage(CInitPlayerMessage message, MessageContext ctx) {
+			if (!message.messageValid && ctx.side != Side.CLIENT) {
+				return null;
 			}
-			});
+			FMLCommonHandler.instance().getWorldThread(ctx.netHandler)
+					.addScheduledTask(() -> processMessage(message, ctx));
+			return null;
+		}
 
-		supplier.get().setPacketHandled(true);
-
+		void processMessage(CInitPlayerMessage message, MessageContext ctx) {
+				ClientStorage.dodges = message.dodges;
+				if(ModConfig.client.hud.tutorial) {
+				ClientStorage.shownTutorial = false;
+				ClientStorage.tutorialDodges = 0;
+				}
+		}
 	}
-
 }

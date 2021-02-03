@@ -3,21 +3,22 @@ package com.elenai.elenaidodge.event;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.elenai.elenaidodge.config.ConfigHandler;
+import org.lwjgl.input.Keyboard;
+
+import com.elenai.elenaidodge.ModConfig;
 import com.elenai.elenaidodge.util.ClientStorage;
 import com.elenai.elenaidodge.util.DodgeEvent;
 import com.elenai.elenaidodge.util.DodgeEvent.Direction;
 import com.elenai.elenaidodge.util.DodgeEvent.RequestDodgeEvent;
-import com.elenai.elenaidodge.util.ModKeybinds;
+import com.elenai.elenaidodge.util.Keybinds;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-@SuppressWarnings("resource")
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public class InputEventListener {
 
@@ -35,24 +36,24 @@ public class InputEventListener {
 	@SubscribeEvent
 	public void onKeyInput(TickEvent.ClientTickEvent event) {
 
-		PlayerEntity player = Minecraft.getInstance().player;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 
 		if (ClientStorage.cooldown <= 0 && event.phase == Phase.START
-				&& Minecraft.getInstance().currentScreen == null) {
+				&& Minecraft.getMinecraft().currentScreen == null) {
 
-			if (ConfigHandler.doubleTap) {
+			if (ModConfig.client.controls.doubleTap) {
 				if (needsInit) {
 					needsInit = false;
 					tickInit();
 				}
 				tickDodging();
-				if (ModKeybinds.dodge.isKeyDown()) {
+				if (Keybinds.dodge.isKeyDown()) {
 					DodgeEvent ev = new RequestDodgeEvent(Direction.FORWARD);
 					MinecraftForge.EVENT_BUS.post(ev);
 				}
 			}
 
-			else if (ModKeybinds.dodge.isKeyDown()) {
+			else if (Keybinds.dodge.isKeyDown()) {
 				if (player.moveStrafing > 0) {
 					DodgeEvent ev = new RequestDodgeEvent(Direction.LEFT);
 					MinecraftForge.EVENT_BUS.post(ev);
@@ -71,12 +72,12 @@ public class InputEventListener {
 	}
 
 	public static void tickInit() {
-		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindBack, "back");
-		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindLeft, "left");
-		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindRight, "right");
-		keyLastState.put(Minecraft.getInstance().gameSettings.keyBindBack, false);
-		keyLastState.put(Minecraft.getInstance().gameSettings.keyBindLeft, false);
-		keyLastState.put(Minecraft.getInstance().gameSettings.keyBindRight, false);
+		lookupKeyToDirection.put(Minecraft.getMinecraft().gameSettings.keyBindBack, "back");
+		lookupKeyToDirection.put(Minecraft.getMinecraft().gameSettings.keyBindLeft, "left");
+		lookupKeyToDirection.put(Minecraft.getMinecraft().gameSettings.keyBindRight, "right");
+		keyLastState.put(Minecraft.getMinecraft().gameSettings.keyBindBack, false);
+		keyLastState.put(Minecraft.getMinecraft().gameSettings.keyBindLeft, false);
+		keyLastState.put(Minecraft.getMinecraft().gameSettings.keyBindRight, false);
 	}
 
 	public static void tickDodging() {
@@ -87,12 +88,12 @@ public class InputEventListener {
 		long curTime = System.currentTimeMillis();
 		long lastTime = getLastKeyTime(key);
 
-		if (key.getKey().getKeyCode() > 0) {
-			if (key.isKeyDown() && !keyLastState.get(key)) {
+		if (key.getKeyCode() > 0) {
+			if (Keyboard.isKeyDown(key.getKeyCode()) && !keyLastState.get(key)) {
 				if (lastTime == -1L) {
 					setLastKeyTime(key, curTime);
 				} else {
-					if (lastTime + ConfigHandler.doubleTapTicks > curTime) {
+					if (lastTime + ModConfig.client.controls.doubleTapTicks > curTime) {
 						DodgeEvent ev = new RequestDodgeEvent(Direction.valueOf(direction.toUpperCase()));
 						MinecraftForge.EVENT_BUS.post(ev);
 						setLastKeyTime(key, -1L);
@@ -102,14 +103,14 @@ public class InputEventListener {
 				}
 			}
 
-			if (!key.isKeyDown() && keyLastState.get(key)) {
+			if (!Keyboard.isKeyDown(key.getKeyCode()) && keyLastState.get(key)) {
 				for (Map.Entry<KeyBinding, Long> entry : keyTimesLastPressed.entrySet()) {
 					if (entry.getKey() != key) {
 						entry.setValue(-1L);
 					}
 				}
 			}
-			keyLastState.put(key, key.isKeyDown());
+			keyLastState.put(key, Keyboard.isKeyDown(key.getKeyCode()));
 		}
 	}
 

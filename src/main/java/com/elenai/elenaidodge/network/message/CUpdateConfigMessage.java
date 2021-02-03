@@ -1,21 +1,31 @@
 package com.elenai.elenaidodge.network.message;
 
-import java.util.function.Supplier;
-
+import com.elenai.elenaidodge.ElenaiDodge;
 import com.elenai.elenaidodge.event.ArmorTickEventListener;
 import com.elenai.elenaidodge.util.ClientStorage;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import io.netty.buffer.ByteBuf;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 
-public class CUpdateConfigMessage implements IMessage<CUpdateConfigMessage> {
+public class CUpdateConfigMessage implements IMessage {
+
+	/*
+	 * A Message to transfer server side values from the Config.
+	 */
 
 	private int regenRate, dodges, absorption;
 	private String weights;
 	private boolean half;
 
-	public CUpdateConfigMessage() {
+	private boolean messageValid;
 
+	public CUpdateConfigMessage() {
+		this.messageValid = false;
 	}
 
 	public CUpdateConfigMessage(int regenRate, int dodges, String weights, boolean half, int absorption) {
@@ -26,43 +36,66 @@ public class CUpdateConfigMessage implements IMessage<CUpdateConfigMessage> {
 		this.absorption = absorption;
 
 
+		this.messageValid = true;
 	}
 
 	@Override
-	public void encode(CUpdateConfigMessage message, PacketBuffer buffer) {
-		buffer.writeInt(message.regenRate);
-		buffer.writeInt(message.dodges);
-		buffer.writeString(message.weights);
-		buffer.writeBoolean(message.half);
-		buffer.writeInt(message.absorption);
+	public void fromBytes(ByteBuf buf) {
+		try {
+			this.regenRate = buf.readInt();
+			this.dodges = buf.readInt();
+			this.weights = ByteBufUtils.readUTF8String(buf);
+			this.half = buf.readBoolean();
+			this.absorption = buf.readInt();
 
+
+		} catch (IndexOutOfBoundsException ioe) {
+			ElenaiDodge.LOG.error("Error occured whilst networking!", ioe);
+			return;
+		}
+		this.messageValid = true;
 	}
 
 	@Override
-	public CUpdateConfigMessage decode(PacketBuffer buffer) {
-		return new CUpdateConfigMessage(buffer.readInt(), buffer.readInt(), buffer.readString(999999), buffer.readBoolean(), buffer.readInt());
+	public void toBytes(ByteBuf buf) {
+		if (!this.messageValid) {
+			return;
+		}
+		buf.writeInt(regenRate);
+		buf.writeInt(dodges);
+		ByteBufUtils.writeUTF8String(buf, weights);
+		buf.writeBoolean(half);
+		buf.writeInt(absorption);
+
 	}
 
-	@Override
-	public void handle(CUpdateConfigMessage message, Supplier<Context> supplier) {
-		supplier.get().enqueueWork(() -> {
+	public static class Handler implements IMessageHandler<CUpdateConfigMessage, IMessage> {
+
+		@Override
+		public IMessage onMessage(CUpdateConfigMessage message, MessageContext ctx) {
+			if (!message.messageValid && ctx.side != Side.CLIENT) {
+				return null;
+			}
+			FMLCommonHandler.instance().getWorldThread(ctx.netHandler)
+					.addScheduledTask(() -> processMessage(message, ctx));
+			return null;
+		}
+
+		void processMessage(CUpdateConfigMessage message, MessageContext ctx) {
 			ClientStorage.regenSpeed = message.regenRate;
 
 			if (message.dodges != 9999) {
 				ClientStorage.dodges = message.dodges;
 				ClientStorage.absorption = message.absorption;
 			}
-			
+			System.out.println("UPDATED CONFIG!!!!");
 			ClientStorage.weightValues = message.weights;
 			ClientStorage.halfFeathers = message.half;
 			
 			
 			// Forces Armor Refresh
 			ArmorTickEventListener.previousArmor.clear();
-		});
 
-		supplier.get().setPacketHandled(true);
-
+		}
 	}
-
 }

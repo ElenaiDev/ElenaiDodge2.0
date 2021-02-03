@@ -4,17 +4,18 @@ import com.elenai.elenaidodge.ElenaiDodge;
 import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge.capability.absorptionbool.AbsorptionBoolProvider;
 import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
-import com.elenai.elenaidodge.capability.invincibility.WeightProvider;
+import com.elenai.elenaidodge.capability.invincibility.InvincibilityProvider;
+import com.elenai.elenaidodge.capability.joined.IJoined;
 import com.elenai.elenaidodge.capability.joined.JoinedProvider;
 import com.elenai.elenaidodge.capability.particles.ParticlesProvider;
-import com.elenai.elenaidodge.capability.weight.InvincibilityProvider;
+import com.elenai.elenaidodge.capability.weight.WeightProvider;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CapabilityHandler {
 
@@ -26,28 +27,43 @@ public class CapabilityHandler {
 	public static final ResourceLocation INVINCIBILITY_CAP = new ResourceLocation(ElenaiDodge.MODID, "invincibility");
 	public static final ResourceLocation PARTICLES_CAP = new ResourceLocation(ElenaiDodge.MODID, "particles");
 
+
 	@SubscribeEvent
 	public void onEntityConstructing(AttachCapabilitiesEvent<Entity> event) {
-		if (event.getObject() instanceof PlayerEntity) {
-
-			event.addCapability(DODGES_CAP, new DodgesProvider());
-			event.addCapability(JOINED_CAP, new JoinedProvider());
-			event.addCapability(WEIGHT_CAP, new WeightProvider());
-			event.addCapability(ABSORPTION_CAP, new AbsorptionProvider());
-			event.addCapability(ABSORPTION_BOOL_CAP, new AbsorptionBoolProvider());
-			event.addCapability(INVINCIBILITY_CAP, new InvincibilityProvider());
-			event.addCapability(PARTICLES_CAP, new ParticlesProvider());
-
+		if (event.getObject() instanceof EntityPlayer) {
+			if (!event.getObject().hasCapability(DodgesProvider.DODGES_CAP, null)) {
+				event.addCapability(DODGES_CAP, new DodgesProvider());
+			}
+			if (!event.getObject().hasCapability(JoinedProvider.JOINED_CAP, null)) {
+				event.addCapability(JOINED_CAP, new JoinedProvider());
+			}
+			if (!event.getObject().hasCapability(WeightProvider.WEIGHT_CAP, null)) {
+				event.addCapability(WEIGHT_CAP, new WeightProvider());
+			}
+			if (!event.getObject().hasCapability(AbsorptionProvider.ABSORPTION_CAP, null)) {
+				event.addCapability(ABSORPTION_CAP, new AbsorptionProvider());
+			}
+			if (!event.getObject().hasCapability(AbsorptionBoolProvider.ABSORPTION_BOOL_CAP, null)) {
+				event.addCapability(ABSORPTION_BOOL_CAP, new AbsorptionBoolProvider());
+			}
+			if (!event.getObject().hasCapability(InvincibilityProvider.INVINCIBILITY_CAP, null)) {
+				event.addCapability(INVINCIBILITY_CAP, new InvincibilityProvider());
+			}
+			if (!event.getObject().hasCapability(ParticlesProvider.PARTICLES_CAP, null)) {
+				event.addCapability(PARTICLES_CAP, new ParticlesProvider());
+			}
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerCloned(PlayerEvent.Clone event) {
-		
-		event.getOriginal().getCapability(JoinedProvider.JOINED_CAP).ifPresent(oldJ ->{
-            event.getPlayer().getCapability(JoinedProvider.JOINED_CAP).ifPresent(newJ ->{
-                newJ.set(oldJ.getJoined());
-            });
-        });
+		EntityPlayer player = event.getEntityPlayer();
+
+		IJoined joined = player.getCapability(JoinedProvider.JOINED_CAP, null);
+		IJoined oldJoined = event.getOriginal().getCapability(JoinedProvider.JOINED_CAP, null);
+		joined.set(oldJoined.hasJoined());
+
+
 	}
+
 }

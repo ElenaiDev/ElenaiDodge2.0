@@ -2,7 +2,8 @@ package com.elenai.elenaidodge.capability.joined;
 
 public interface IJoined {
 
-	public void set(boolean joined);
+	public void join();
+	public void set(boolean bool);
 
-	public boolean getJoined();
+	public boolean hasJoined();
 }

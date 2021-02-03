@@ -4,71 +4,102 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import com.elenai.elenaidodge.ElenaiDodge;
+import com.google.common.collect.ImmutableSet;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(modid = ElenaiDodge.MODID)
 public class PatronRewardHandler {
+
+	/*
+	 * FULL DISCLOSURE
+	 * This single class is based off the class PatronRewardHandler used by Vazkii in Quark:
+	 * https://github.com/Vazkii/Quark/blob/master/src/main/java/vazkii/quark/base/handler/PatronRewardHandler.java
+	 * I have changed a very small amount from their original method, and therefore all credit for this class goes to them.
+	 * Quark is issued under an altered version of the Creative Commons license.
+	 * 
+	 */	
 	
+	private static final ImmutableSet<String> DEV_UUID = ImmutableSet.of(
+			"1f12bbe0-0396-458e-8bb6-49bffdeb46dd",
+			"2436164d-96a1-4fe8-8c0c-a118ff2d9157",
+			"c4c40239-2e88-42d3-a5bb-806ed8c21845",
+			"5084e6f3-8f54-43f1-8df5-1dca109e430f");
+
+	private static final Set<String> done = Collections.newSetFromMap(new WeakHashMap<>());
+
 	private static Thread thread;
-	private static boolean doneLoading;
-
 	private static String name;
-
 	private static final Map<String, Integer> tiers = new HashMap<>();
-
 	public static int localPatronTier = 0;
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public static void onRenderPlayer(RenderPlayerEvent.Post event) {
+		EntityPlayer player = event.getEntityPlayer();
+		String uuid = EntityPlayer.getUUID(player.getGameProfile()).toString();
+		if(player instanceof AbstractClientPlayer && DEV_UUID.contains(uuid) && !done.contains(uuid)) {
+			AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
+			if(clientPlayer.hasPlayerInfo()) {
+				NetworkPlayerInfo info = ObfuscationReflectionHelper.getPrivateValue(AbstractClientPlayer.class, clientPlayer, "field_175157_a");
+				Map<Type, ResourceLocation> textures = ObfuscationReflectionHelper.getPrivateValue(NetworkPlayerInfo.class, info, "field_187107_a");
+				ResourceLocation loc = new ResourceLocation(ElenaiDodge.MODID, "textures/misc/dev_cape.png");
+				textures.put(Type.CAPE, loc);
+				textures.put(Type.ELYTRA, loc);
+				done.add(uuid);
+			}
+		}
+	}
 	
-	@OnlyIn(Dist.CLIENT)
-	public static void getLocalName() {
-		name = Minecraft.getInstance().getSession().getUsername().toLowerCase(Locale.ROOT);
+	@SideOnly(Side.CLIENT)
+	public static void setupClient() {
+		name = Minecraft.getMinecraft().getSession().getUsername().toLowerCase();
 	}
 
 	public static void init() {
-		if (thread != null && thread.isAlive())
-			return;
-		
-		doneLoading = false;
+		if (thread != null && thread.isAlive()) {
+			return; }
 		thread = new ThreadContributorListLoader();
 	}
 
-	public static int getTier(PlayerEntity player) {
-		if(getTier(player.getGameProfile().getName()) == 99) {
+	public static int getTier(EntityPlayer player) {
+		if(getTier(player.getName()) == 99) {
 			return 4;
 		}
-		return getTier(player.getGameProfile().getName());
+		return getTier(player.getName());
 	}
 	
 	public static int getTier(String name) {
-		join();
 		return tiers.getOrDefault(name.toLowerCase(Locale.ROOT), 0);
 	}
 
 	@SubscribeEvent
-	public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+	public static void onPlayerJoin(EntityJoinWorldEvent event) {
+		if(event.getEntity() instanceof EntityPlayer) {
 		PatronRewardHandler.init();
-	}
-	
-	private static void join() {
-		if(!doneLoading)
-			try {
-				thread.join();
-			} catch (InterruptedException e) {
-				throw new RuntimeException();
-			}
+		}
 	}
 	
 	private static void load(Properties props) {
@@ -86,14 +117,12 @@ public class PatronRewardHandler {
 			if(name != null && key.toLowerCase(Locale.ROOT).equals(name))
 				localPatronTier = tier;
 		});
-
-		doneLoading = true;
 	}
 
 	private static class ThreadContributorListLoader extends Thread {
 
 		public ThreadContributorListLoader() {
-			setName("Contributor Loading Thread");
+			setName("Elenai Dodge Patron Loading Thread");
 			setDaemon(true);
 			start();
 		}
@@ -109,9 +138,9 @@ public class PatronRewardHandler {
 				}
 			} catch (IOException e) {
 				ElenaiDodge.LOG.error("Failed to load patreon information", e);
-			}
+				}
 		}
-
 	}
-
 }
+
+

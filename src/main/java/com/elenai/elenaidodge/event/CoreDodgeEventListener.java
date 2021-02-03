@@ -5,8 +5,7 @@ import com.elenai.elenaidodge.network.message.SDodgeMessage;
 import com.elenai.elenaidodge.util.ClientStorage;
 import com.elenai.elenaidodge.util.DodgeEvent.RequestDodgeEvent;
 
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CoreDodgeEventListener {
 	
@@ -20,7 +19,7 @@ public class CoreDodgeEventListener {
 
 	@SubscribeEvent
 	public void onClientDodge(RequestDodgeEvent event) {
-		PacketHandler.instance.send(PacketDistributor.SERVER.noArg(), new SDodgeMessage(event.getDirection().toString()));
+		PacketHandler.instance.sendToServer(new SDodgeMessage(event.getDirection().toString()));
 		ClientStorage.cooldown = 8;
 	}
 }

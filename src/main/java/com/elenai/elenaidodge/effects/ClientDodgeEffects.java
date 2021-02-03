@@ -1,18 +1,19 @@
 package com.elenai.elenaidodge.effects;
 
 import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
+import com.elenai.elenaidodge.capability.absorption.IAbsorption;
 import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
+import com.elenai.elenaidodge.capability.dodges.IDodges;
 import com.elenai.elenaidodge.gui.DodgeStep;
 import com.elenai.elenaidodge.network.PacketHandler;
 import com.elenai.elenaidodge.network.message.CDodgeEffectsMessage;
 import com.elenai.elenaidodge.util.ClientStorage;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraftforge.fml.network.PacketDistributor;
 
 public class ClientDodgeEffects {
 
@@ -21,12 +22,10 @@ public class ClientDodgeEffects {
 	 * @param player
 	 * @side Server
 	 */
-	public static void send(PlayerEntity player) {
-		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
-			player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-				PacketHandler.instance.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CDodgeEffectsMessage(d.getDodges(), a.getAbsorption()));
-			});
-		});
+	public static void send(EntityPlayer player) {
+		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
+		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
+		PacketHandler.instance.sendTo(new CDodgeEffectsMessage(d.getDodges(), a.getAbsorption()), (EntityPlayerMP) player);
 	}
 	
 	/**
@@ -35,9 +34,8 @@ public class ClientDodgeEffects {
 	 * @param dodgeCost
 	 * @side Client
 	 */
-	@SuppressWarnings("resource")
 	public static void run(int dodges, int absorption) {
-		PlayerEntity player = Minecraft.getInstance().player;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 		ClientStorage.absorption = absorption;
 		ClientStorage.dodges = dodges;
 		player.getEntityWorld().playSound(player, player.getPosition(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,

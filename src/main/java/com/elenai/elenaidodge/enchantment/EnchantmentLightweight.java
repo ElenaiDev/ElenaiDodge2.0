@@ -1,13 +1,21 @@
 package com.elenai.elenaidodge.enchantment;
 
+import com.elenai.elenaidodge.ElenaiDodge;
+import com.elenai.elenaidodge.init.EnchantmentInit;
+
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentLightweight extends Enchantment{
 	public EnchantmentLightweight() 
 	{
-		super(Rarity.UNCOMMON, EnchantmentType.ARMOR, new EquipmentSlotType[] {EquipmentSlotType.FEET, EquipmentSlotType.LEGS, EquipmentSlotType.CHEST, EquipmentSlotType.HEAD});
+		super(Rarity.UNCOMMON, EnumEnchantmentType.ARMOR, new EntityEquipmentSlot[] {EntityEquipmentSlot.FEET, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.HEAD});
+		this.setName("lightweight");
+		this.setRegistryName(new ResourceLocation(ElenaiDodge.MODID + ":lightweight"));
+		
+		EnchantmentInit.ENCHANTMENTS.add(this);
 	}
 
 	@Override

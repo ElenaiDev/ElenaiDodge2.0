@@ -1,17 +1,27 @@
 package com.elenai.elenaidodge.network.message;
 
-import java.util.function.Supplier;
+import com.elenai.elenaidodge.ElenaiDodge;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 
-public class CVelocityMessage implements IMessage<CVelocityMessage> {
+public class CVelocityMessage implements IMessage {
+	
+	/*
+	 * A Message to allow player.setVelocity to be run from the server
+	 */
 
 	private double motionX, motionY, motionZ;
 
+	private boolean messageValid;
 
 	public CVelocityMessage() {
+		this.messageValid = false;
 	}
 
 	public CVelocityMessage(double motionX, double motionY, double motionZ) {
@@ -19,31 +29,47 @@ public class CVelocityMessage implements IMessage<CVelocityMessage> {
 		this.motionY = motionY;
 		this.motionZ = motionZ;
 
+		this.messageValid = true;
 	}
 
 	@Override
-	public void encode(CVelocityMessage message, PacketBuffer buffer) {
-		buffer.writeDouble(message.motionX);
-		buffer.writeDouble(message.motionY);
-		buffer.writeDouble(message.motionZ);
+	public void fromBytes(ByteBuf buf) {
+		try {
+			this.motionX = buf.readDouble();
+			this.motionY = buf.readDouble();
+			this.motionZ = buf.readDouble();
 
+		} catch (IndexOutOfBoundsException ioe) {
+			ElenaiDodge.LOG.error("Error occured whilst networking!", ioe);
+			return;
+		}
+		this.messageValid = true;
 	}
 
 	@Override
-	public CVelocityMessage decode(PacketBuffer buffer) {
-		return new CVelocityMessage(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+	public void toBytes(ByteBuf buf) {
+		if (!this.messageValid) {
+			return;
+		}
+		buf.writeDouble(motionX);
+		buf.writeDouble(motionY);
+		buf.writeDouble(motionZ);
 	}
 
-	@SuppressWarnings("resource")
-	@Override
-	public void handle(CVelocityMessage message, Supplier<Context> supplier) {
-		supplier.get().enqueueWork(() -> {
-			Minecraft.getInstance().player.setVelocity(message.motionX, message.motionY, message.motionZ);
+	public static class Handler implements IMessageHandler<CVelocityMessage, IMessage> {
 
-		});
+		@Override
+		public IMessage onMessage(CVelocityMessage message, MessageContext ctx) {
+			if (!message.messageValid && ctx.side != Side.CLIENT) {
+				return null;
+			}
+			FMLCommonHandler.instance().getWorldThread(ctx.netHandler)
+					.addScheduledTask(() -> processMessage(message, ctx));
+			return null;
+		}
 
-		supplier.get().setPacketHandled(true);
-
+		void processMessage(CVelocityMessage message, MessageContext ctx) {
+				Minecraft.getMinecraft().player.setVelocity(message.motionX, message.motionY, message.motionZ);
+		}
 	}
-
 }

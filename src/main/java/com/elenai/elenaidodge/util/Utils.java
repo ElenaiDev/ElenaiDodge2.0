@@ -1,9 +1,11 @@
 package com.elenai.elenaidodge.util;
 
 import com.elenai.elenaidodge.ElenaiDodge;
+import com.elenai.elenaidodge.ModConfig;
 import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
+import com.elenai.elenaidodge.capability.absorption.IAbsorption;
 import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
-import com.elenai.elenaidodge.config.ConfigHandler;
+import com.elenai.elenaidodge.capability.dodges.IDodges;
 import com.elenai.elenaidodge.effects.ClientDodgeEffects;
 import com.elenai.elenaidodge.effects.ServerDodgeEffects;
 import com.elenai.elenaidodge.network.PacketHandler;
@@ -14,12 +16,11 @@ import com.elenai.elenaidodge.util.DodgeEvent.Direction;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.network.PacketDistributor;
 
 public class Utils {
 
@@ -32,9 +33,8 @@ public class Utils {
 	 * @author Elenai
 	 * @side Server
 	 */
-	public static void setPlayerVelocity(double x, double y, double z, PlayerEntity player) {
-		PacketHandler.instance.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player),
-				new  CVelocityMessage(x, y, z));
+	public static void setPlayerVelocity(double x, double y, double z, EntityPlayer player) {
+		PacketHandler.instance.sendTo(new CVelocityMessage(x, y, z), (EntityPlayerMP) player);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class Utils {
 	 * @author Elenai
 	 * @side Server
 	 */
-	public static void handleDodge(Direction direction, DodgeEvent event, ServerPlayerEntity player) {
+	public static void handleDodge(Direction direction, DodgeEvent event, EntityPlayerMP player) {
 		
 		double f = event.force;
 		double motionX;
@@ -80,7 +80,7 @@ public class Utils {
 			motionZ = 0;
 			ElenaiDodge.LOG.error("DodgeEvent Posted and Received but no direction given!");
 		}
-		setPlayerVelocity(motionX, ConfigHandler.verticality, motionZ, player);
+		setPlayerVelocity(motionX, ModConfig.common.balance.verticality, motionZ, player);
 		ServerDodgeEffects.run(player);
 		ClientDodgeEffects.send(player);
 	}
@@ -92,8 +92,8 @@ public class Utils {
 	 * @author Elenai
 	 * @side Server
 	 */
-	public static double calculateForce(PlayerEntity player) {
-		return ConfigHandler.force;
+	public static double calculateForce(EntityPlayer player) {
+		return ModConfig.common.balance.force;
 	}
 
 	
@@ -102,11 +102,10 @@ public class Utils {
 	 * @author Elenai
 	 * @param player
 	 */
-	public static void initPlayer(PlayerEntity player) {
-		PacketHandler.instance.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CInitPlayerMessage(20));
-		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
-			d.set(20);
-		});
+	public static void initPlayer(EntityPlayer player) {
+		PacketHandler.instance.sendTo(new CInitPlayerMessage(20), (EntityPlayerMP) player);
+		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
+		d.set(20);
 	}
 	
 	/**
@@ -114,16 +113,11 @@ public class Utils {
 	 * @author Elenai
 	 * @param player
 	 */
-	public static void updateClientConfig(ServerPlayerEntity player) {
-		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
-			player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-				System.out.println("UPDATING CLIENT");
-				PacketHandler.instance.send(PacketDistributor.PLAYER.with(() -> player),new CUpdateConfigMessage(ConfigHandler.rate, d.getDodges(), arrayToString(ConfigHandler.weights),
-						ConfigHandler.half, a.getAbsorption()));
-			});
-			
-		});
-		
+	public static void updateClientConfig(EntityPlayerMP player) {
+		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
+		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
+		PacketHandler.instance.sendTo(new CUpdateConfigMessage(ModConfig.common.feathers.rate, d.getDodges(), arrayToString(ModConfig.common.weights.weights),
+				ModConfig.common.feathers.half, a.getAbsorption()), player);
 	}
 	
 	/**
@@ -131,8 +125,8 @@ public class Utils {
 	 * @author Elenai
 	 */
 	public static void updateClientConfig() {
-		PacketHandler.instance.send(PacketDistributor.ALL.noArg(), new CUpdateConfigMessage(ConfigHandler.rate, 9999, arrayToString(ConfigHandler.weights),
-				ConfigHandler.half, 9999));
+		PacketHandler.instance.sendToAll(new CUpdateConfigMessage(ModConfig.common.feathers.rate, 9999, arrayToString(ModConfig.common.weights.weights),
+				ModConfig.common.feathers.half, 9999));
 	}
 	
 	/**
@@ -142,9 +136,9 @@ public class Utils {
 	 * @param entity
 	 * @return
 	 */
-    public static int getTotalEnchantmentLevel(Enchantment enchantment, LivingEntity entity)
+    public static int getTotalEnchantmentLevel(Enchantment enchantment, EntityLivingBase entity)
     {
-        Iterable<ItemStack> iterable = enchantment.getEntityEquipment(entity).values();
+        Iterable<ItemStack> iterable = enchantment.getEntityEquipment(entity);
 
         if (iterable == null)
         {

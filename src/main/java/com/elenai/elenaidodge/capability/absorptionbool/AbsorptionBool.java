@@ -5,13 +5,13 @@ public class AbsorptionBool implements IAbsorptionBool {
 	private boolean absorption = false;
 
 	@Override
-	public void set(boolean absorption) {
-		this.absorption = absorption;
+	public boolean hasAbsorption() {
+		return this.absorption;
 	}
 
 	@Override
-	public boolean hasAbsorption() {
-		return this.absorption;
+	public void set(boolean bool) {
+		this.absorption = bool;
 	}
 
 

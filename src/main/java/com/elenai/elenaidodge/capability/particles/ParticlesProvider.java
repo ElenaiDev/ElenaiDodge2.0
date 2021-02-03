@@ -1,36 +1,36 @@
 package com.elenai.elenaidodge.capability.particles;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
 
-public class ParticlesProvider implements ICapabilitySerializable<INBT> {
+public class ParticlesProvider implements ICapabilitySerializable<NBTBase> {
 
 	@CapabilityInject(IParticles.class)
 	public static final Capability<IParticles> PARTICLES_CAP = null;
 	
-	private LazyOptional<IParticles> instance = LazyOptional.of(PARTICLES_CAP::getDefaultInstance);
+	private IParticles instance = PARTICLES_CAP.getDefaultInstance();
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return capability == PARTICLES_CAP;
+	}
 
-	    @Nonnull
-	    @Override
-	    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-	        return cap == PARTICLES_CAP ? instance.cast() : LazyOptional.empty();
-	    }
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		return capability == PARTICLES_CAP ? PARTICLES_CAP.<T> cast (this.instance) : null;
+	}
 
-	    @Override
-	    public INBT serializeNBT() {
-	        return PARTICLES_CAP.getStorage().writeNBT(PARTICLES_CAP, instance.orElseThrow( () -> new NullPointerException("Lazy Optional was empty")), null);
-	    }
+	@Override
+	public NBTBase serializeNBT() {
+		return PARTICLES_CAP.getStorage().writeNBT(PARTICLES_CAP, this.instance, null);
+	}
 
-	    @Override
-	    public void deserializeNBT(INBT nbt) {
-	    	PARTICLES_CAP.getStorage().readNBT(PARTICLES_CAP, instance.orElseThrow( () -> new NullPointerException("Lazy Optional was empty")), null, nbt);
-	    }
+	@Override
+	public void deserializeNBT(NBTBase nbt) {
+		PARTICLES_CAP.getStorage().readNBT(PARTICLES_CAP, this.instance, null, nbt);
+	}
 
 }

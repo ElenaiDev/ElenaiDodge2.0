@@ -1,8 +1,10 @@
 package com.elenai.elenaidodge.event;
 
+import com.elenai.elenaidodge.ModConfig;
+import com.elenai.elenaidodge.capability.invincibility.IInvincibility;
+import com.elenai.elenaidodge.capability.invincibility.InvincibilityProvider;
+import com.elenai.elenaidodge.capability.particles.IParticles;
 import com.elenai.elenaidodge.capability.particles.ParticlesProvider;
-import com.elenai.elenaidodge.capability.weight.InvincibilityProvider;
-import com.elenai.elenaidodge.config.ConfigHandler;
 import com.elenai.elenaidodge.gui.DodgeStep;
 import com.elenai.elenaidodge.network.PacketHandler;
 import com.elenai.elenaidodge.network.message.CParticleMessage;
@@ -10,10 +12,9 @@ import com.elenai.elenaidodge.network.message.SDodgeRegenMessage;
 import com.elenai.elenaidodge.util.ClientStorage;
 import com.elenai.elenaidodge.util.PatronRewardHandler;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class TickEventListener {
 
@@ -33,7 +34,7 @@ public class TickEventListener {
 		if (event.phase == TickEvent.Phase.END && event.player.world.isRemote) {
 
 			// Tutorial
-			if (!ClientStorage.shownTutorial && ConfigHandler.tutorial) {
+			if (!ClientStorage.shownTutorial && ModConfig.client.hud.tutorial) {
 				DodgeStep.show();
 				ClientStorage.shownTutorial = true;
 			}
@@ -72,8 +73,7 @@ public class TickEventListener {
 					regen--;
 				} else if (regen <= 0) {
 					ClientStorage.dodges++;
-					PacketHandler.instance.send(PacketDistributor.SERVER.noArg(),
-							new SDodgeRegenMessage(ClientStorage.dodges));
+					PacketHandler.instance.sendToServer(new SDodgeRegenMessage(ClientStorage.dodges));
 					flashes = 0;
 					regen = ClientStorage.regenSpeed;
 				}
@@ -82,20 +82,18 @@ public class TickEventListener {
 
 		// SERVER
 		if (event.phase == TickEvent.Phase.END && !event.player.world.isRemote) {
-			event.player.getCapability(InvincibilityProvider.INVINCIBILITY_CAP).ifPresent(i -> {
-				if (i.getInvincibility() > 0) {
-					i.set(i.getInvincibility() - 1);
-				}
-			});
-			
-			event.player.getCapability(ParticlesProvider.PARTICLES_CAP).ifPresent(p -> {
-				if (p.getParticles() > 0) {
-					p.set(p.getParticles() - 1);
-					PacketHandler.instance.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayerEntity) event.player),
-							new CParticleMessage(PatronRewardHandler.getTier(event.player), event.player.getPosX(),
-									event.player.getPosY(), event.player.getPosZ()));
-				}
-			});
+			IInvincibility i = event.player.getCapability(InvincibilityProvider.INVINCIBILITY_CAP, null);
+			if (i.getInvincibility() > 0) {
+				i.set(i.getInvincibility() - 1);
+			}
+			IParticles p = event.player.getCapability(ParticlesProvider.PARTICLES_CAP, null);
+			if (p.getParticles() > 0) {
+				p.set(p.getParticles() - 1);
+				PacketHandler.instance.sendTo(new CParticleMessage(PatronRewardHandler.getTier(event.player),
+						event.player.posX, event.player.posY, event.player.posZ), (EntityPlayerMP) event.player);
+				PacketHandler.instance.sendToAllTracking(new CParticleMessage(PatronRewardHandler.getTier(event.player),
+						event.player.posX, event.player.posY, event.player.posZ), (EntityPlayerMP) event.player);
+			}
 		}
 	}
 }

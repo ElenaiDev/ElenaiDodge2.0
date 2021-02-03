@@ -1,13 +1,14 @@
 package com.elenai.elenaidodge.event;
 
+import com.elenai.elenaidodge.ModConfig;
 import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
-import com.elenai.elenaidodge.config.ConfigHandler;
-import com.elenai.elenaidodge.list.PotionList;
+import com.elenai.elenaidodge.capability.absorption.IAbsorption;
+import com.elenai.elenaidodge.init.PotionInit;
 
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class PotionTickEventListener {
 
@@ -16,23 +17,22 @@ public class PotionTickEventListener {
 
 		if (event.phase == TickEvent.Phase.END) {
 
-			if (event.player.isPotionActive(PotionList.ENDURANCE_EFFECT)
-					&& event.player.isPotionActive(PotionList.WEIGHT_EFFECT) && !event.player.world.isRemote) {
-				event.player.removePotionEffect(PotionList.ENDURANCE_EFFECT);
-				if(ConfigHandler.message) {
-				event.player.sendStatusMessage(new StringTextComponent(TextFormatting.GRAY + "Your " + TextFormatting.GREEN
+			if (event.player.isPotionActive(PotionInit.ENDURANCE_EFFECT)
+					&& event.player.isPotionActive(PotionInit.WEIGHT_EFFECT) && !event.player.world.isRemote) {
+				event.player.removePotionEffect(PotionInit.ENDURANCE_EFFECT);
+				if(ModConfig.common.misc.message) {
+				event.player.sendMessage(new TextComponentString(TextFormatting.GRAY + "Your " + TextFormatting.GREEN
 						+ "Endurance" + TextFormatting.GRAY + " is overwhelmed by a crushing " + TextFormatting.RED
-						+ "Weight" + TextFormatting.GRAY + "!" + TextFormatting.RESET), true);
+						+ "Weight" + TextFormatting.GRAY + "!" + TextFormatting.RESET));
 				}
 			}
 
-			if (event.player.isPotionActive(PotionList.FEATHERS_EFFECT)) {
+			if (event.player.isPotionActive(PotionInit.FEATHERS_EFFECT)) {
 				if (!event.player.world.isRemote) {
-					event.player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-						if (a.getAbsorption() <= 0) {
-							event.player.removePotionEffect(PotionList.FEATHERS_EFFECT);
-						}
-					});
+					IAbsorption a = event.player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
+					if (a.getAbsorption() <= 0) {
+						event.player.removePotionEffect(PotionInit.FEATHERS_EFFECT);
+					}
 				}
 			}
 		}

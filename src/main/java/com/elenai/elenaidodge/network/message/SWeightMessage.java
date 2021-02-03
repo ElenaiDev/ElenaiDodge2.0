@@ -1,47 +1,68 @@
 package com.elenai.elenaidodge.network.message;
 
-import java.util.function.Supplier;
+import com.elenai.elenaidodge.ElenaiDodge;
+import com.elenai.elenaidodge.capability.weight.IWeight;
+import com.elenai.elenaidodge.capability.weight.WeightProvider;
 
-import com.elenai.elenaidodge.capability.invincibility.WeightProvider;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
-
-public class SWeightMessage implements IMessage<SWeightMessage> {
+public class SWeightMessage implements IMessage {
+	private boolean messageValid;
 
 	private int weight;
-
+	
 	public SWeightMessage() {
-
+		this.messageValid = false;
 	}
 
 	public SWeightMessage(int weight) {
 		this.weight = weight;
+		this.messageValid = true;
 	}
 
 	@Override
-	public void encode(SWeightMessage message, PacketBuffer buffer) {
-		buffer.writeInt(message.weight);
+	public void fromBytes(ByteBuf buf) {
 
+		try {
+			this.weight = buf.readInt();
+		} catch (IndexOutOfBoundsException ioe) {
+			ElenaiDodge.LOG.error("Error occured whilst networking!", ioe);
+			return;
+		}
+		this.messageValid = true;
 	}
 
 	@Override
-	public SWeightMessage decode(PacketBuffer buffer) {
-		return new SWeightMessage(buffer.readInt());
+	public void toBytes(ByteBuf buf) {
+		if (!this.messageValid) {
+			return;
+		}
+		buf.writeInt(weight);
 	}
 
-	@Override
-	public void handle(SWeightMessage message, Supplier<Context> supplier) {
-		supplier.get().enqueueWork(() -> {
-			ServerPlayerEntity player =supplier.get().getSender();
-			player.getCapability(WeightProvider.WEIGHT_CAP).ifPresent(w -> {
-				w.set(message.weight);
-			});
-		});
+	public static class Handler implements IMessageHandler<SWeightMessage, IMessage> {
 
-		supplier.get().setPacketHandled(true);
+		@Override
+		public IMessage onMessage(SWeightMessage message, MessageContext ctx) {
+			if (!message.messageValid && ctx.side != Side.SERVER) {
+				return null;
+			}
+			FMLCommonHandler.instance().getWorldThread(ctx.netHandler)
+					.addScheduledTask(() -> processMessage(message, ctx));
+			return null;
+		}
 
+		void processMessage(SWeightMessage message, MessageContext ctx) {;
+			EntityPlayerMP player = ctx.getServerHandler().player;
+			IWeight w = player.getCapability(WeightProvider.WEIGHT_CAP, null);
+			w.set(message.weight);
+			
+		}
 	}
-
 }

@@ -1,14 +1,18 @@
 package com.elenai.elenaidodge.effects;
 
+import com.elenai.elenaidodge.ModConfig;
 import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
+import com.elenai.elenaidodge.capability.absorption.IAbsorption;
 import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
+import com.elenai.elenaidodge.capability.dodges.IDodges;
+import com.elenai.elenaidodge.capability.invincibility.IInvincibility;
+import com.elenai.elenaidodge.capability.invincibility.InvincibilityProvider;
+import com.elenai.elenaidodge.capability.particles.IParticles;
 import com.elenai.elenaidodge.capability.particles.ParticlesProvider;
-import com.elenai.elenaidodge.capability.weight.InvincibilityProvider;
-import com.elenai.elenaidodge.config.ConfigHandler;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 
 public class ServerDodgeEffects {
 
@@ -17,37 +21,32 @@ public class ServerDodgeEffects {
 	 * 
 	 * @side Server
 	 */
-	public static void run(ServerPlayerEntity player) {
+	public static void run(EntityPlayerMP player) {
 
 		player.getEntityWorld().playSound(player, player.getPosition(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,
 				SoundCategory.PLAYERS, 0.8f, 4f);
 
-		player.getCapability(InvincibilityProvider.INVINCIBILITY_CAP).ifPresent(i -> {
-			i.set(ConfigHandler.invincibilityTicks);
-		});
+		IInvincibility i = player.getCapability(InvincibilityProvider.INVINCIBILITY_CAP, null);
+		i.set(ModConfig.common.balance.invincibilityTicks);
 		
-		player.getCapability(ParticlesProvider.PARTICLES_CAP).ifPresent(p -> {
-			p.set(10);
-		});
+		IParticles p = player.getCapability(ParticlesProvider.PARTICLES_CAP, null);
+		p.set(10);
 		
 		if (!player.isCreative() && !player.isSpectator()) {
-			player.getFoodStats().addExhaustion((float) ConfigHandler.exhaustion);
+			player.getFoodStats().addExhaustion((float) ModConfig.common.balance.exhaustion);
 		}
 
-		player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-			player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
-				if (!player.isCreative() && !player.isSpectator()) {
-					if (a.getAbsorption() <= 0) {
-						d.set(d.getDodges() - ConfigHandler.cost);
-					} else if (a.getAbsorption() - ConfigHandler.cost >= 0) {
-						a.set(a.getAbsorption() - ConfigHandler.cost);
-					} else {
-						d.increase(a.getAbsorption() - ConfigHandler.cost);
-						a.set(0);
-					}
-				}
-			});
-		});
-		
+		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
+		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
+		if (!player.isCreative() && !player.isSpectator()) {
+			if (a.getAbsorption() <= 0) {
+				d.set(d.getDodges() - ModConfig.common.feathers.cost);
+			} else if (a.getAbsorption() - ModConfig.common.feathers.cost >= 0) {
+				a.set(a.getAbsorption() - ModConfig.common.feathers.cost);
+			} else {
+				d.increase(a.getAbsorption() - ModConfig.common.feathers.cost);
+				a.set(0);
+			}
+		}
 	}
 }

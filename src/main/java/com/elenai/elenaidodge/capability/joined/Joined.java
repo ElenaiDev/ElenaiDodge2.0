@@ -5,13 +5,18 @@ public class Joined implements IJoined {
 	private boolean joined = false;
 
 	@Override
-	public void set(boolean joined) {
-		this.joined = joined;
+	public void join() {
+		this.joined = true;
 	}
 
 	@Override
-	public boolean getJoined() {
+	public boolean hasJoined() {
 		return this.joined;
+	}
+
+	@Override
+	public void set(boolean bool) {
+		this.joined = bool;
 	}
 
 

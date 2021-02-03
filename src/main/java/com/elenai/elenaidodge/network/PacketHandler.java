@@ -1,50 +1,44 @@
 package com.elenai.elenaidodge.network;
 
-import com.elenai.elenaidodge.ElenaiDodge;
 import com.elenai.elenaidodge.network.message.CDodgeEffectsMessage;
 import com.elenai.elenaidodge.network.message.CInitPlayerMessage;
 import com.elenai.elenaidodge.network.message.CParticleMessage;
+import com.elenai.elenaidodge.network.message.CUpdateAbsorptionMessage;
 import com.elenai.elenaidodge.network.message.CUpdateConfigMessage;
-import com.elenai.elenaidodge.network.message.CUpdateStatsMessage;
+import com.elenai.elenaidodge.network.message.CUpdateDodgeMessage;
+import com.elenai.elenaidodge.network.message.CUpdateWeightMessage;
 import com.elenai.elenaidodge.network.message.CVelocityMessage;
-import com.elenai.elenaidodge.network.message.IMessage;
 import com.elenai.elenaidodge.network.message.SDodgeMessage;
 import com.elenai.elenaidodge.network.message.SDodgeRegenMessage;
 import com.elenai.elenaidodge.network.message.SWeightMessage;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class PacketHandler {
-    private static final String PROTOCOL_VERSION = "1";
-    private static int nextId = 0;
-    public static SimpleChannel instance;
 
-    public static void init()
-    {
-        instance = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(ElenaiDodge.MODID, "network"))
-                .networkProtocolVersion(() -> PROTOCOL_VERSION)
-                .clientAcceptedVersions(PROTOCOL_VERSION::equals)
-                .serverAcceptedVersions(PROTOCOL_VERSION::equals)
-                .simpleChannel();
+	private static int nextId = 0;
+	public static SimpleNetworkWrapper instance;
 
-        register(SDodgeMessage.class, new SDodgeMessage());
-        register(SDodgeRegenMessage.class, new SDodgeRegenMessage());
-        register(SWeightMessage.class, new SWeightMessage());
-        
-        register(CVelocityMessage.class, new CVelocityMessage());
-        register(CDodgeEffectsMessage.class, new CDodgeEffectsMessage());
-        register(CUpdateConfigMessage.class, new CUpdateConfigMessage());
-        register(CInitPlayerMessage.class, new CInitPlayerMessage());
-        register(CUpdateStatsMessage.class, new CUpdateStatsMessage());
-        register(CParticleMessage.class, new CParticleMessage());
+	public static void registerMessages(String channelName) {
+		instance = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
+		
+		// Server Side Logic
+		instance.registerMessage(SDodgeMessage.Handler.class, SDodgeMessage.class, nextId++, Side.SERVER);
+		instance.registerMessage(SDodgeRegenMessage.Handler.class, SDodgeRegenMessage.class, nextId++, Side.SERVER);
+		instance.registerMessage(SWeightMessage.Handler.class, SWeightMessage.class, nextId++, Side.SERVER);
+		
+		// Client Side Logic
+		instance.registerMessage(CVelocityMessage.Handler.class, CVelocityMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CDodgeEffectsMessage.Handler.class, CDodgeEffectsMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CUpdateConfigMessage.Handler.class, CUpdateConfigMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CInitPlayerMessage.Handler.class, CInitPlayerMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CUpdateAbsorptionMessage.Handler.class, CUpdateAbsorptionMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CUpdateWeightMessage.Handler.class, CUpdateWeightMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CUpdateDodgeMessage.Handler.class, CUpdateDodgeMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CParticleMessage.Handler.class, CParticleMessage.class, nextId++, Side.CLIENT);
 
-    }
 
-    private static <T> void register(Class<T> clazz, IMessage<T> message)
-    {
-        instance.registerMessage(nextId++, clazz, message::encode, message::decode, message::handle);
-    }
+	}	
 }

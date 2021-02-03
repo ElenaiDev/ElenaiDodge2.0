@@ -1,54 +1,75 @@
 package com.elenai.elenaidodge.network.message;
 
-import java.util.function.Supplier;
-
+import com.elenai.elenaidodge.ElenaiDodge;
 import com.elenai.elenaidodge.util.DodgeEvent;
 import com.elenai.elenaidodge.util.DodgeEvent.Direction;
 import com.elenai.elenaidodge.util.DodgeEvent.ServerDodgeEvent;
 import com.elenai.elenaidodge.util.Utils;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 
-public class SDodgeMessage implements IMessage<SDodgeMessage> {
+public class SDodgeMessage implements IMessage {
+	private boolean messageValid;
 
 	private String dir;
-
+	
 	public SDodgeMessage() {
-
+		this.messageValid = false;
 	}
 
 	public SDodgeMessage(String dir) {
 		this.dir = dir;
-		
+		this.messageValid = true;
 	}
 
 	@Override
-	public void encode(SDodgeMessage message, PacketBuffer buffer) {
-		buffer.writeString(message.dir);
+	public void fromBytes(ByteBuf buf) {
 
+		try {
+			this.dir = ByteBufUtils.readUTF8String(buf);
+		} catch (IndexOutOfBoundsException ioe) {
+			ElenaiDodge.LOG.error("Error occured whilst networking!", ioe);
+			return;
+		}
+		this.messageValid = true;
 	}
 
 	@Override
-	public SDodgeMessage decode(PacketBuffer buffer) {
-		return new SDodgeMessage(buffer.readString(999999));
+	public void toBytes(ByteBuf buf) {
+		if (!this.messageValid) {
+			return;
+		}
+		ByteBufUtils.writeUTF8String(buf, dir);
 	}
 
-	@Override
-	public void handle(SDodgeMessage message, Supplier<Context> supplier) {
-		supplier.get().enqueueWork(() -> {
-			ServerPlayerEntity player = supplier.get().getSender();
+	public static class Handler implements IMessageHandler<SDodgeMessage, IMessage> {
+
+		@Override
+		public IMessage onMessage(SDodgeMessage message, MessageContext ctx) {
+			if (!message.messageValid && ctx.side != Side.SERVER) {
+				return null;
+			}
+			FMLCommonHandler.instance().getWorldThread(ctx.netHandler)
+					.addScheduledTask(() -> processMessage(message, ctx));
+			return null;
+		}
+
+		void processMessage(SDodgeMessage message, MessageContext ctx) {;
+			EntityPlayerMP player = ctx.getServerHandler().player;
 
 			DodgeEvent event = new ServerDodgeEvent(Direction.valueOf(message.dir), Utils.calculateForce(player), player);
 			if(!MinecraftForge.EVENT_BUS.post(event)) {
 				Utils.handleDodge(Direction.valueOf(message.dir), event, player);
 			}
-		});
-
-		supplier.get().setPacketHandled(true);
+		}
 
 	}
-
 }

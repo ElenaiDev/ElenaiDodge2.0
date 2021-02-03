@@ -1,11 +1,10 @@
 package com.elenai.elenaidodge.util;
 
-import org.spongepowered.asm.mixin.MixinEnvironment.Side;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.eventhandler.Cancelable;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class DodgeEvent extends Event {
 	public enum Direction {
@@ -14,7 +13,7 @@ public class DodgeEvent extends Event {
 
 	protected final Side side;
 	protected Direction direction;
-	protected final PlayerEntity player;
+	protected final EntityPlayer player;
 	protected double force;
 
 	/**
@@ -30,7 +29,7 @@ public class DodgeEvent extends Event {
 	 * @param player
 	 * @author Elenai
 	 */
-	public DodgeEvent(Side side, Direction direction, double force, PlayerEntity player) {
+	public DodgeEvent(Side side, Direction direction, double force, EntityPlayer player) {
 		this.side = side;
 		this.direction = direction;
 		this.force = force;
@@ -44,9 +43,8 @@ public class DodgeEvent extends Event {
 	 * @author Elenai
 	 */
 	public static class RequestDodgeEvent extends DodgeEvent {
-		@SuppressWarnings("resource")
 		public RequestDodgeEvent(Direction direction) {
-			super(Side.SERVER, direction, 0.0, Minecraft.getInstance().player);
+			super(Side.SERVER, direction, 0.0, Minecraft.getMinecraft().player);
 		}
 	}
 
@@ -58,7 +56,7 @@ public class DodgeEvent extends Event {
 	 */
 	@Cancelable
 	public static class ServerDodgeEvent extends DodgeEvent {
-		public ServerDodgeEvent(Direction direction, double force, PlayerEntity player) {
+		public ServerDodgeEvent(Direction direction, double force, EntityPlayer player) {
 			super(Side.CLIENT, direction, force, player);
 		}
 		
@@ -80,7 +78,7 @@ public class DodgeEvent extends Event {
 		/**
 		 * @return Player Dodging
 		 */
-		public PlayerEntity getPlayer() {
+		public EntityPlayer getPlayer() {
 			return player;
 		}
 	}

@@ -1,38 +1,36 @@
 package com.elenai.elenaidodge.capability.joined;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
 
-public class JoinedProvider implements ICapabilitySerializable<INBT> {
+public class JoinedProvider implements ICapabilitySerializable<NBTBase> {
 
 	@CapabilityInject(IJoined.class)
 	public static final Capability<IJoined> JOINED_CAP = null;
 	
-	private LazyOptional<IJoined> instance = LazyOptional.of(JOINED_CAP::getDefaultInstance);
-
-	    @Nonnull
-	    @Override
-	    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-	        return cap == JOINED_CAP ? instance.cast() : LazyOptional.empty();
-	    }
-
-	    @Override
-	    public INBT serializeNBT() {
-	        return JOINED_CAP.getStorage().writeNBT(JOINED_CAP, instance.orElseThrow( () -> new NullPointerException("Lazy Optional was empty")), null);
-	    }
-
-	    @Override
-	    public void deserializeNBT(INBT nbt) {
-	    	JOINED_CAP.getStorage().readNBT(JOINED_CAP, instance.orElseThrow( () -> new NullPointerException("Lazy Optional was empty")), null, nbt);
-	    }
+	private IJoined instance = JOINED_CAP.getDefaultInstance();
 	
-	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return capability == JOINED_CAP;
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		return capability == JOINED_CAP ? JOINED_CAP.<T> cast (this.instance) : null;
+	}
+
+	@Override
+	public NBTBase serializeNBT() {
+		return JOINED_CAP.getStorage().writeNBT(JOINED_CAP, this.instance, null);
+	}
+
+	@Override
+	public void deserializeNBT(NBTBase nbt) {
+		JOINED_CAP.getStorage().readNBT(JOINED_CAP, this.instance, null, nbt);
+	}
 
 }
