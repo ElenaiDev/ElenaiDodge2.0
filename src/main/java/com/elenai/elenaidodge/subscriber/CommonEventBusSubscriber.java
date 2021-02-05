@@ -11,18 +11,18 @@ import com.elenai.elenaidodge.capability.absorptionbool.IAbsorptionBool;
 import com.elenai.elenaidodge.capability.dodges.Dodges;
 import com.elenai.elenaidodge.capability.dodges.DodgesStorage;
 import com.elenai.elenaidodge.capability.dodges.IDodges;
-import com.elenai.elenaidodge.capability.invincibility.IWeight;
-import com.elenai.elenaidodge.capability.invincibility.Weight;
-import com.elenai.elenaidodge.capability.invincibility.WeightStorage;
+import com.elenai.elenaidodge.capability.invincibility.IInvincibility;
+import com.elenai.elenaidodge.capability.invincibility.Invincibility;
+import com.elenai.elenaidodge.capability.invincibility.InvincibilityStorage;
 import com.elenai.elenaidodge.capability.joined.IJoined;
 import com.elenai.elenaidodge.capability.joined.Joined;
 import com.elenai.elenaidodge.capability.joined.JoinedStorage;
 import com.elenai.elenaidodge.capability.particles.IParticles;
 import com.elenai.elenaidodge.capability.particles.Particles;
 import com.elenai.elenaidodge.capability.particles.ParticlesStorage;
-import com.elenai.elenaidodge.capability.weight.IInvincibility;
-import com.elenai.elenaidodge.capability.weight.Invincibility;
-import com.elenai.elenaidodge.capability.weight.InvincibilityStorage;
+import com.elenai.elenaidodge.capability.weight.IWeight;
+import com.elenai.elenaidodge.capability.weight.Weight;
+import com.elenai.elenaidodge.capability.weight.WeightStorage;
 import com.elenai.elenaidodge.enchantment.EnchantmentLightweight;
 import com.elenai.elenaidodge.event.ConfigEventListener;
 import com.elenai.elenaidodge.event.InvincibilityEventListener;
@@ -31,7 +31,7 @@ import com.elenai.elenaidodge.event.ServerDodgeEventListener;
 import com.elenai.elenaidodge.event.TickEventListener;
 import com.elenai.elenaidodge.list.EnchantmentList;
 import com.elenai.elenaidodge.list.PotionList;
-import com.elenai.elenaidodge.network.PacketHandler;
+import com.elenai.elenaidodge.network.NetworkHandler;
 import com.elenai.elenaidodge.potion.AbsorptionEffect;
 import com.elenai.elenaidodge.potion.BaseEffect;
 import com.elenai.elenaidodge.potion.EnduranceEffect;
@@ -56,7 +56,7 @@ public class CommonEventBusSubscriber {
 	
 	@SubscribeEvent
 	public static void onStaticCommonSetup(FMLCommonSetupEvent event) {
-		PacketHandler.init();
+		NetworkHandler.init();
 		
 		CapabilityManager.INSTANCE.register(IAbsorption.class, new AbsorptionStorage(), Absorption::new);
 		CapabilityManager.INSTANCE.register(IAbsorptionBool.class, new AbsorptionBoolStorage(), AbsorptionBool::new);

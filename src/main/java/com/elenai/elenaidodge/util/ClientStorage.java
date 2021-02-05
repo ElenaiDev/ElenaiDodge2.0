@@ -1,5 +1,9 @@
 package com.elenai.elenaidodge.util;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
 public class ClientStorage {
 	
 	public static boolean healing = false;

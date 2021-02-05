@@ -6,10 +6,10 @@ import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
 import com.elenai.elenaidodge.config.ConfigHandler;
 import com.elenai.elenaidodge.effects.ClientDodgeEffects;
 import com.elenai.elenaidodge.effects.ServerDodgeEffects;
-import com.elenai.elenaidodge.network.PacketHandler;
-import com.elenai.elenaidodge.network.message.CInitPlayerMessage;
-import com.elenai.elenaidodge.network.message.CUpdateConfigMessage;
-import com.elenai.elenaidodge.network.message.CVelocityMessage;
+import com.elenai.elenaidodge.network.NetworkHandler;
+import com.elenai.elenaidodge.network.message.client.ConfigMessageToClient;
+import com.elenai.elenaidodge.network.message.client.InitPlayerMessageToClient;
+import com.elenai.elenaidodge.network.message.client.VelocityMessageToClient;
 import com.elenai.elenaidodge.util.DodgeEvent.Direction;
 
 import net.minecraft.enchantment.Enchantment;
@@ -25,6 +25,7 @@ public class Utils {
 
 	/**
 	 * Allows player.setVelocity to be run from the server.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param z
@@ -33,19 +34,20 @@ public class Utils {
 	 * @side Server
 	 */
 	public static void setPlayerVelocity(double x, double y, double z, PlayerEntity player) {
-		PacketHandler.instance.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player),
-				new  CVelocityMessage(x, y, z));
+		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player),
+				new VelocityMessageToClient(x, y, z));
 	}
-	
+
 	/**
 	 * Dodges the player in the given direction.
+	 * 
 	 * @param direction
 	 * @param player
 	 * @author Elenai
 	 * @side Server
 	 */
 	public static void handleDodge(Direction direction, DodgeEvent event, ServerPlayerEntity player) {
-		
+
 		double f = event.force;
 		double motionX;
 		double motionZ;
@@ -84,9 +86,11 @@ public class Utils {
 		ServerDodgeEffects.run(player);
 		ClientDodgeEffects.send(player);
 	}
-	
+
 	/**
-	 * Returns the Player's Dodge Force when all default calculations have been applied.
+	 * Returns the Player's Dodge Force when all default calculations have been
+	 * applied.
+	 * 
 	 * @param player
 	 * @return The Player's total Dodge Force
 	 * @author Elenai
@@ -96,94 +100,85 @@ public class Utils {
 		return ConfigHandler.force;
 	}
 
-	
 	/**
 	 * A method to be run when the player first joins the world.
+	 * 
 	 * @author Elenai
 	 * @param player
 	 */
 	public static void initPlayer(PlayerEntity player) {
-		PacketHandler.instance.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CInitPlayerMessage(20));
+		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player),
+				new InitPlayerMessageToClient(20));
 		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 			d.set(20);
 		});
 	}
-	
+
 	/**
 	 * Updates the Client Config for the given player.
+	 * 
 	 * @author Elenai
 	 * @param player
 	 */
 	public static void updateClientConfig(ServerPlayerEntity player) {
 		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 			player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-				System.out.println("UPDATING CLIENT");
-				PacketHandler.instance.send(PacketDistributor.PLAYER.with(() -> player),new CUpdateConfigMessage(ConfigHandler.rate, d.getDodges(), arrayToString(ConfigHandler.weights),
-						ConfigHandler.half, a.getAbsorption()));
+
+				NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player), 
+						new ConfigMessageToClient(ConfigHandler.rate, d.getDodges(),
+								arrayToString(ConfigHandler.weights), ConfigHandler.half, a.getAbsorption()));
 			});
-			
+
 		});
-		
+
 	}
-	
-	/**
-	 * Updates the Client Config for all players.
-	 * @author Elenai
-	 */
-	public static void updateClientConfig() {
-		PacketHandler.instance.send(PacketDistributor.ALL.noArg(), new CUpdateConfigMessage(ConfigHandler.rate, 9999, arrayToString(ConfigHandler.weights),
-				ConfigHandler.half, 9999));
-	}
-	
+
 	/**
 	 * Returns the cumulative total of an equipped enchantment type.
+	 * 
 	 * @author Diesieben07
 	 * @param enchantment
 	 * @param entity
 	 * @return
 	 */
-    public static int getTotalEnchantmentLevel(Enchantment enchantment, LivingEntity entity)
-    {
-        Iterable<ItemStack> iterable = enchantment.getEntityEquipment(entity).values();
+	public static int getTotalEnchantmentLevel(Enchantment enchantment, LivingEntity entity) {
+		Iterable<ItemStack> iterable = enchantment.getEntityEquipment(entity).values();
 
-        if (iterable == null)
-        {
-            return 0;
-        }
-        else
-        {
-            int i = 0;
+		if (iterable == null) {
+			return 0;
+		} else {
+			int i = 0;
 
-            for (ItemStack itemstack : iterable)
-            {
-                int j = EnchantmentHelper.getEnchantmentLevel(enchantment, itemstack);
-                i+=j;
-            }
+			for (ItemStack itemstack : iterable) {
+				int j = EnchantmentHelper.getEnchantmentLevel(enchantment, itemstack);
+				i += j;
+			}
 
-            return i;
-        }
-    }
-    
-    /**
-     * Converts a String Array into a CSV String
-     * @author Nico Huysamen
-     * @author Adapted by Elenai
-     * @param string
-     * @return
-     */
-    public static String arrayToString(String[] string) {
-    	if (string.length > 0) {
-    	    StringBuilder stringBuilder = new StringBuilder();
+			return i;
+		}
+	}
 
-    	    for (String n : string) {
-    	    	stringBuilder.append("").append(n.replace("'", "\\'")).append(",");
-    	    }
+	/**
+	 * Converts a String Array into a CSV String
+	 * 
+	 * @author Nico Huysamen
+	 * @author Adapted by Elenai
+	 * @param string
+	 * @return
+	 */
+	public static String arrayToString(String[] string) {
+		if (string.length > 0) {
+			StringBuilder stringBuilder = new StringBuilder();
 
-    	    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-    	    return stringBuilder.toString();
-    	} else {
-    	    return "";
-    	}
-    }
-	
+			for (String n : string) {
+				stringBuilder.append("").append(n.replace("'", "\\'")).append(",");
+			}
+
+			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+			return stringBuilder.toString();
+		} else {
+			return "";
+		}
+	}
+
 }

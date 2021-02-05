@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.elenai.elenaidodge.list.EnchantmentList;
 import com.elenai.elenaidodge.list.PotionList;
-import com.elenai.elenaidodge.network.PacketHandler;
-import com.elenai.elenaidodge.network.message.SWeightMessage;
+import com.elenai.elenaidodge.network.NetworkHandler;
+import com.elenai.elenaidodge.network.message.server.WeightMessageToServer;
 import com.elenai.elenaidodge.util.ClientStorage;
 import com.elenai.elenaidodge.util.Utils;
 
@@ -18,7 +18,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.network.PacketDistributor;
 
 
 public class ArmorTickEventListener {
@@ -31,7 +30,7 @@ public class ArmorTickEventListener {
 	@SubscribeEvent
 	public void onArmorUpdate(PlayerTickEvent event) {
 
-		if (event.phase == TickEvent.Phase.END && event.player.world.isRemote) {
+		if (event.phase == TickEvent.Phase.END && event.side.isClient()) {
 			
 			PlayerEntity player = event.player;
 			
@@ -63,10 +62,11 @@ public class ArmorTickEventListener {
 				}
 				if(!ClientStorage.halfFeathers) {
 				ClientStorage.weight = (int) (Math.floor(intWeight / 2) * 2);
-				PacketHandler.instance.send(PacketDistributor.SERVER.noArg(), new SWeightMessage((int) (Math.floor(intWeight / 2) * 2)));
+				NetworkHandler.simpleChannel.sendToServer(new WeightMessageToServer((int) (Math.floor(intWeight / 2) * 2)));
+
 				} else {
 					ClientStorage.weight = intWeight;
-					PacketHandler.instance.send(PacketDistributor.SERVER.noArg(), new SWeightMessage(intWeight));
+					NetworkHandler.simpleChannel.sendToServer(new WeightMessageToServer(intWeight));
 				}
 				
 				previousArmor.clear();

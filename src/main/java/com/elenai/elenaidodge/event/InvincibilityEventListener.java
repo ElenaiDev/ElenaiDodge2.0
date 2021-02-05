@@ -1,6 +1,6 @@
 package com.elenai.elenaidodge.event;
 
-import com.elenai.elenaidodge.capability.weight.InvincibilityProvider;
+import com.elenai.elenaidodge.capability.invincibility.InvincibilityProvider;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;

@@ -4,10 +4,10 @@ import com.elenai.elenaidodge.ElenaiDodge;
 import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge.capability.absorptionbool.AbsorptionBoolProvider;
 import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
-import com.elenai.elenaidodge.capability.invincibility.WeightProvider;
+import com.elenai.elenaidodge.capability.invincibility.InvincibilityProvider;
 import com.elenai.elenaidodge.capability.joined.JoinedProvider;
 import com.elenai.elenaidodge.capability.particles.ParticlesProvider;
-import com.elenai.elenaidodge.capability.weight.InvincibilityProvider;
+import com.elenai.elenaidodge.capability.weight.WeightProvider;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

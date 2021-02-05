@@ -2,7 +2,7 @@ package com.elenai.elenaidodge.event;
 
 import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
-import com.elenai.elenaidodge.capability.invincibility.WeightProvider;
+import com.elenai.elenaidodge.capability.weight.WeightProvider;
 import com.elenai.elenaidodge.config.ConfigHandler;
 import com.elenai.elenaidodge.list.PotionList;
 import com.elenai.elenaidodge.util.DodgeEvent.ServerDodgeEvent;

@@ -3,8 +3,8 @@ package com.elenai.elenaidodge.effects;
 import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
 import com.elenai.elenaidodge.gui.DodgeStep;
-import com.elenai.elenaidodge.network.PacketHandler;
-import com.elenai.elenaidodge.network.message.CDodgeEffectsMessage;
+import com.elenai.elenaidodge.network.NetworkHandler;
+import com.elenai.elenaidodge.network.message.client.DodgeEffectsMessageToClient;
 import com.elenai.elenaidodge.util.ClientStorage;
 
 import net.minecraft.client.Minecraft;
@@ -24,7 +24,7 @@ public class ClientDodgeEffects {
 	public static void send(PlayerEntity player) {
 		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 			player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-				PacketHandler.instance.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CDodgeEffectsMessage(d.getDodges(), a.getAbsorption()));
+				NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new DodgeEffectsMessageToClient(d.getDodges(), a.getAbsorption()));
 			});
 		});
 	}

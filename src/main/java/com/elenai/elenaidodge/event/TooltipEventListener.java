@@ -99,7 +99,7 @@ public class TooltipEventListener {
 	        for(int i = 1; i < lines.size(); i++) {
 	            String s = lines.get(i).getString();
 	            s = TextFormatting.getTextWithoutFormattingCodes(s);
-	            if(s != null && !s.isEmpty()) {
+	            if(s != null && (s.trim().isEmpty() || s.contains("' "))) {
 	                y += 10 * (i - 1) + 1;
 	                break;
 	            }

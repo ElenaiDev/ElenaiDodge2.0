@@ -1,10 +1,8 @@
 package com.elenai.elenaidodge.potion;
 
-import com.elenai.elenaidodge.capability.absorption.AbsorptionProvider;
-import com.elenai.elenaidodge.capability.dodges.DodgesProvider;
-import com.elenai.elenaidodge.capability.invincibility.WeightProvider;
-import com.elenai.elenaidodge.network.PacketHandler;
-import com.elenai.elenaidodge.network.message.CUpdateStatsMessage;
+import com.elenai.elenaidodge.capability.weight.WeightProvider;
+import com.elenai.elenaidodge.network.NetworkHandler;
+import com.elenai.elenaidodge.network.message.client.WeightMessageToClient;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierManager;
@@ -18,32 +16,31 @@ public class WeightEffect extends Effect {
 	public WeightEffect(EffectType isBadEffectIn, int liquidColorIn) {
 		super(isBadEffectIn, liquidColorIn);
 	}
-	
-	 public void removeAttributesModifiersFromEntity(LivingEntity entityLivingBaseIn, AttributeModifierManager attributeMapIn, int amplifier) {
-	      super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);
-	      entityLivingBaseIn.getCapability(WeightProvider.WEIGHT_CAP).ifPresent(w -> {
-				entityLivingBaseIn.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
-					entityLivingBaseIn.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-						PacketHandler.instance.send(
-								PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) entityLivingBaseIn),
-								new CUpdateStatsMessage(d.getDodges(), a.getAbsorption(), 0));
-					});
-				});
-			});
-	   }
 
-	   public void applyAttributesModifiersToEntity(LivingEntity entityLivingBaseIn, AttributeModifierManager attributeMapIn, int amplifier) {
-	      super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
-	      entityLivingBaseIn.getCapability(WeightProvider.WEIGHT_CAP).ifPresent(w -> {
-				entityLivingBaseIn.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
-					entityLivingBaseIn.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-						w.set(200);
-						PacketHandler.instance.send(
-								PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) entityLivingBaseIn),
-								new CUpdateStatsMessage(d.getDodges(), a.getAbsorption(), w.getWeight()));
-					});
-				});
+	public void removeAttributesModifiersFromEntity(LivingEntity entityLivingBaseIn,
+			AttributeModifierManager attributeMapIn, int amplifier) {
+		super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);
+		if (entityLivingBaseIn instanceof ServerPlayerEntity) {
+
+		entityLivingBaseIn.getCapability(WeightProvider.WEIGHT_CAP).ifPresent(w -> {
+			NetworkHandler.simpleChannel.send(
+					PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) entityLivingBaseIn),
+					new WeightMessageToClient(0));
+		});
+		}
+	}
+
+	public void applyAttributesModifiersToEntity(LivingEntity entityLivingBaseIn,
+			AttributeModifierManager attributeMapIn, int amplifier) {
+		super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
+		if (entityLivingBaseIn instanceof ServerPlayerEntity) {
+			entityLivingBaseIn.getCapability(WeightProvider.WEIGHT_CAP).ifPresent(w -> {
+				w.set(200);
+				NetworkHandler.simpleChannel.send(
+						PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) entityLivingBaseIn),
+						new WeightMessageToClient(w.getWeight()));
 			});
-	   }
+		}
+	}
 
 }

@@ -1,12 +1,12 @@
 package com.elenai.elenaidodge.event;
 
+import com.elenai.elenaidodge.capability.invincibility.InvincibilityProvider;
 import com.elenai.elenaidodge.capability.particles.ParticlesProvider;
-import com.elenai.elenaidodge.capability.weight.InvincibilityProvider;
 import com.elenai.elenaidodge.config.ConfigHandler;
 import com.elenai.elenaidodge.gui.DodgeStep;
-import com.elenai.elenaidodge.network.PacketHandler;
-import com.elenai.elenaidodge.network.message.CParticleMessage;
-import com.elenai.elenaidodge.network.message.SDodgeRegenMessage;
+import com.elenai.elenaidodge.network.NetworkHandler;
+import com.elenai.elenaidodge.network.message.client.ParticleMessageToClient;
+import com.elenai.elenaidodge.network.message.server.DodgeRegenMessageToServer;
 import com.elenai.elenaidodge.util.ClientStorage;
 import com.elenai.elenaidodge.util.PatronRewardHandler;
 
@@ -72,8 +72,7 @@ public class TickEventListener {
 					regen--;
 				} else if (regen <= 0) {
 					ClientStorage.dodges++;
-					PacketHandler.instance.send(PacketDistributor.SERVER.noArg(),
-							new SDodgeRegenMessage(ClientStorage.dodges));
+					NetworkHandler.simpleChannel.sendToServer(new DodgeRegenMessageToServer(ClientStorage.dodges));
 					flashes = 0;
 					regen = ClientStorage.regenSpeed;
 				}
@@ -91,8 +90,8 @@ public class TickEventListener {
 			event.player.getCapability(ParticlesProvider.PARTICLES_CAP).ifPresent(p -> {
 				if (p.getParticles() > 0) {
 					p.set(p.getParticles() - 1);
-					PacketHandler.instance.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayerEntity) event.player),
-							new CParticleMessage(PatronRewardHandler.getTier(event.player), event.player.getPosX(),
+					NetworkHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayerEntity) event.player), 
+							new ParticleMessageToClient(PatronRewardHandler.getTier(event.player), event.player.getPosX(),
 									event.player.getPosY(), event.player.getPosZ()));
 				}
 			});
