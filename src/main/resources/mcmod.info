@@ -1,0 +1,16 @@
+[
+{
+  "modid": "elenaidodge",
+  "name": "Elenai Dodge 2",
+  "description": "Welcome to Elenai Dodge 2! Elenai Dodge 2 is a dodging mod that focuses on overhauling the combat of the vanilla game. A MASSIVE thanks to my Patrons: SandwichHorror, Brent, DevilDogHons, ArtyArtyArtemis",
+  "version": "2.0.3",
+  "mcversion": "1.12.2",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/elenai-dodge-2",
+  "updateUrl": "",
+  "authorList": ["Elenai"],
+  "credits": "Elenai",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
