@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="[35,)"
+license="All rights reserved"
+[[mods]]
+modId="elenaidodge"
+version="2.0.3"
+displayName="Elenai Dodge 2"
+#displayURL="https://www.curseforge.com/minecraft/mc-mods/elenai-dodge-2"
+credits="ElenaiDev"
+authors="Elenai"
+description='''
+Welcome to Elenai Dodge 2!
+Elenai Dodge 2 is a dodging mod that focuses on overhauling the combat of the vanilla game.
+Have a look at the Mod Config for more settings! Navigate to:
+.minecraft/config/elenaidodge-client.toml
+.minecraft/config/elenaidodge-common.toml
+Enjoy!
+
+A MASSIVE thanks to my Patrons: SandwichHorror, Brent, DevilDogHons, ArtyArtyArtemis
+'''
+[[dependencies.elenaidodge]]
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="[35,)" #mandatory
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.elenaidodge]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.4,1.17)"
+    ordering="NONE"
+    side="BOTH"
