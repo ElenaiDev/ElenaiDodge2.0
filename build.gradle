@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16.X-2.0'
+version = '1.16.X-2.0.3'
 group = 'com.elenai.elenaidodge' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'elenaidodge'
 
@@ -71,8 +71,17 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+repositories {
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.4-35.1.37'
+    compileOnly "tough-as-nails:ToughAsNails-1.16.5:4.0.1.14:universal"
+
 
 }
 
