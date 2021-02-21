@@ -79,10 +79,8 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.4-35.1.37'
-    compileOnly "tough-as-nails:ToughAsNails-1.16.5:4.0.1.14:universal"
-
-
+    minecraft 'net.minecraftforge:forge:1.16.5-36.0.42'
+    compileOnly fg.deobf("tough-as-nails:ToughAsNails-1.16.5:4.0.1.14:universal")
 }
 
 jar {
