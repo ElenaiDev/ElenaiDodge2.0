@@ -21,6 +21,12 @@ public class DodgeStep {
 					Tutorial.createKeybindComponent("right") });
 	private static final ITextComponent DOUBLE_DODGE_DESCRIPTION = new TranslationTextComponent(
 			"tutorial.doubledodge.description", new Object[] { Tutorial.createKeybindComponent("elenaidodge.dodge") });
+	
+	private static final ITextComponent FORWARDS_DOUBLE_DODGE_TITLE = new TranslationTextComponent("tutorial.forwardsdoubledodge.title");
+	private static final ITextComponent FORWARDS_DOUBLE_DODGE_DESCRIPTION = new TranslationTextComponent(
+			"tutorial.forwardsdoubledodge.description",
+			new Object[] { Tutorial.createKeybindComponent("forward"), Tutorial.createKeybindComponent("left"), Tutorial.createKeybindComponent("back"),
+					Tutorial.createKeybindComponent("right") });
 
 
 	
@@ -32,7 +38,11 @@ public class DodgeStep {
 
 		// Add check for double tap
 		if(ConfigHandler.doubleTap) {
+			if(!ConfigHandler.doubleTapForwards) {
 			moveToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, DOUBLE_DODGE_TITLE, DOUBLE_DODGE_DESCRIPTION, true);
+			} else {
+				moveToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, FORWARDS_DOUBLE_DODGE_TITLE, FORWARDS_DOUBLE_DODGE_DESCRIPTION, true);
+			}
 		} else {
 			moveToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, DODGE_TITLE, DODGE_DESCRIPTION, true);
 		}

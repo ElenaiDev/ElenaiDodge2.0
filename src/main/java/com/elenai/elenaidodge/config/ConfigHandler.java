@@ -16,9 +16,12 @@ public final class ConfigHandler {
 
 		public final ForgeConfigSpec.BooleanValue doubleTap;
 		public final ForgeConfigSpec.IntValue doubleTapTicks;
+		public final ForgeConfigSpec.BooleanValue doubleTapForwards;
 		public final ForgeConfigSpec.BooleanValue hud;
+		public final ForgeConfigSpec.BooleanValue compatHud;
 		public final ForgeConfigSpec.BooleanValue tutorial;
 		public final ForgeConfigSpec.BooleanValue tooltips;
+
 
 		public Client(ForgeConfigSpec.Builder builder) {
 
@@ -28,11 +31,16 @@ public final class ConfigHandler {
 			doubleTapTicks = builder.comment(
 					"How many system ticks you have between double tapping (these are faster than Minecraft ticks).")
 					.defineInRange("controls.double_tap_ticks", 200, 1, Integer.MAX_VALUE);
+			doubleTapForwards = builder.comment("Enable to make dodging forwards require a double tap (Must have double tap mode enabled)"
+					).define("controls.double_tap_forwards", false);
 
 			// HUD
 			hud = builder.comment(
 					"Whether to show the feathers in the UI.")
 					.define("hud.show_hud", true);
+			compatHud = builder.comment(
+					"Whether to enable compatibility hud. This will fix issues with the dodge bar disappearing in some instances, but is disabled as it may cause it to look out of place in others.")
+					.define("hud.compatibility_hud", false);
 
 			tutorial = builder
 					.comment("Whether to show the tutorial on joining a new world.")
@@ -170,7 +178,7 @@ public final class ConfigHandler {
 	}
 	
 	// Client
-	public static boolean doubleTap, hud, tutorial, tooltips;
+	public static boolean doubleTap, hud, tutorial, tooltips, compatHud, doubleTapForwards;
 	public static int doubleTapTicks;
 
 	public static void bakeClientConfig() {
@@ -179,6 +187,8 @@ public final class ConfigHandler {
 		tutorial = CLIENT.tutorial.get();
 		tooltips = CLIENT.tooltips.get();
 		doubleTapTicks = CLIENT.doubleTapTicks.get();
+		compatHud = CLIENT.compatHud.get();
+		doubleTapForwards = CLIENT.doubleTapForwards.get();
 	}
 	
 	// Common

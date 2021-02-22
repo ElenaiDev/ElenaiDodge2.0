@@ -46,7 +46,7 @@ public class InputEventListener {
 					tickInit();
 				}
 				tickDodging();
-				if (ModKeybinds.dodge.isKeyDown()) {
+				if (ModKeybinds.dodge.isKeyDown() && !ConfigHandler.doubleTapForwards) {
 					DodgeEvent ev = new RequestDodgeEvent(Direction.FORWARD);
 					MinecraftForge.EVENT_BUS.post(ev);
 				}
@@ -74,9 +74,11 @@ public class InputEventListener {
 		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindBack, "back");
 		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindLeft, "left");
 		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindRight, "right");
+		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindRight, "forward");
 		keyLastState.put(Minecraft.getInstance().gameSettings.keyBindBack, false);
 		keyLastState.put(Minecraft.getInstance().gameSettings.keyBindLeft, false);
 		keyLastState.put(Minecraft.getInstance().gameSettings.keyBindRight, false);
+		keyLastState.put(Minecraft.getInstance().gameSettings.keyBindForward, false);
 	}
 
 	public static void tickDodging() {
@@ -92,7 +94,7 @@ public class InputEventListener {
 				if (lastTime == -1L) {
 					setLastKeyTime(key, curTime);
 				} else {
-					if (lastTime + ConfigHandler.doubleTapTicks > curTime) {
+					if (lastTime + ConfigHandler.doubleTapTicks > curTime && (!direction.toUpperCase().equals("FORWARD") || ConfigHandler.doubleTapForwards)) {
 						DodgeEvent ev = new RequestDodgeEvent(Direction.valueOf(direction.toUpperCase()));
 						MinecraftForge.EVENT_BUS.post(ev);
 						setLastKeyTime(key, -1L);
