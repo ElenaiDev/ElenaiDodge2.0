@@ -33,7 +33,7 @@ public class DodgeStep {
 	public static void show() {
 		tutorial = new Tutorial(Minecraft.getMinecraft());
 		if (ModConfig.client.controls.doubleTap) {
-			if(ModConfig.client.controls.doubleTapForwards) {
+			if(!ModConfig.client.controls.doubleTapForwards) {
 			moveToast = new DodgeToast(DodgeToast.Icons.DODGE_BOOT, DOUBLE_DODGE_TITLE, DOUBLE_DODGE_DESCRIPTION,
 					true);
 			} else {
