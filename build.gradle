@@ -75,8 +75,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven/"
+        url "https://www.cursemaven.com"
     }
 }
 
@@ -84,8 +83,8 @@ repositories {
 dependencies {
 
     minecraft 'net.minecraftforge:forge:1.16.5-36.0.42'
-    compileOnly fg.deobf("tough-as-nails:ToughAsNails-1.16.5:4.0.1.14:universal")
-
+    compileOnly fg.deobf("curse.maven:tough-as-nails-246391:3203069")
+	compile fg.deobf("curse.maven:classic-bars-317642:3098254")
 
 }
 
