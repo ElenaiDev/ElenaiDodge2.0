@@ -71,7 +71,7 @@ public class InputEventListener {
 	}
 
 	public static void tickInit() {
-		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindRight, "forwards");
+		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindForward, "forward");
 		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindBack, "back");
 		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindLeft, "left");
 		lookupKeyToDirection.put(Minecraft.getInstance().gameSettings.keyBindRight, "right");
@@ -95,7 +95,7 @@ public class InputEventListener {
 					setLastKeyTime(key, curTime);
 				} else {
 					if (lastTime + ConfigHandler.doubleTapTicks > curTime) {
-						if(!direction.toUpperCase().equals("FORWARDS") || ConfigHandler.doubleTapForwards) {
+						if(!direction.toUpperCase().equals("FORWARD") || ConfigHandler.doubleTapForwards) {
 						DodgeEvent ev = new RequestDodgeEvent(Direction.valueOf(direction.toUpperCase()));
 						MinecraftForge.EVENT_BUS.post(ev);}
 						setLastKeyTime(key, -1L);
