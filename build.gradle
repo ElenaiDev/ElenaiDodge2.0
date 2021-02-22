@@ -84,7 +84,6 @@ dependencies {
 
     minecraft 'net.minecraftforge:forge:1.16.5-36.0.42'
     compileOnly fg.deobf("curse.maven:tough-as-nails-246391:3203069")
-	compile fg.deobf("curse.maven:classic-bars-317642:3098254")
 
 }
 
