@@ -20,13 +20,17 @@ public class ModConfig {
 
 			@Name("Enable Double Tap")
 			@Comment("Enable to make dodging left, right or backwards require a double tap,"
-					+ " and forwards require a tap of the dodge button.")
+					+ " and forwards require a tap of a movement key.")
 			public boolean doubleTap = false;
 
 			@Name("Double Tap Ticks")
 			@Comment("How many system ticks you have between double tapping (these are faster than Minecraft ticks).")
 			@RangeInt(min = 1, max = Integer.MAX_VALUE)
 			public int doubleTapTicks = 200;
+			
+			@Name("Forwards Double Tap")
+			@Comment("Enable to make dodging forwards require a double tap of a movement key. 'Enable Double Tap' must be enabled.")
+			public boolean doubleTapForwards = false;
 		}
 
 		public Hud hud = new Hud();
@@ -35,6 +39,10 @@ public class ModConfig {
 			@Name("Show HUD")
 			@Comment("Whether to show the feathers in the UI.")
 			public boolean hud = true;
+			
+			@Name("Compatibility HUD")
+			@Comment("Whether to enable compatibility mode for the HUD. If it isn't working as expected, try this.")
+			public boolean compatHud = false;
 
 			@Name("Show Tutorial")
 			@Comment("Whether to show the tutorial on joining a new world.")

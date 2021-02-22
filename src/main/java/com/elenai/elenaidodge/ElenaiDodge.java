@@ -17,7 +17,7 @@ public class ElenaiDodge
 {
     public static final String MODID = "elenaidodge";
     public static final String NAME = "Elenai Dodge 2";
-    public static final String VERSION = "2.0.3";
+    public static final String VERSION = "2.0.4";
     @Mod.Instance
 	public static ElenaiDodge INSTANCE;
 

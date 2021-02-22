@@ -24,8 +24,9 @@ public class DodgeGui {
 
 	@SubscribeEvent
 	public void onRenderDodgeGUIEvent(RenderGameOverlayEvent.Post event) {
-		if (event.getType() == ElementType.ALL && ModConfig.client.hud.hud && !Minecraft.getMinecraft().player.isCreative() && !Minecraft.getMinecraft().player.isSpectator()) {
+		if (ModConfig.client.hud.hud && !Minecraft.getMinecraft().player.isCreative() && !Minecraft.getMinecraft().player.isSpectator()) {
 
+			if((event.getType() == ElementType.ALL && ModConfig.client.hud.compatHud) || (event.getType() == ElementType.FOOD && !ModConfig.client.hud.compatHud)) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(DODGE_ICONS);
 			GlStateManager.enableBlend();
 
@@ -40,6 +41,7 @@ public class DodgeGui {
 
 			Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
 			GlStateManager.disableBlend();
+			}
 		}
 	}
 

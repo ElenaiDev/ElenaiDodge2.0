@@ -87,7 +87,7 @@ public class DodgeToast implements IToast {
 	    @SideOnly(Side.CLIENT)
 	    public static enum Icons
 	    {
-	        DODGE_FEATHER(0, 0);
+	        DODGE_BOOT(0, 0);
 
 	        private final int column;
 	        private final int row;
