@@ -15,7 +15,7 @@ apply plugin: 'maven-publish'
 
 version = '1.16.X-1.0.5'
 group = 'com.elenai.elenaidodge2' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'Elenai Dodge 2'
+archivesBaseName = 'ElenaiDodge2'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
