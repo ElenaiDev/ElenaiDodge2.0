@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[34,)"
+loaderVersion="[35,)"
 license="All rights reserved"
 [[mods]]
 modId="elenaidodge2"
@@ -21,7 +21,7 @@ A MASSIVE thanks to my Patrons: SandwichHorror, Brent, DevilDogHons, Ethan McGow
 [[dependencies.elenaidodge2]]
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[34,)" #mandatory
+    versionRange="[35,)" #mandatory
     ordering="NONE"
     side="BOTH"
 [[dependencies.elenaidodge2]]
