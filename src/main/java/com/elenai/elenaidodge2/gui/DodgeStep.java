@@ -3,7 +3,6 @@ package com.elenai.elenaidodge2.gui;
 import com.elenai.elenaidodge2.config.ConfigHandler;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.toasts.TutorialToast;
 import net.minecraft.client.tutorial.Tutorial;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
