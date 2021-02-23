@@ -15,6 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+@SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
 public class DodgeToast implements IToast {
    private final DodgeToast.Icons icon;
@@ -34,7 +35,8 @@ public class DodgeToast implements IToast {
       this.hasProgressBar = drawProgressBar;
    }
 
-   public IToast.Visibility func_230444_a_(MatrixStack p_230444_1_, ToastGui p_230444_2_, long p_230444_3_) {
+@SuppressWarnings("resource")
+public IToast.Visibility func_230444_a_(MatrixStack p_230444_1_, ToastGui p_230444_2_, long p_230444_3_) {
       p_230444_2_.getMinecraft().getTextureManager().bindTexture(TEXTURE_TOASTS);
       RenderSystem.color3f(1.0F, 1.0F, 1.0F);
       p_230444_2_.blit(p_230444_1_, 0, 0, 0, 96, this.func_230445_a_(), this.func_238540_d_());
