@@ -21,10 +21,10 @@ public class PotionTickEventListener {
 					&& event.player.isPotionActive(PotionInit.WEIGHT_EFFECT) && !event.player.world.isRemote) {
 				event.player.removePotionEffect(PotionInit.ENDURANCE_EFFECT);
 				if(ModConfig.common.misc.message) {
-				event.player.sendMessage(new TextComponentString(TextFormatting.GRAY + "Your " + TextFormatting.GREEN
-						+ "Endurance" + TextFormatting.GRAY + " is overwhelmed by a crushing " + TextFormatting.RED
-						+ "Weight" + TextFormatting.GRAY + "!" + TextFormatting.RESET));
-				}
+					event.player.sendStatusMessage(new TextComponentString(TextFormatting.GRAY + "Your " + TextFormatting.GREEN
+							+ "Endurance" + TextFormatting.GRAY + " is overwhelmed by a crushing " + TextFormatting.RED
+							+ "Weight" + TextFormatting.GRAY + "!" + TextFormatting.RESET), true);
+					}
 			}
 
 			if (event.player.isPotionActive(PotionInit.FEATHERS_EFFECT)) {
