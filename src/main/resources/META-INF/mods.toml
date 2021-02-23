@@ -2,7 +2,7 @@ modLoader="javafml"
 loaderVersion="[36,)"
 license="All rights reserved"
 [[mods]]
-modId="elenaidodge"
+modId="elenaidodge2"
 version="2.0.4"
 displayName="Elenai Dodge 2"
 #displayURL="https://www.curseforge.com/minecraft/mc-mods/elenai-dodge-2"
@@ -18,13 +18,13 @@ Enjoy!
 
 A MASSIVE thanks to my Patrons: SandwichHorror, Brent, DevilDogHons, Ethan McGowen (ArtyArtyArtemis)
 '''
-[[dependencies.elenaidodge]]
+[[dependencies.elenaidodge2]]
     modId="forge" #mandatory
     mandatory=true #mandatory
     versionRange="[36,)" #mandatory
     ordering="NONE"
     side="BOTH"
-[[dependencies.elenaidodge]]
+[[dependencies.elenaidodge2]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.4,1.17)"

@@ -14,8 +14,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = '1.16.X-2.0.4'
-group = 'com.elenai.elenaidodge' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'elenaidodge'
+group = 'com.elenai.elenaidodge2' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'Elenai Dodge 2'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -84,6 +84,7 @@ dependencies {
 
     minecraft 'net.minecraftforge:forge:1.16.5-36.0.42'
     compileOnly fg.deobf("curse.maven:tough-as-nails-246391:3203069")
+	compile fg.deobf("curse.maven:classic-bars-317642:3098254")
 
 }
 
