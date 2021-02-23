@@ -1,6 +1,6 @@
-key.elenaidodge.dodge=Dodge
-elenaidodge.general.common.weights.weights=Weights Override
-elenaidodge.general.common.balance.potions=Potion Blacklist
+key.elenaidodge2.dodge=Dodge
+elenaidodge2.general.common.weights.weights=Weights Override
+elenaidodge2.general.common.balance.potions=Potion Blacklist
 
 tutorial.dodge.title=Hold down %s
 tutorial.dodge.description=Dodge with %s, %s, %s or %s
@@ -43,7 +43,7 @@ effect.feeble=Feeble
 
 enchantment.lightweight=Lightweight
 enchantment.lightweight.desc=Decreases Weight to provide more Dodges.
-enchantment.elenaidodge.lightweight.desc=Decreases Weight to provide more Dodges.
+enchantment.elenaidodge2.lightweight.desc=Decreases Weight to provide more Dodges.
 
-item.elenaidodge.golden_feather.name=Gold Feathery Ingot
-item.elenaidodge.iron_feather.name=Iron Feathery Ingot
+item.elenaidodge2.golden_feather.name=Gold Feathery Ingot
+item.elenaidodge2.iron_feather.name=Iron Feathery Ingot

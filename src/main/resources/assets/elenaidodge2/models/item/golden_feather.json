@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "elenaidodge:items/golden_feather"
+        "layer0": "elenaidodge2:items/golden_feather"
      },
      
     "display": {
