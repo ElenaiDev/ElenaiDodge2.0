@@ -1,9 +1,9 @@
 {
-	"key.elenaidodge.dodge": "Dodge",
+	"key.elenaidodge2.dodge": "Dodge",
 	
-	"effect.elenaidodge.dodge_effect": "Elenai Dodge",
-	"item.elenaidodge.golden_feather": "Gold Feathery Ingot",
-	"item.elenaidodge.iron_feather": "Iron Feathery Ingot",
+	"effect.elenaidodge2.dodge_effect": "Elenai Dodge",
+	"item.elenaidodge2.golden_feather": "Gold Feathery Ingot",
+	"item.elenaidodge2.iron_feather": "Iron Feathery Ingot",
 	
 	"item.minecraft.potion.effect.feathers": "Potion of Feathers",
 	"item.minecraft.potion.effect.long_feathers": "Potion of Feathers",
@@ -17,7 +17,7 @@
 	"item.minecraft.tipped_arrow.effect.feathers": "Arrow of Feathers",
 	"item.minecraft.tipped_arrow.effect.long_feathers": "Arrow of Feathers",
 	"item.minecraft.tipped_arrow.effect.strong_feathers": "Arrow of Feathers",
-	"effect.elenaidodge.feathers":"Feathery",
+	"effect.elenaidodge2.feathers":"Feathery",
 	
 	"item.minecraft.potion.effect.weight": "Potion of Weight",
 	"item.minecraft.potion.effect.long_weight": "Potion of Weight",
@@ -27,7 +27,7 @@
 	"item.minecraft.lingering_potion.effect.long_weight": "Lingering Potion of Weight",
 	"item.minecraft.tipped_arrow.effect.weight": "Arrow of Weight",
 	"item.minecraft.tipped_arrow.effect.long_weight": "Arrow of Weight",
-	"effect.elenaidodge.weight":"Weight",
+	"effect.elenaidodge2.weight":"Weight",
 	
 	"item.minecraft.potion.effect.endurance": "Potion of Endurance",
 	"item.minecraft.potion.effect.long_endurance": "Potion of Endurance",
@@ -41,7 +41,7 @@
 	"item.minecraft.tipped_arrow.effect.endurance": "Arrow of Endurance",
 	"item.minecraft.tipped_arrow.effect.long_endurance": "Arrow of Endurance",
 	"item.minecraft.tipped_arrow.effect.strong_endurance": "Arrow of Endurance",
-	"effect.elenaidodge.endurance":"Endurance",
+	"effect.elenaidodge2.endurance":"Endurance",
 	
 	"item.minecraft.potion.effect.forceful": "Potion of Forcefulness",
 	"item.minecraft.potion.effect.long_forceful": "Potion of Forcefulness",
@@ -55,7 +55,7 @@
 	"item.minecraft.tipped_arrow.effect.forceful": "Arrow of Forcefulness",
 	"item.minecraft.tipped_arrow.effect.long_forceful": "Arrow of Forcefulness",
 	"item.minecraft.tipped_arrow.effect.strong_forceful": "Arrow of Forcefulness",
-	"effect.elenaidodge.forceful":"Forceful",
+	"effect.elenaidodge2.forceful":"Forceful",
 	
 	"item.minecraft.potion.effect.feeble": "Potion of Feebleness",
 	"item.minecraft.potion.effect.long_feeble": "Potion of Feebleness",
@@ -69,10 +69,10 @@
 	"item.minecraft.tipped_arrow.effect.feeble": "Arrow of Feebleness",
 	"item.minecraft.tipped_arrow.effect.long_feeble": "Arrow of Feebleness",
 	"item.minecraft.tipped_arrow.effect.strong_feeble": "Arrow of Feebleness",
-	"effect.elenaidodge.feeble":"Feeble",
+	"effect.elenaidodge2.feeble":"Feeble",
 	
-	"enchantment.elenaidodge.lightweight": "Lightweight",
-	"enchantment.elenaidodge.lightweight.desc": "Decreases Weight to provide more Dodges.",
+	"enchantment.elenaidodge2.lightweight": "Lightweight",
+	"enchantment.elenaidodge2.lightweight.desc": "Decreases Weight to provide more Dodges.",
 	
 	"tutorial.dodge.title":"Hold down %s",
 	"tutorial.dodge.description":"Dodge with %s, %s, %s or %s",
