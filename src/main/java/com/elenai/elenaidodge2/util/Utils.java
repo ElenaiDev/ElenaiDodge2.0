@@ -1,6 +1,6 @@
 package com.elenai.elenaidodge2.util;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.api.DodgeEvent;
 import com.elenai.elenaidodge2.api.DodgeEvent.Direction;
 import com.elenai.elenaidodge2.capability.absorption.AbsorptionProvider;
@@ -81,7 +81,7 @@ public class Utils {
 		default:
 			motionX = 0;
 			motionZ = 0;
-			ElenaiDodge.LOG.error("DodgeEvent Posted and Received but no direction given!");
+			ElenaiDodge2.LOG.error("DodgeEvent Posted and Received but no direction given!");
 		}
 		setPlayerVelocity(motionX, ConfigHandler.verticality, motionZ, player);
 		ServerDodgeEffects.run(player);

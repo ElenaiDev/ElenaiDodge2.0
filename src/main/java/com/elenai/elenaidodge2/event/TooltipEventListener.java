@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.config.ConfigHandler;
 import com.elenai.elenaidodge2.util.ClientStorage;
 
@@ -28,7 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
  * @author Vazkii
  */	
 public class TooltipEventListener {
-	public static final ResourceLocation ICONS_RESOURCE = new ResourceLocation(ElenaiDodge.MODID, "textures/gui/icons.png");
+	public static final ResourceLocation ICONS_RESOURCE = new ResourceLocation(ElenaiDodge2.MODID, "textures/gui/icons.png");
 
 	public static int divisor = 2;
 

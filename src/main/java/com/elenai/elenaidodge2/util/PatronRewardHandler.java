@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.Mod;
  * Both Quark and Elenai Dodge are issued under an altered version of the Creative Commons license.
  * @author Vazkii
  */	
-@Mod.EventBusSubscriber(modid = ElenaiDodge.MODID)
+@Mod.EventBusSubscriber(modid = ElenaiDodge2.MODID)
 public class PatronRewardHandler {
 	
 	private static Thread thread;
@@ -116,7 +116,7 @@ public class PatronRewardHandler {
 					load(patreonTiers);
 				}
 			} catch (IOException e) {
-				ElenaiDodge.LOG.error("Failed to load patreon information", e);
+				ElenaiDodge2.LOG.error("Failed to load patreon information", e);
 			}
 		}
 

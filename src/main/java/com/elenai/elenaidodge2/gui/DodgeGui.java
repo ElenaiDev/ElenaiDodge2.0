@@ -1,6 +1,6 @@
 package com.elenai.elenaidodge2.gui;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.config.ConfigHandler;
 import com.elenai.elenaidodge2.util.ClientStorage;
 import com.elenai.elenaidodge2.util.PatronRewardHandler;
@@ -18,8 +18,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class DodgeGui {
 
-	public static ResourceLocation DODGE_ICONS = new ResourceLocation(ElenaiDodge.MODID, "textures/gui/icons.png");
-	public static ResourceLocation ADVANCED_DODGE_ICONS = new ResourceLocation(ElenaiDodge.MODID, "textures/gui/advanced_icons.png");
+	public static ResourceLocation DODGE_ICONS = new ResourceLocation(ElenaiDodge2.MODID, "textures/gui/icons.png");
+	public static ResourceLocation ADVANCED_DODGE_ICONS = new ResourceLocation(ElenaiDodge2.MODID, "textures/gui/advanced_icons.png");
 
 	
 	@SubscribeEvent

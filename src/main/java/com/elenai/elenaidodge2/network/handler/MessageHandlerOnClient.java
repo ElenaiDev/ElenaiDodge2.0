@@ -3,7 +3,7 @@ package com.elenai.elenaidodge2.network.handler;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.config.ConfigHandler;
 import com.elenai.elenaidodge2.event.ArmorTickEventListener;
 import com.elenai.elenaidodge2.gui.DodgeStep;
@@ -41,18 +41,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER
+			ElenaiDodge2.LOGGER
 					.warn("WeightMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("WeightMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("WeightMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("WeightMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("WeightMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -66,18 +66,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER.warn(
+			ElenaiDodge2.LOGGER.warn(
 					"DodgeEffectsMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("DodgeEffectsMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("DodgeEffectsMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("DodgeEffectsMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("DodgeEffectsMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -91,18 +91,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER
+			ElenaiDodge2.LOGGER
 					.warn("InitPlayerMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("InitPlayerMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("InitPlayerMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("InitPlayerMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("InitPlayerMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -116,18 +116,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER.warn(
+			ElenaiDodge2.LOGGER.warn(
 					"ParticleMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("ParticleMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("ParticleMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("ParticleMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("ParticleMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -141,18 +141,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER.warn(
+			ElenaiDodge2.LOGGER.warn(
 					"AbsorptionMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("AbsorptionMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("AbsorptionMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("AbsorptionMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("AbsorptionMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -166,18 +166,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER.warn(
+			ElenaiDodge2.LOGGER.warn(
 					"DodgeMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("DodgeMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("DodgeMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("DodgeMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("DodgeMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -191,18 +191,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER.warn(
+			ElenaiDodge2.LOGGER.warn(
 					"VelocityMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("VelocityMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("VelocityMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("VelocityMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("VelocityMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -216,18 +216,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER.warn(
+			ElenaiDodge2.LOGGER.warn(
 					"ConfigMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("ConfigMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("ConfigMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("ConfigMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("ConfigMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -241,18 +241,18 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge.LOGGER.warn(
+			ElenaiDodge2.LOGGER.warn(
 					"PatronMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("PatronMessageToClient was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("PatronMessageToClient was invalid" + message.toString());
 			return;
 		}
 
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
-			ElenaiDodge.LOGGER.warn("PatronMessageToClient context could not provide a ClientWorld.");
+			ElenaiDodge2.LOGGER.warn("PatronMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 

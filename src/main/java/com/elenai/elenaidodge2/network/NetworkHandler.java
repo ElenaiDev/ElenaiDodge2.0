@@ -5,7 +5,7 @@ import static net.minecraftforge.fml.network.NetworkDirection.PLAY_TO_SERVER;
 
 import java.util.Optional;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.network.handler.MessageHandlerOnClient;
 import com.elenai.elenaidodge2.network.handler.MessageHandlerOnServer;
 import com.elenai.elenaidodge2.network.message.client.AbsorptionMessageToClient;
@@ -35,7 +35,7 @@ public class NetworkHandler {
 	  public static final String MESSAGE_PROTOCOL_VERSION = "1.0";  // a version number for the protocol you're using.  Can be used to maintain backward
 	                                                                // compatibility.  But to be honest you'll probably never need it for anything useful...
 
-	  public static final ResourceLocation simpleChannelRL = new ResourceLocation(ElenaiDodge.MODID, "channel");
+	  public static final ResourceLocation simpleChannelRL = new ResourceLocation(ElenaiDodge2.MODID, "channel");
 
 	
 	public static void init() {

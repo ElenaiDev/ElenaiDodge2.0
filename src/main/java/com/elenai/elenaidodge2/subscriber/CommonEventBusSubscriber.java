@@ -1,6 +1,6 @@
 package com.elenai.elenaidodge2.subscriber;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.capability.CapabilityHandler;
 import com.elenai.elenaidodge2.capability.absorption.Absorption;
 import com.elenai.elenaidodge2.capability.absorption.AbsorptionStorage;
@@ -52,7 +52,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
-@Mod.EventBusSubscriber(modid = ElenaiDodge.MODID, bus = Bus.MOD)
+@Mod.EventBusSubscriber(modid = ElenaiDodge2.MODID, bus = Bus.MOD)
 public class CommonEventBusSubscriber {
 	
 	@SubscribeEvent
@@ -84,33 +84,33 @@ public class CommonEventBusSubscriber {
 	public static void registerPotions(final RegistryEvent.Register<Potion> event) {
 		event.getRegistry().registerAll(
 				PotionList.FEATHERS = new Potion(new EffectInstance(PotionList.FEATHERS_EFFECT, 3600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "feathers")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "feathers")),
 				PotionList.LONG_FEATHERS = new Potion(new EffectInstance(PotionList.FEATHERS_EFFECT, 9600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "long_feathers")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "long_feathers")),
 				PotionList.STRONG_FEATHERS = new Potion(new EffectInstance(PotionList.FEATHERS_EFFECT, 1800, 1))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "strong_feathers")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "strong_feathers")),
 				PotionList.WEIGHT = new Potion(new EffectInstance(PotionList.WEIGHT_EFFECT, 3600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "weight")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "weight")),
 				PotionList.LONG_WEIGHT = new Potion(new EffectInstance(PotionList.WEIGHT_EFFECT, 9600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "long_weight")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "long_weight")),
 				PotionList.ENDURANCE = new Potion(new EffectInstance(PotionList.ENDURANCE_EFFECT, 3600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "endurance")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "endurance")),
 				PotionList.LONG_ENDURANCE = new Potion(new EffectInstance(PotionList.ENDURANCE_EFFECT, 9600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "long_endurance")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "long_endurance")),
 				PotionList.STRONG_ENDURANCE = new Potion(new EffectInstance(PotionList.ENDURANCE_EFFECT, 1800, 1))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "strong_endurance")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "strong_endurance")),
 				PotionList.FORCEFUL = new Potion(new EffectInstance(PotionList.FORCEFUL_EFFECT, 3600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "forceful")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "forceful")),
 				PotionList.LONG_FORCEFUL = new Potion(new EffectInstance(PotionList.FORCEFUL_EFFECT, 9600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "long_forceful")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "long_forceful")),
 				PotionList.STRONG_FORCEFUL = new Potion(new EffectInstance(PotionList.FORCEFUL_EFFECT, 1800, 1))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "strong_forceful")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "strong_forceful")),
 				PotionList.FEEBLE = new Potion(new EffectInstance(PotionList.FEEBLE_EFFECT, 3600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "feeble")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "feeble")),
 				PotionList.LONG_FEEBLE = new Potion(new EffectInstance(PotionList.FEEBLE_EFFECT, 9600))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "long_feeble")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "long_feeble")),
 				PotionList.STRONG_FEEBLE = new Potion(new EffectInstance(PotionList.FEEBLE_EFFECT, 1800, 1))
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "strong_feeble"))
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "strong_feeble"))
 
 		);
 	}
@@ -119,20 +119,20 @@ public class CommonEventBusSubscriber {
 	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
 		event.getRegistry().registerAll(
 				PotionList.FEATHERS_EFFECT = new AbsorptionEffect(EffectType.BENEFICIAL, 13882323)
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "feathers")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "feathers")),
 				PotionList.WEIGHT_EFFECT = new WeightEffect(EffectType.HARMFUL, 5533805)
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "weight")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "weight")),
 				PotionList.ENDURANCE_EFFECT = new EnduranceEffect(EffectType.BENEFICIAL, 9318976)
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "endurance")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "endurance")),
 				PotionList.FORCEFUL_EFFECT = new BaseEffect(EffectType.BENEFICIAL, 5534118)
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "forceful")),
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "forceful")),
 				PotionList.FEEBLE_EFFECT = new BaseEffect(EffectType.HARMFUL, 10693147)
-						.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "feeble")));
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "feeble")));
 	}
 
 	@SubscribeEvent
 	public static void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
 		event.getRegistry().registerAll(EnchantmentList.LIGHTWEIGHT = new EnchantmentLightweight()
-				.setRegistryName(new ResourceLocation(ElenaiDodge.MODID, "lightweight")));
+				.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "lightweight")));
 	}
 }

@@ -30,7 +30,7 @@ public class DodgeStep {
 
 
 	
-	public static TutorialToast moveToast;
+	public static DodgeToast moveToast;
 	private static Tutorial tutorial;
 
 	public static void show() {
@@ -39,12 +39,12 @@ public class DodgeStep {
 		// Add check for double tap
 		if(ConfigHandler.doubleTap) {
 			if(!ConfigHandler.doubleTapForwards) {
-			moveToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, DOUBLE_DODGE_TITLE, DOUBLE_DODGE_DESCRIPTION, true);
+			moveToast = new DodgeToast(DodgeToast.Icons.DODGE_FEATHER, DOUBLE_DODGE_TITLE, DOUBLE_DODGE_DESCRIPTION, true);
 			} else {
-				moveToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, FORWARDS_DOUBLE_DODGE_TITLE, FORWARDS_DOUBLE_DODGE_DESCRIPTION, true);
+				moveToast = new DodgeToast(DodgeToast.Icons.DODGE_FEATHER, FORWARDS_DOUBLE_DODGE_TITLE, FORWARDS_DOUBLE_DODGE_DESCRIPTION, true);
 			}
 		} else {
-			moveToast = new TutorialToast(TutorialToast.Icons.MOVEMENT_KEYS, DODGE_TITLE, DODGE_DESCRIPTION, true);
+			moveToast = new DodgeToast(DodgeToast.Icons.DODGE_FEATHER, DODGE_TITLE, DODGE_DESCRIPTION, true);
 		}
 
 		tutorial.getMinecraft().getToastGui().add(moveToast);

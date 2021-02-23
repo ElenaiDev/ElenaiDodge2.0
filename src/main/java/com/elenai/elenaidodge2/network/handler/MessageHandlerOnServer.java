@@ -2,7 +2,7 @@ package com.elenai.elenaidodge2.network.handler;
 
 import java.util.function.Supplier;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.api.DodgeEvent;
 import com.elenai.elenaidodge2.api.DodgeEvent.Direction;
 import com.elenai.elenaidodge2.api.DodgeEvent.ServerDodgeEvent;
@@ -37,18 +37,18 @@ public class MessageHandlerOnServer {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.SERVER) {
-			ElenaiDodge.LOGGER
+			ElenaiDodge2.LOGGER
 					.warn("WeightMessageToServer received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("WeightMessageToServer was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("WeightMessageToServer was invalid" + message.toString());
 			return;
 		}
 
 		final ServerPlayerEntity sendingPlayer = ctx.getSender();
 		if (sendingPlayer == null) {
-			ElenaiDodge.LOGGER.warn("ServerPlayerEntity was null when WeightMessageToServer was received");
+			ElenaiDodge2.LOGGER.warn("ServerPlayerEntity was null when WeightMessageToServer was received");
 		}
 
 		ctx.enqueueWork(() -> processMessage(message, sendingPlayer));
@@ -61,18 +61,18 @@ public class MessageHandlerOnServer {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.SERVER) {
-			ElenaiDodge.LOGGER
+			ElenaiDodge2.LOGGER
 					.warn("DodgeMessageToServer received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("DodgeMessageToServer was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("DodgeMessageToServer was invalid" + message.toString());
 			return;
 		}
 
 		final ServerPlayerEntity sendingPlayer = ctx.getSender();
 		if (sendingPlayer == null) {
-			ElenaiDodge.LOGGER.warn("ServerPlayerEntity was null when DodgeMessageToServer was received");
+			ElenaiDodge2.LOGGER.warn("ServerPlayerEntity was null when DodgeMessageToServer was received");
 		}
 
 		ctx.enqueueWork(() -> processMessage(message, sendingPlayer));
@@ -85,18 +85,18 @@ public class MessageHandlerOnServer {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.SERVER) {
-			ElenaiDodge.LOGGER
+			ElenaiDodge2.LOGGER
 					.warn("DodgeRegenMessageToServer received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("DodgeRegenMessageToServer was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("DodgeRegenMessageToServer was invalid" + message.toString());
 			return;
 		}
 
 		final ServerPlayerEntity sendingPlayer = ctx.getSender();
 		if (sendingPlayer == null) {
-			ElenaiDodge.LOGGER.warn("ServerPlayerEntity was null when DodgeRegenMessageToServer was received");
+			ElenaiDodge2.LOGGER.warn("ServerPlayerEntity was null when DodgeRegenMessageToServer was received");
 		}
 
 		ctx.enqueueWork(() -> processMessage(message, sendingPlayer));
@@ -109,18 +109,18 @@ public class MessageHandlerOnServer {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.SERVER) {
-			ElenaiDodge.LOGGER
+			ElenaiDodge2.LOGGER
 					.warn("ThirstMessageToServer received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
-			ElenaiDodge.LOGGER.warn("ThirstMessageToServer was invalid" + message.toString());
+			ElenaiDodge2.LOGGER.warn("ThirstMessageToServer was invalid" + message.toString());
 			return;
 		}
 
 		final ServerPlayerEntity sendingPlayer = ctx.getSender();
 		if (sendingPlayer == null) {
-			ElenaiDodge.LOGGER.warn("ServerPlayerEntity was null when ThirstMessageToServer was received");
+			ElenaiDodge2.LOGGER.warn("ServerPlayerEntity was null when ThirstMessageToServer was received");
 		}
 
 		ctx.enqueueWork(() -> processMessage(message, sendingPlayer));

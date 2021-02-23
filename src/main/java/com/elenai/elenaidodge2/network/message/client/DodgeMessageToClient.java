@@ -1,6 +1,6 @@
 package com.elenai.elenaidodge2.network.message.client;
 
-import com.elenai.elenaidodge2.ElenaiDodge;
+import com.elenai.elenaidodge2.ElenaiDodge2;
 
 import net.minecraft.network.PacketBuffer;
 
@@ -37,7 +37,7 @@ public class DodgeMessageToClient {
 			// NB that PacketBuffer is a derived class of ByteBuf
 
 		} catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-			ElenaiDodge.LOGGER.warn("Exception while reading DodgeMessageToClient: " + e);
+			ElenaiDodge2.LOGGER.warn("Exception while reading DodgeMessageToClient: " + e);
 			return message;
 		}
 		message.messageIsValid = true;

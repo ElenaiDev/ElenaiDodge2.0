@@ -12,8 +12,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(ElenaiDodge.MODID)
-public class ElenaiDodge {
+@Mod(ElenaiDodge2.MODID)
+public class ElenaiDodge2 {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final String NAME = "Elenai Dodge";
@@ -21,7 +21,7 @@ public class ElenaiDodge {
 	
 	public static final Logger LOG = LogManager.getLogger("ElenaiDodge");
 	
-	public ElenaiDodge() {
+	public ElenaiDodge2() {
 		
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigHandler.CLIENT_SPEC);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHandler.COMMON_SPEC);
