@@ -12,8 +12,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 
 version = "${mc_version}-${mod_version}"
-group = "com.elenai.elenaidodge" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "elenaidodge"
+group = "com.elenai.elenaidodge2" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "Elenai Dodge 2"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
