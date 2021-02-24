@@ -26,10 +26,14 @@ public class TickEventListener {
 			IParticles p = event.player.getCapability(ParticlesProvider.PARTICLES_CAP, null);
 			if (p.getParticles() > 0) {
 				p.set(p.getParticles() - 1);
-				PacketHandler.instance.sendTo(new CParticleMessage(PatronRewardHandler.getTier(event.player),
-						event.player.posX, event.player.posY, event.player.posZ), (EntityPlayerMP) event.player);
-				PacketHandler.instance.sendToAllTracking(new CParticleMessage(PatronRewardHandler.getTier(event.player),
-						event.player.posX, event.player.posY, event.player.posZ), (EntityPlayerMP) event.player);
+				if (PatronRewardHandler.getTier(event.player) > 0) {
+					PacketHandler.instance.sendTo(new CParticleMessage(PatronRewardHandler.getTier(event.player),
+							event.player.posX, event.player.posY, event.player.posZ), (EntityPlayerMP) event.player);
+					PacketHandler.instance.sendToAllTracking(
+							new CParticleMessage(PatronRewardHandler.getTier(event.player), event.player.posX,
+									event.player.posY, event.player.posZ),
+							(EntityPlayerMP) event.player);
+				}
 			}
 		}
 	}

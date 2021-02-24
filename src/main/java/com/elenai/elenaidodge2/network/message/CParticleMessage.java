@@ -75,10 +75,13 @@ public class CParticleMessage implements IMessage {
 		}
 
 		void processMessage(CParticleMessage message, MessageContext ctx) {
-			if(message.level > 0) {
+
 
 			EnumParticleTypes particleType = null;
 			switch (message.level) {
+			case 0:
+				particleType = EnumParticleTypes.CLOUD;
+				break;
 			case 1:
 				particleType = EnumParticleTypes.HEART;
 				break;
@@ -96,7 +99,7 @@ public class CParticleMessage implements IMessage {
 				break;
 			}
 			
-			if(particleType != null) {
+			if(particleType != null && message.level > 0) {
 				for (int i = 0; i < 8; ++i) {
 					double d0 = Minecraft.getMinecraft().player.world.rand.nextGaussian() * 0.02D;
 					double d1 = Minecraft.getMinecraft().player.world.rand.nextGaussian() * 0.02D;
@@ -107,11 +110,24 @@ public class CParticleMessage implements IMessage {
 							message.z + (double) (Minecraft.getMinecraft().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d2 * 10.0D, d0, d1,
 							d2);
 				}
+			} else if(particleType != null) {
+				for (int i = 0; i < 8; ++i) {
+					double d0 = Minecraft.getMinecraft().player.world.rand.nextGaussian() * 0.02D;
+					double d1 = Minecraft.getMinecraft().player.world.rand.nextGaussian() * 0.02D;
+					double d2 = Minecraft.getMinecraft().player.world.rand.nextGaussian() * 0.02D;
+					Minecraft.getMinecraft().player.world.spawnParticle(particleType,
+							message.x + (double) (Minecraft.getMinecraft().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d0 * 10.0D,
+							message.y + (double) (Minecraft.getMinecraft().player.world.rand.nextFloat() * 1.8f) - d1 * 10.0D,
+							message.z + (double) (Minecraft.getMinecraft().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d2 * 10.0D, d0, d1,
+							d2);
+				}
 			}
+			
+			else {
 			
 			ParticleGenerator.generate(message.level, message.x, message.y, message.z);
-			
 			}
+			
 		}
 	}
 }

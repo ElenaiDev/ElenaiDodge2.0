@@ -9,6 +9,9 @@ import com.elenai.elenaidodge2.capability.invincibility.IInvincibility;
 import com.elenai.elenaidodge2.capability.invincibility.InvincibilityProvider;
 import com.elenai.elenaidodge2.capability.particles.IParticles;
 import com.elenai.elenaidodge2.capability.particles.ParticlesProvider;
+import com.elenai.elenaidodge2.network.PacketHandler;
+import com.elenai.elenaidodge2.network.message.CParticleMessage;
+import com.elenai.elenaidodge2.util.PatronRewardHandler;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -34,6 +37,13 @@ public class ServerDodgeEffects {
 		
 		if (!player.isCreative() && !player.isSpectator()) {
 			player.getFoodStats().addExhaustion((float) ModConfig.common.balance.exhaustion);
+		}
+		
+		if (ModConfig.common.misc.particles && PatronRewardHandler.getTier(player) <= 0) {
+		PacketHandler.instance.sendTo(new CParticleMessage(PatronRewardHandler.getTier(player),
+				player.posX, player.posY, player.posZ), (EntityPlayerMP) player);
+		PacketHandler.instance.sendToAllTracking(new CParticleMessage(PatronRewardHandler.getTier(player),
+				player.posX, player.posY, player.posZ), (EntityPlayerMP) player);
 		}
 
 		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);

@@ -272,6 +272,10 @@ public class ModConfig {
 			@Name("End Dodge")
 			@Comment("Whether the Player dodge is weaker in the End.")
 			public boolean end = true;
+			
+			@Name("Enable Particles")
+			@Comment("Whether the Player's dodge creates a puff of smoke.")
+			public boolean particles = true;
 		}
 		
 		public Integration integration = new Integration();
