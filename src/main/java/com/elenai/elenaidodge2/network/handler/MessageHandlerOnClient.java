@@ -297,6 +297,7 @@ public class MessageHandlerOnClient {
 		IParticleData particle = null;
 		switch(message.getLevel()) {
 		case 0:
+			particle = ParticleTypes.CLOUD;
 			break;
 		case 1:
 			particle = ParticleTypes.HEART;
@@ -315,7 +316,7 @@ public class MessageHandlerOnClient {
 		default:
 			break;
 		}
-
+		
 		if(message.getLevel() > 0) {
 		for (int i = 0; i < 8; ++i) {
 			double d0 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
@@ -326,6 +327,17 @@ public class MessageHandlerOnClient {
 					message.getY() + 0.1,
 					message.getZ() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d2 * 12.0D, d0, d1, d2);
 		}
+		} else {
+			for (int i = 0; i < 8; ++i) {
+				double d0 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
+				double d1 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
+				double d2 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
+				Minecraft.getInstance().player.world.addParticle(particle,
+						message.getX() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d0 * 10.0D,
+						message.getY() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 1.8f) - d1 * 10.0D,
+						message.getZ() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d2 * 10.0D, d0, d1,
+						d2);
+			}
 		}
 		return;
 	}

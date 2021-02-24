@@ -5,10 +5,14 @@ import com.elenai.elenaidodge2.capability.dodges.DodgesProvider;
 import com.elenai.elenaidodge2.capability.invincibility.InvincibilityProvider;
 import com.elenai.elenaidodge2.capability.particles.ParticlesProvider;
 import com.elenai.elenaidodge2.config.ConfigHandler;
+import com.elenai.elenaidodge2.network.NetworkHandler;
+import com.elenai.elenaidodge2.network.message.client.ParticleMessageToClient;
+import com.elenai.elenaidodge2.util.PatronRewardHandler;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 public class ServerDodgeEffects {
 
@@ -33,6 +37,11 @@ public class ServerDodgeEffects {
 		if (!player.isCreative() && !player.isSpectator()) {
 			player.getFoodStats().addExhaustion((float) ConfigHandler.exhaustion);
 		}
+		
+		if (ConfigHandler.enableParticles && PatronRewardHandler.getTier(player) <= 0) {
+		NetworkHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayerEntity) player), 
+				new ParticleMessageToClient(PatronRewardHandler.getTier(player), player.getPosX(),
+						player.getPosY(), player.getPosZ()));}
 
 		player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
 			player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {

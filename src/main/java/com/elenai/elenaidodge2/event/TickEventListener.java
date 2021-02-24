@@ -27,9 +27,10 @@ public class TickEventListener {
 			event.player.getCapability(ParticlesProvider.PARTICLES_CAP).ifPresent(p -> {
 				if (p.getParticles() > 0) {
 					p.set(p.getParticles() - 1);
+					if(PatronRewardHandler.getTier(event.player) > 0) {
 					NetworkHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayerEntity) event.player), 
 							new ParticleMessageToClient(PatronRewardHandler.getTier(event.player), event.player.getPosX(),
-									event.player.getPosY(), event.player.getPosZ()));
+									event.player.getPosY(), event.player.getPosZ()));}
 				}
 			});
 		}

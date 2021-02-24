@@ -82,6 +82,7 @@ public final class ConfigHandler {
 		public final ForgeConfigSpec.BooleanValue message;
 		public final ForgeConfigSpec.BooleanValue nether;
 		public final ForgeConfigSpec.BooleanValue end;
+		public final ForgeConfigSpec.BooleanValue enableParticles;
 
 		public final ForgeConfigSpec.DoubleValue tanCost;
 		
@@ -149,8 +150,11 @@ public final class ConfigHandler {
 					.comment("Whether the Player dodges further in the Nether.")
 					.define("misc.nether", true);
 			end = builder
-					.comment("Whether the Player dodge is weaker in the End.")
+					.comment("Whether the Player's dodge is weaker in the End.")
 					.define("misc.end", true);
+			enableParticles = builder
+					.comment("Whether the Player's dodge creates a puff of smoke.")
+					.define("misc.particles", true);
 			
 			// INTEGRATION
 			tanCost = builder
@@ -194,7 +198,7 @@ public final class ConfigHandler {
 	// Common
 	public static double force, verticality, exhaustion, tanCost;
 	public static int hunger, invincibilityTicks, cost, rate;
-	public static boolean enableWhilstSneaking, enableWhilstBlocking, enableWhilstAirborne, half, message, nether, end;
+	public static boolean enableWhilstSneaking, enableWhilstBlocking, enableWhilstAirborne, half, message, nether, end, enableParticles;
 	public static String[] potions = new String[] {};
 	public static String[] weights = new String[] {};
 
@@ -216,7 +220,7 @@ public final class ConfigHandler {
 		potions = COMMON.potions.get().split(",");
 		weights = COMMON.weights.get().split(",");
 		tanCost = COMMON.tanCost.get();
-
+		enableParticles = COMMON.enableParticles.get();
 
 	}
 }
