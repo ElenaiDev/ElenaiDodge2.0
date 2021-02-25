@@ -19,6 +19,8 @@ public final class ConfigHandler {
 		public final ForgeConfigSpec.BooleanValue doubleTapForwards;
 		public final ForgeConfigSpec.BooleanValue hud;
 		public final ForgeConfigSpec.BooleanValue compatHud;
+		public final ForgeConfigSpec.BooleanValue fadeout;
+		public final ForgeConfigSpec.BooleanValue flash;
 		public final ForgeConfigSpec.BooleanValue tutorial;
 		public final ForgeConfigSpec.BooleanValue tooltips;
 
@@ -48,6 +50,12 @@ public final class ConfigHandler {
 			tooltips = builder.comment(
 					"Whether to show armor weight tooltips. If Quark is installed, please restart the game after disabling or enabling 'Quark Settings -> Client -> Visual Stat Display'.")
 					.define("hud.tooltips", true);
+			fadeout = builder.comment(
+					"Whether the Dodge Gui fades out when it's full.")
+					.define("hud.fadeout", false);
+			flash = builder.comment(
+					"Whether the Dodge Gui flashes when the player attempts to dodge when they haven't got enough feathers or too high a weight.")
+					.define("hud.flash", true);
 
 		}
 	}
@@ -123,7 +131,7 @@ public final class ConfigHandler {
 					.defineInRange("feathers.cost", 2, 0, 20);
 			rate = builder
 					.comment("The amount of ticks required to regenerate half a feather.")
-					.defineInRange("feathers.regen_rate", 100, 1, Integer.MAX_VALUE);
+					.defineInRange("feathers.regen_rate", 80, 1, Integer.MAX_VALUE);
 			half = builder
 					.comment("Whether to enable 'Half Feathers'. Instead of weight values rounding down, they will instead show as a half feather. These can be used if the 'Cost' value is set to an odd number.")
 					.define("feathers.half_feathers", false);
@@ -182,7 +190,7 @@ public final class ConfigHandler {
 	}
 	
 	// Client
-	public static boolean doubleTap, hud, tutorial, tooltips, compatHud, doubleTapForwards;
+	public static boolean doubleTap, hud, tutorial, tooltips, compatHud, doubleTapForwards, fadeout, flash;
 	public static int doubleTapTicks;
 
 	public static void bakeClientConfig() {
@@ -193,6 +201,8 @@ public final class ConfigHandler {
 		doubleTapTicks = CLIENT.doubleTapTicks.get();
 		compatHud = CLIENT.compatHud.get();
 		doubleTapForwards = CLIENT.doubleTapForwards.get();
+		fadeout = CLIENT.fadeout.get();
+		flash = CLIENT.flash.get();
 	}
 	
 	// Common

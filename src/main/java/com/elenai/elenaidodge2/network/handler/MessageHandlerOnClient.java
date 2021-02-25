@@ -6,9 +6,11 @@ import java.util.function.Supplier;
 import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.config.ConfigHandler;
 import com.elenai.elenaidodge2.event.ArmorTickEventListener;
+import com.elenai.elenaidodge2.event.ClientTickEventListener;
 import com.elenai.elenaidodge2.gui.DodgeStep;
 import com.elenai.elenaidodge2.network.NetworkHandler;
 import com.elenai.elenaidodge2.network.message.client.AbsorptionMessageToClient;
+import com.elenai.elenaidodge2.network.message.client.CancelledFeathersMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.ConfigMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.DodgeEffectsMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.DodgeMessageToClient;
@@ -19,6 +21,7 @@ import com.elenai.elenaidodge2.network.message.client.VelocityMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.WeightMessageToClient;
 import com.elenai.elenaidodge2.util.ClientStorage;
 import com.elenai.elenaidodge2.util.PatronRewardHandler;
+import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
@@ -53,6 +56,31 @@ public class MessageHandlerOnClient {
 		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
 		if (!clientWorld.isPresent()) {
 			ElenaiDodge2.LOGGER.warn("WeightMessageToClient context could not provide a ClientWorld.");
+			return;
+		}
+
+		ctx.enqueueWork(() -> processMessage(clientWorld.get(), message));
+	}
+	
+	public static void onMessageReceived(final CancelledFeathersMessageToClient message,
+			Supplier<NetworkEvent.Context> ctxSupplier) {
+		NetworkEvent.Context ctx = ctxSupplier.get();
+		LogicalSide sideReceived = ctx.getDirection().getReceptionSide();
+		ctx.setPacketHandled(true);
+
+		if (sideReceived != LogicalSide.CLIENT) {
+			ElenaiDodge2.LOGGER
+					.warn("CancelledFeathersMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			return;
+		}
+		if (!message.isMessageValid()) {
+			ElenaiDodge2.LOGGER.warn("CancelledFeathersMessageToClient was invalid" + message.toString());
+			return;
+		}
+
+		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
+		if (!clientWorld.isPresent()) {
+			ElenaiDodge2.LOGGER.warn("CancelledFeathersMessageToClient context could not provide a ClientWorld.");
 			return;
 		}
 
@@ -279,6 +307,7 @@ public class MessageHandlerOnClient {
 		ClientStorage.tutorialDodges+=0.25;
 		DodgeStep.moveToast.setProgress((float)ClientStorage.tutorialDodges);
 		}
+		Utils.showDodgeBar();
 		return;
 	}
 
@@ -377,6 +406,12 @@ public class MessageHandlerOnClient {
 	
 	private static void processMessage(ClientWorld worldClient, PatronMessageToClient message) {
 		PatronRewardHandler.localPatronTier = message.getLevel();
+		return;
+	}
+	
+	private static void processMessage(ClientWorld worldClient, CancelledFeathersMessageToClient message) {
+		ClientTickEventListener.failedFlashes = 0;
+		Utils.showDodgeBar();
 		return;
 	}
 

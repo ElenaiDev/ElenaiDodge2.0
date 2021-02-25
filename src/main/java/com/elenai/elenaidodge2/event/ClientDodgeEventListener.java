@@ -7,14 +7,14 @@ import com.elenai.elenaidodge2.util.ClientStorage;
 
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class CoreDodgeEventListener {
-	
+public class ClientDodgeEventListener {
+
 	/*
-	 * The CORE Dodge event listener for the Client.
-	 * 1) This class notifies the Server that a Dodge event has been performed.
-	 * 2) This class notifies the Server of the player's feathers.
-	 * 3) This class sets the hardcoded client cooldown to 8.
-	 * Essentially, this is the core of the mod, no smokes and mirrors.
+	 * The Dodge event listener for the Client. 1) This class notifies the Server
+	 * that a Dodge event has been performed. 2) This class notifies the Server of
+	 * the player's feathers. 3) This class sets the hardcoded client cooldown to 8.
+	 * 4) This class shows the Dodge Gui if it is faded. Essentially, this is the
+	 * core of the mod, no smokes and mirrors.
 	 */
 
 	@SubscribeEvent

@@ -6,6 +6,7 @@ import com.elenai.elenaidodge2.capability.dodges.DodgesProvider;
 import com.elenai.elenaidodge2.capability.weight.WeightProvider;
 import com.elenai.elenaidodge2.config.ConfigHandler;
 import com.elenai.elenaidodge2.list.PotionList;
+import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effects;
@@ -78,10 +79,12 @@ public class ServerDodgeEventListener {
 		player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
 			player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 				if(d.getDodges() + a.getAbsorption() < ConfigHandler.cost) {
+					Utils.cancelledByFeathers(player);
 					event.setCanceled(true);
 				}
 				player.getCapability(WeightProvider.WEIGHT_CAP).ifPresent(w -> {
 					if((w.getWeight() > 0) && (d.getDodges() - ConfigHandler.cost < w.getWeight() && a.getAbsorption() - ConfigHandler.cost < 0)) {
+						Utils.cancelledByFeathers(player);
 						event.setCanceled(true);
 					}
 				});

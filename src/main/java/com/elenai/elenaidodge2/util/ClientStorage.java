@@ -8,6 +8,7 @@ public class ClientStorage {
 	
 	public static boolean healing = false;
 	public static int cooldown = 0;
+	public static boolean failed = false;
 	
 	public static boolean hasAbsorption = false;
 	public static boolean shownTutorial = true;

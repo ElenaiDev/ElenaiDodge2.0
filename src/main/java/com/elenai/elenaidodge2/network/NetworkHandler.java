@@ -9,6 +9,7 @@ import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.network.handler.MessageHandlerOnClient;
 import com.elenai.elenaidodge2.network.handler.MessageHandlerOnServer;
 import com.elenai.elenaidodge2.network.message.client.AbsorptionMessageToClient;
+import com.elenai.elenaidodge2.network.message.client.CancelledFeathersMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.ConfigMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.DodgeEffectsMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.DodgeMessageToClient;
@@ -28,12 +29,12 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class NetworkHandler {
 
-	  public static SimpleChannel simpleChannel;    // used to transmit your network messages
+	  public static SimpleChannel simpleChannel;    
 
 	  public static byte nextId = 0;
 
-	  public static final String MESSAGE_PROTOCOL_VERSION = "1.0";  // a version number for the protocol you're using.  Can be used to maintain backward
-	                                                                // compatibility.  But to be honest you'll probably never need it for anything useful...
+	  public static final String MESSAGE_PROTOCOL_VERSION = "1.0"; 
+	                                                               
 
 	  public static final ResourceLocation simpleChannelRL = new ResourceLocation(ElenaiDodge2.MODID, "channel");
 
@@ -64,6 +65,10 @@ public class NetworkHandler {
 		    // CLIENT	
 		    simpleChannel.registerMessage(nextId++, WeightMessageToClient.class,
 		    		WeightMessageToClient::encode, WeightMessageToClient::decode,
+		            MessageHandlerOnClient::onMessageReceived,
+		            Optional.of(PLAY_TO_CLIENT));
+		    simpleChannel.registerMessage(nextId++, CancelledFeathersMessageToClient.class,
+		    		CancelledFeathersMessageToClient::encode, CancelledFeathersMessageToClient::decode,
 		            MessageHandlerOnClient::onMessageReceived,
 		            Optional.of(PLAY_TO_CLIENT));
 		    simpleChannel.registerMessage(nextId++, DodgeEffectsMessageToClient.class,

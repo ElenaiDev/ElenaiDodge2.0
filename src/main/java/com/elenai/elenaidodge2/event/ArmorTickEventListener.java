@@ -116,6 +116,7 @@ public class ArmorTickEventListener {
 						NetworkHandler.simpleChannel.sendToServer(new WeightMessageToServer(intWeight));
 					}
 
+					Utils.showDodgeBar();
 					previousArmor.clear();
 					previousArmor.addAll(currentArmor);
 				}
