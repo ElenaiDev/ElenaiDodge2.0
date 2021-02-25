@@ -9,8 +9,11 @@ import com.elenai.elenaidodge2.capability.absorption.IAbsorption;
 import com.elenai.elenaidodge2.capability.dodges.DodgesProvider;
 import com.elenai.elenaidodge2.capability.dodges.IDodges;
 import com.elenai.elenaidodge2.effects.ServerDodgeEffects;
+import com.elenai.elenaidodge2.event.ClientTickEventListener;
+import com.elenai.elenaidodge2.gui.DodgeGui;
 import com.elenai.elenaidodge2.network.PacketHandler;
 import com.elenai.elenaidodge2.network.message.CDodgeEffectsMessage;
+import com.elenai.elenaidodge2.network.message.CFeatherFailureMessage;
 import com.elenai.elenaidodge2.network.message.CInitPlayerMessage;
 import com.elenai.elenaidodge2.network.message.CUpdateConfigMessage;
 import com.elenai.elenaidodge2.network.message.CVelocityMessage;
@@ -36,6 +39,17 @@ public class Utils {
 	 */
 	public static void setPlayerVelocity(double x, double y, double z, EntityPlayer player) {
 		PacketHandler.instance.sendTo(new CVelocityMessage(x, y, z), (EntityPlayerMP) player);
+	}
+	
+	/**
+	 * Tells the Client to flash the GUI white and show the GUI.
+	 * 
+	 * @param player
+	 * @author Elenai
+	 * @side Server
+	 */
+	public static void cancelledByFeathers(EntityPlayer player) {
+		PacketHandler.instance.sendTo(new CFeatherFailureMessage(), (EntityPlayerMP) player);
 	}
 	
 	/**
@@ -182,5 +196,15 @@ public class Utils {
     	    return "";
     	}
     }
+    
+	/**
+	 * Shows the player's dodge bar if it is hidden
+	 */
+	public static void showDodgeBar() {
+		if (DodgeGui.alpha < 1) {
+			DodgeGui.alpha = 1f;
+			ClientTickEventListener.alpha = ClientTickEventListener.alphaLen;
+		}
+	}
 	
 }

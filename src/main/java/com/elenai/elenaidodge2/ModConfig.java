@@ -43,6 +43,14 @@ public class ModConfig {
 			@Name("Compatibility HUD")
 			@Comment("Whether to enable compatibility mode for the HUD. If it isn't working as expected, try this.")
 			public boolean compatHud = false;
+			
+			@Name("Fadeout Inactive HUD")
+			@Comment("Whether the GUI fades out when it is inactive.")
+			public boolean fadeout = false;
+			
+			@Name("Visual Dodge Failure")
+			@Comment("Whether the feather bar will flash when the player attempts to dodge without the required feathers or too high a weight.")
+			public boolean flash = true;
 
 			@Name("Show Tutorial")
 			@Comment("Whether to show the tutorial on joining a new world.")
@@ -116,7 +124,7 @@ public class ModConfig {
 			@Name("Regeneration Rate")
 			@Comment("The amount of ticks required to regenerate half a feather.")
 			@RangeInt(min = 1, max = Integer.MAX_VALUE)
-			public int rate = 100;
+			public int rate = 80;
 
 			@Name("Half Feathers")
 			@Comment("Whether to enable 'Half Feathers'. Instead of weight values rounding down, they will instead show as a half feather. These can be used if the 'Cost' value is set to an odd number.")

@@ -9,6 +9,7 @@ import com.elenai.elenaidodge2.capability.dodges.IDodges;
 import com.elenai.elenaidodge2.capability.weight.IWeight;
 import com.elenai.elenaidodge2.capability.weight.WeightProvider;
 import com.elenai.elenaidodge2.init.PotionInit;
+import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -42,6 +43,7 @@ public class ServerDodgeEventListener {
 		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
 		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
 		if(d.getDodges() + a.getAbsorption() < ModConfig.common.feathers.cost) {
+			Utils.cancelledByFeathers(player);
 			event.setCanceled(true);
 		}
 		
@@ -86,6 +88,7 @@ public class ServerDodgeEventListener {
 		
 		IWeight w = player.getCapability(WeightProvider.WEIGHT_CAP, null);
 		if((w.getWeight() > 0) && (d.getDodges() - ModConfig.common.feathers.cost < w.getWeight() && a.getAbsorption() - ModConfig.common.feathers.cost < 0)) {
+			Utils.cancelledByFeathers(player);
 			event.setCanceled(true);
 		}
 	}

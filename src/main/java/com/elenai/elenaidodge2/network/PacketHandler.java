@@ -1,6 +1,7 @@
 package com.elenai.elenaidodge2.network;
 
 import com.elenai.elenaidodge2.network.message.CDodgeEffectsMessage;
+import com.elenai.elenaidodge2.network.message.CFeatherFailureMessage;
 import com.elenai.elenaidodge2.network.message.CInitPlayerMessage;
 import com.elenai.elenaidodge2.network.message.CParticleMessage;
 import com.elenai.elenaidodge2.network.message.CPatronMessage;
@@ -43,6 +44,8 @@ public class PacketHandler {
 		instance.registerMessage(CUpdateDodgeMessage.Handler.class, CUpdateDodgeMessage.class, nextId++, Side.CLIENT);
 		instance.registerMessage(CParticleMessage.Handler.class, CParticleMessage.class, nextId++, Side.CLIENT);
 		instance.registerMessage(CPatronMessage.Handler.class, CPatronMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CFeatherFailureMessage.Handler.class, CFeatherFailureMessage.class, nextId++, Side.CLIENT);
+
 
 
 

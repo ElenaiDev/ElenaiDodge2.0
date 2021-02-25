@@ -9,6 +9,7 @@ import com.elenai.elenaidodge2.capability.weight.WeightProvider;
 import com.elenai.elenaidodge2.network.PacketHandler;
 import com.elenai.elenaidodge2.network.message.CUpdateDodgeMessage;
 import com.elenai.elenaidodge2.util.ClientStorage;
+import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -54,6 +55,7 @@ public class FeathersHelper {
 				d.set(20);
 			}
 			PacketHandler.instance.sendTo(new CUpdateDodgeMessage(d.getDodges()), player);
+			Utils.showDodgeBar();
 	}
 
 	/**
@@ -81,6 +83,7 @@ public class FeathersHelper {
 			d.set(0);
 		}
 		PacketHandler.instance.sendTo(new CUpdateDodgeMessage(d.getDodges()), player);
+		Utils.showDodgeBar();
 	}
 	
 	/**

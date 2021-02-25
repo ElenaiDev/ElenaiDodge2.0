@@ -2,6 +2,7 @@ package com.elenai.elenaidodge2.effects;
 
 import com.elenai.elenaidodge2.gui.DodgeStep;
 import com.elenai.elenaidodge2.util.ClientStorage;
+import com.elenai.elenaidodge2.util.Utils;
 
 public class ClientDodgeEffects {
 	
@@ -18,6 +19,7 @@ public class ClientDodgeEffects {
 		ClientStorage.tutorialDodges+=0.25;
 		DodgeStep.moveToast.setProgress((float)ClientStorage.tutorialDodges);
 		}
+		Utils.showDodgeBar();
 	}
 	
 }

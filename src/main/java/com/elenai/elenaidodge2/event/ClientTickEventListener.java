@@ -1,6 +1,7 @@
 package com.elenai.elenaidodge2.event;
 
 import com.elenai.elenaidodge2.ModConfig;
+import com.elenai.elenaidodge2.gui.DodgeGui;
 import com.elenai.elenaidodge2.gui.DodgeStep;
 import com.elenai.elenaidodge2.integration.ToughAsNailsClient;
 import com.elenai.elenaidodge2.network.PacketHandler;
@@ -20,10 +21,17 @@ public class ClientTickEventListener {
 
 	public static int pauseLen = 7;
 	public static int animationLen = 4;
+	public static int alphaLen = 60;
 
 	public static int animation = animationLen;
 	public static int pause = pauseLen;
 	public static int flashes = 2;
+	
+	public static int failedAnimation = animationLen;
+	public static int failedPause = pauseLen;
+	public static int failedFlashes = 2;
+	
+	public static int alpha = alphaLen;
 	
 	@SubscribeEvent
 	public void onPlayerClientTick(TickEvent.ClientTickEvent event) {
@@ -66,6 +74,35 @@ public class ClientTickEventListener {
 
 					if (ClientStorage.healing && animation == 0) {
 						ClientStorage.healing = false;
+					}
+					
+					// FAILED ANIMATION
+					if (failedFlashes < 2 && failedPause <= 0) {
+						failedPause = pauseLen;
+						failedAnimation = animationLen;
+						ClientStorage.failed = true;
+						failedFlashes++;
+					}
+
+					if (failedPause > 0) {
+						failedPause--;
+					}
+
+					if (failedAnimation > 0) {
+						failedAnimation--;
+					}
+
+					if (ClientStorage.failed && failedAnimation == 0) {
+						ClientStorage.failed = false;
+					}
+
+					// ALPHA
+					if (ClientStorage.dodges >= 20 && alpha > 0 && DodgeGui.alpha > 0) {
+						alpha--;
+					}
+
+					if (alpha == 0 && DodgeGui.alpha > 0 && ModConfig.client.hud.fadeout) {
+						DodgeGui.alpha -= 0.04f;
 					}
 
 					// REGENERATION LOGIC

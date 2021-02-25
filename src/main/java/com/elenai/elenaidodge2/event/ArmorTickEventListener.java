@@ -118,6 +118,7 @@ public class ArmorTickEventListener {
 						PacketHandler.instance.sendToServer(new SWeightMessage(intWeight));
 					}
 
+					Utils.showDodgeBar();
 					previousArmor.clear();
 					previousArmor.addAll(currentArmor);
 				}

@@ -1,5 +1,7 @@
 package com.elenai.elenaidodge2.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.ModConfig;
 import com.elenai.elenaidodge2.util.ClientStorage;
@@ -20,7 +22,7 @@ public class DodgeGui {
 
 	public static ResourceLocation DODGE_ICONS = new ResourceLocation(ElenaiDodge2.MODID, "textures/gui/icons.png");
 	public static ResourceLocation ADVANCED_DODGE_ICONS = new ResourceLocation(ElenaiDodge2.MODID, "textures/gui/advanced_icons.png");
-
+	public static float alpha = 1f;
 
 	@SubscribeEvent
 	public void onRenderDodgeGUIEvent(RenderGameOverlayEvent.Post event) {
@@ -29,7 +31,9 @@ public class DodgeGui {
 			if((event.getType() == ElementType.ALL && ModConfig.client.hud.compatHud) || (event.getType() == ElementType.FOOD && !ModConfig.client.hud.compatHud)) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(DODGE_ICONS);
 			GlStateManager.enableBlend();
+			enableAlpha(alpha);
 
+			if(alpha > 0) {
 			renderFeathers(event.getResolution().getScaledHeight(),
 					event.getResolution().getScaledWidth(), ClientStorage.dodges, ClientStorage.weight,
 					ClientStorage.healing, 16, 25, 34, 43, 52, 61, 70, PatronRewardHandler.localPatronTier);
@@ -37,6 +41,8 @@ public class DodgeGui {
 			renderAbsorptionFeathers(event.getResolution().getScaledHeight(),
 					event.getResolution().getScaledWidth(), ClientStorage.absorption, ClientStorage.weight,
 					ClientStorage.healing, 79, 88);
+			}
+			disableAlpha(alpha);
 			
 
 			Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
@@ -101,7 +107,10 @@ public class DodgeGui {
 
 				if (healing) {
 					gui.drawTexturedModalRect(right, top, 16, 9, 9, 9);
-				}
+				} else
+					if (ClientStorage.failed && ModConfig.client.hud.flash) {
+						gui.drawTexturedModalRect(right, top, 43, 9, 9, 9);
+					}
 
 				right -= 8;
 			}
@@ -139,6 +148,25 @@ public class DodgeGui {
 		if (rowHeight < 10) {
 			GuiIngameForge.right_height += (10 - rowHeight);
 		}
+	}
+	
+	public static void enableAlpha(float alpha) {
+		GlStateManager.enableBlend();
+
+		if (alpha == 1f)
+			return;
+
+		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	}
+	
+	public static void disableAlpha(float alpha) {
+		GlStateManager.disableBlend();
+
+		if (alpha == 1f)
+			return;
+
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 }
