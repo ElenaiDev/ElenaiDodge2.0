@@ -47,9 +47,3 @@ Please make sure to update tests as appropriate.
 
 ## License
 [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License](https://creativecommons.org/licenses/by-nc-sa/3.0/)
-
-Please only upload a fork of this project if you have a very good reason (I am very open to pull requests as an alternative). If you plan to fork this project for whatever reason, please link back to this page. Downloads are the best way to increase the popularity of the mod, so be aware you are in turn reducing them. Please don't upload a new fork to simply update to a later version. Instead, make a pull request to this project or wait for me to do it myself.
-
- 
-
-That being said, the project uses this license so that if you really do need to make a fork, you can.
