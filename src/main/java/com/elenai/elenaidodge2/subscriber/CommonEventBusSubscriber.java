@@ -20,6 +20,9 @@ import com.elenai.elenaidodge2.capability.joined.JoinedStorage;
 import com.elenai.elenaidodge2.capability.particles.IParticles;
 import com.elenai.elenaidodge2.capability.particles.Particles;
 import com.elenai.elenaidodge2.capability.particles.ParticlesStorage;
+import com.elenai.elenaidodge2.capability.regen.IRegen;
+import com.elenai.elenaidodge2.capability.regen.Regen;
+import com.elenai.elenaidodge2.capability.regen.RegenStorage;
 import com.elenai.elenaidodge2.capability.weight.IWeight;
 import com.elenai.elenaidodge2.capability.weight.Weight;
 import com.elenai.elenaidodge2.capability.weight.WeightStorage;
@@ -67,7 +70,7 @@ public class CommonEventBusSubscriber {
 		CapabilityManager.INSTANCE.register(IJoined.class, new JoinedStorage(), Joined::new);
 		CapabilityManager.INSTANCE.register(IWeight.class, new WeightStorage(), Weight::new);
 		CapabilityManager.INSTANCE.register(IParticles.class, new ParticlesStorage(), Particles::new);
-
+		CapabilityManager.INSTANCE.register(IRegen.class, new RegenStorage(), Regen::new);
 		
 		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new TickEventListener());
@@ -75,11 +78,11 @@ public class CommonEventBusSubscriber {
 		MinecraftForge.EVENT_BUS.register(new ServerDodgeEventListener());
 		MinecraftForge.EVENT_BUS.register(new InvincibilityEventListener());
 		MinecraftForge.EVENT_BUS.register(new PotionTickEventListener());
-		
+
 		PotionList.addRecipes(); //TODO We will switch to Deferred Registries eventually
 
 	}
-
+	
 	@SubscribeEvent
 	public static void registerPotions(final RegistryEvent.Register<Potion> event) {
 		event.getRegistry().registerAll(

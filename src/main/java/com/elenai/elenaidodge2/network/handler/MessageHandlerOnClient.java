@@ -17,6 +17,7 @@ import com.elenai.elenaidodge2.network.message.client.DodgeMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.InitPlayerMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.ParticleMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.PatronMessageToClient;
+import com.elenai.elenaidodge2.network.message.client.RegenModifierMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.VelocityMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.WeightMessageToClient;
 import com.elenai.elenaidodge2.util.ClientStorage;
@@ -61,7 +62,32 @@ public class MessageHandlerOnClient {
 
 		ctx.enqueueWork(() -> processMessage(clientWorld.get(), message));
 	}
-	
+
+	public static void onMessageReceived(final RegenModifierMessageToClient message,
+			Supplier<NetworkEvent.Context> ctxSupplier) {
+		NetworkEvent.Context ctx = ctxSupplier.get();
+		LogicalSide sideReceived = ctx.getDirection().getReceptionSide();
+		ctx.setPacketHandled(true);
+
+		if (sideReceived != LogicalSide.CLIENT) {
+			ElenaiDodge2.LOGGER.warn(
+					"RegenModifierMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			return;
+		}
+		if (!message.isMessageValid()) {
+			ElenaiDodge2.LOGGER.warn("RegenModifierMessageToClient was invalid" + message.toString());
+			return;
+		}
+
+		Optional<ClientWorld> clientWorld = LogicalSidedProvider.CLIENTWORLD.get(sideReceived);
+		if (!clientWorld.isPresent()) {
+			ElenaiDodge2.LOGGER.warn("RegenModifierMessageToClient context could not provide a ClientWorld.");
+			return;
+		}
+
+		ctx.enqueueWork(() -> processMessage(clientWorld.get(), message));
+	}
+
 	public static void onMessageReceived(final CancelledFeathersMessageToClient message,
 			Supplier<NetworkEvent.Context> ctxSupplier) {
 		NetworkEvent.Context ctx = ctxSupplier.get();
@@ -69,8 +95,8 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge2.LOGGER
-					.warn("CancelledFeathersMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			ElenaiDodge2.LOGGER.warn(
+					"CancelledFeathersMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
@@ -136,7 +162,7 @@ public class MessageHandlerOnClient {
 
 		ctx.enqueueWork(() -> processMessage(clientWorld.get(), message));
 	}
-	
+
 	public static void onMessageReceived(final ParticleMessageToClient message,
 			Supplier<NetworkEvent.Context> ctxSupplier) {
 		NetworkEvent.Context ctx = ctxSupplier.get();
@@ -144,8 +170,8 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge2.LOGGER.warn(
-					"ParticleMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			ElenaiDodge2.LOGGER
+					.warn("ParticleMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
@@ -161,7 +187,7 @@ public class MessageHandlerOnClient {
 
 		ctx.enqueueWork(() -> processMessage(clientWorld.get(), message));
 	}
-	
+
 	public static void onMessageReceived(final AbsorptionMessageToClient message,
 			Supplier<NetworkEvent.Context> ctxSupplier) {
 		NetworkEvent.Context ctx = ctxSupplier.get();
@@ -169,8 +195,8 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge2.LOGGER.warn(
-					"AbsorptionMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			ElenaiDodge2.LOGGER
+					.warn("AbsorptionMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
@@ -194,8 +220,8 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge2.LOGGER.warn(
-					"DodgeMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			ElenaiDodge2.LOGGER
+					.warn("DodgeMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
@@ -219,8 +245,8 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge2.LOGGER.warn(
-					"VelocityMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			ElenaiDodge2.LOGGER
+					.warn("VelocityMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
@@ -236,7 +262,7 @@ public class MessageHandlerOnClient {
 
 		ctx.enqueueWork(() -> processMessage(clientWorld.get(), message));
 	}
-	
+
 	public static void onMessageReceived(final ConfigMessageToClient message,
 			Supplier<NetworkEvent.Context> ctxSupplier) {
 		NetworkEvent.Context ctx = ctxSupplier.get();
@@ -244,8 +270,8 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge2.LOGGER.warn(
-					"ConfigMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			ElenaiDodge2.LOGGER
+					.warn("ConfigMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
@@ -269,8 +295,8 @@ public class MessageHandlerOnClient {
 		ctx.setPacketHandled(true);
 
 		if (sideReceived != LogicalSide.CLIENT) {
-			ElenaiDodge2.LOGGER.warn(
-					"PatronMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
+			ElenaiDodge2.LOGGER
+					.warn("PatronMessageToClient received on wrong side:" + ctx.getDirection().getReceptionSide());
 			return;
 		}
 		if (!message.isMessageValid()) {
@@ -286,7 +312,7 @@ public class MessageHandlerOnClient {
 
 		ctx.enqueueWork(() -> processMessage(clientWorld.get(), message));
 	}
-	
+
 	/*
 	 * PROCESS MESSAGES
 	 */
@@ -303,9 +329,9 @@ public class MessageHandlerOnClient {
 	private static void processMessage(ClientWorld worldClient, DodgeEffectsMessageToClient message) {
 		ClientStorage.absorption = message.getAbsorption();
 		ClientStorage.dodges = message.getDodges();
-		if(ClientStorage.tutorialDodges < 1) {
-		ClientStorage.tutorialDodges+=0.25;
-		DodgeStep.moveToast.setProgress((float)ClientStorage.tutorialDodges);
+		if (ClientStorage.tutorialDodges < 1) {
+			ClientStorage.tutorialDodges += 0.25;
+			DodgeStep.moveToast.setProgress((float) ClientStorage.tutorialDodges);
 		}
 		Utils.showDodgeBar();
 		return;
@@ -319,12 +345,12 @@ public class MessageHandlerOnClient {
 		}
 		return;
 	}
-	
+
 	@SuppressWarnings("resource")
 	private static void processMessage(ClientWorld worldClient, ParticleMessageToClient message) {
 
 		IParticleData particle = null;
-		switch(message.getLevel()) {
+		switch (message.getLevel()) {
 		case 0:
 			particle = ParticleTypes.CLOUD;
 			break;
@@ -345,48 +371,54 @@ public class MessageHandlerOnClient {
 		default:
 			break;
 		}
-		
-		if(message.getLevel() > 0) {
-		for (int i = 0; i < 8; ++i) {
-			double d0 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
-			double d1 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
-			double d2 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
-			Minecraft.getInstance().player.world.addParticle(particle,
-					message.getX() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d0 * 12.0D,
-					message.getY() + 0.1,
-					message.getZ() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d2 * 12.0D, d0, d1, d2);
-		}
+
+		if (message.getLevel() > 0) {
+			for (int i = 0; i < 8; ++i) {
+				double d0 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
+				double d1 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
+				double d2 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
+				Minecraft.getInstance().player.world.addParticle(particle,
+						message.getX() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F)
+								- (double) 0.6f - d0 * 12.0D,
+						message.getY() + 0.1,
+						message.getZ() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F)
+								- (double) 0.6f - d2 * 12.0D,
+						d0, d1, d2);
+			}
 		} else {
 			for (int i = 0; i < 8; ++i) {
 				double d0 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
 				double d1 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
 				double d2 = Minecraft.getInstance().player.world.rand.nextGaussian() * 0.02D;
 				Minecraft.getInstance().player.world.addParticle(particle,
-						message.getX() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d0 * 10.0D,
-						message.getY() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 1.8f) - d1 * 10.0D,
-						message.getZ() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F) - (double) 0.6f - d2 * 10.0D, d0, d1,
-						d2);
+						message.getX() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F)
+								- (double) 0.6f - d0 * 10.0D,
+						message.getY() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 1.8f)
+								- d1 * 10.0D,
+						message.getZ() + (double) (Minecraft.getInstance().player.world.rand.nextFloat() * 0.6f * 2.0F)
+								- (double) 0.6f - d2 * 10.0D,
+						d0, d1, d2);
 			}
 		}
 		return;
 	}
-	
+
 	private static void processMessage(ClientWorld worldClient, AbsorptionMessageToClient message) {
 		ClientStorage.absorption = message.getAbsorption();
 		return;
 	}
-	
+
 	private static void processMessage(ClientWorld worldClient, DodgeMessageToClient message) {
 		ClientStorage.dodges = message.getDodges();
 		return;
 	}
-	
+
 	@SuppressWarnings("resource")
 	private static void processMessage(ClientWorld worldClient, VelocityMessageToClient message) {
 		Minecraft.getInstance().player.setVelocity(message.getX(), message.getY(), message.getZ());
 		return;
 	}
-	
+
 	private static void processMessage(ClientWorld worldClient, ConfigMessageToClient message) {
 		ClientStorage.regenSpeed = message.getRegenRate();
 
@@ -394,24 +426,28 @@ public class MessageHandlerOnClient {
 			ClientStorage.dodges = message.getDodges();
 			ClientStorage.absorption = message.getAbsorption();
 		}
-		
+
 		ClientStorage.weightValues = message.getWeightValues();
 		ClientStorage.halfFeathers = message.getHalfFeathers();
-		
-		
+
 		// Forces Armor Refresh
 		ArmorTickEventListener.previousArmor.clear();
 		return;
 	}
-	
+
 	private static void processMessage(ClientWorld worldClient, PatronMessageToClient message) {
 		PatronRewardHandler.localPatronTier = message.getLevel();
 		return;
 	}
-	
+
 	private static void processMessage(ClientWorld worldClient, CancelledFeathersMessageToClient message) {
 		ClientTickEventListener.failedFlashes = 0;
 		Utils.showDodgeBar();
+		return;
+	}
+
+	private static void processMessage(ClientWorld worldClient, RegenModifierMessageToClient message) {
+		ClientStorage.regenModifier = message.getModifier();
 		return;
 	}
 

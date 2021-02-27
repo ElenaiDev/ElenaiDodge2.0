@@ -126,7 +126,11 @@ public class ClientTickEventListener {
 						ClientStorage.dodges++;
 						NetworkHandler.simpleChannel.sendToServer(new DodgeRegenMessageToServer(ClientStorage.dodges));
 						flashes = 0;
-						regen = ClientStorage.regenSpeed;
+						if (ClientStorage.regenSpeed + ClientStorage.regenModifier > 0) {
+							regen = ClientStorage.regenSpeed + ClientStorage.regenModifier;
+						} else {
+							regen = 1;
+						}
 
 					}
 

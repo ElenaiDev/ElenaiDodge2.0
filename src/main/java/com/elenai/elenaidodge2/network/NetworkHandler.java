@@ -16,6 +16,7 @@ import com.elenai.elenaidodge2.network.message.client.DodgeMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.InitPlayerMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.ParticleMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.PatronMessageToClient;
+import com.elenai.elenaidodge2.network.message.client.RegenModifierMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.VelocityMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.WeightMessageToClient;
 import com.elenai.elenaidodge2.network.message.server.DodgeMessageToServer;
@@ -101,6 +102,10 @@ public class NetworkHandler {
 		            Optional.of(PLAY_TO_CLIENT));
 		    simpleChannel.registerMessage(nextId++, PatronMessageToClient.class,
 		    		PatronMessageToClient::encode, PatronMessageToClient::decode,
+		            MessageHandlerOnClient::onMessageReceived,
+		            Optional.of(PLAY_TO_CLIENT));
+		    simpleChannel.registerMessage(nextId++, RegenModifierMessageToClient.class,
+		    		RegenModifierMessageToClient::encode, RegenModifierMessageToClient::decode,
 		            MessageHandlerOnClient::onMessageReceived,
 		            Optional.of(PLAY_TO_CLIENT));
 	}

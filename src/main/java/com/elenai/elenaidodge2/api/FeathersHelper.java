@@ -2,14 +2,17 @@ package com.elenai.elenaidodge2.api;
 
 import com.elenai.elenaidodge2.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge2.capability.dodges.DodgesProvider;
+import com.elenai.elenaidodge2.capability.regen.RegenProvider;
 import com.elenai.elenaidodge2.capability.weight.WeightProvider;
 import com.elenai.elenaidodge2.network.NetworkHandler;
 import com.elenai.elenaidodge2.network.message.client.DodgeMessageToClient;
+import com.elenai.elenaidodge2.network.message.client.RegenModifierMessageToClient;
 import com.elenai.elenaidodge2.util.ClientStorage;
 import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 public class FeathersHelper {
@@ -66,15 +69,17 @@ public class FeathersHelper {
 	 * @param amount
 	 */
 	public void decreaseFeathers(ServerPlayerEntity player, int amount) {
+		SpendFeatherEvent event = new SpendFeatherEvent(amount, player);
+		if(!MinecraftForge.EVENT_BUS.post(event)) {
 		player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
 			player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 				if (!player.isCreative() && !player.isSpectator()) {
 					if (a.getAbsorption() <= 0) {
-						d.set(d.getDodges() - amount);
-					} else if (a.getAbsorption() - amount >= 0) {
-						a.set(a.getAbsorption() - amount);
+						d.set(d.getDodges() - event.getCost());
+					} else if (a.getAbsorption() - event.getCost() >= 0) {
+						a.set(a.getAbsorption() - event.getCost());
 					} else {
-						d.increase(a.getAbsorption() - amount);
+						d.increase(a.getAbsorption() - event.getCost());
 						a.set(0);
 					}
 				}
@@ -86,6 +91,7 @@ public class FeathersHelper {
 			});
 		});
 		Utils.showDodgeBar();
+		}
 	}
 	
 	/**
@@ -112,4 +118,62 @@ public class FeathersHelper {
 		return ClientStorage.weight;
 	}
 
+	/**
+	 * Sets the player's regen modifier on the server. This is a value that is added onto the Config specified regen.
+	 * A positive value will increase regen time, a negative value will decrease it.
+	 * 
+	 * WARNING! It is far better to use the increase and decrease methods for inter-mod compatibility.
+	 * To temporarily disable regen, simply set this to an almost unreachable value, such as 9999999999.
+	 * 
+	 * If this makes combined regen ever go below 0, it will default to 1.
+	 * 
+	 * @author Elenai
+	 * @param player
+	 * @param modifier
+	 */
+	public void setRegenModifier(ServerPlayerEntity player, int modifier) {
+		player.getCapability(RegenProvider.REGEN_CAP).ifPresent(r -> {
+			r.set(modifier);
+		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player),
+				new RegenModifierMessageToClient(r.getRegen()));
+		});
+	}
+	
+	/**
+	 * Increases the player's regen modifier on the server. This is a value that is added onto the Config specified regen.
+	 * A positive value will increase regen time, a negative value will decrease it.
+	 * 
+	 * If this makes combined regen ever go below 0, it will default to 1.
+	 * 
+	 * @author Elenai
+	 * @param player
+	 * @param modifier
+	 */
+	public void increaseRegenModifier(ServerPlayerEntity player, int modifier) {
+		player.getCapability(RegenProvider.REGEN_CAP).ifPresent(r -> {
+			r.increase(modifier);
+		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player),
+				new RegenModifierMessageToClient(r.getRegen()));
+		});
+	}
+	
+	/**
+	 * Decreases the player's regen modifier on the server. This is a value that is added onto the Config specified regen.
+	 * A positive value will increase regen time, a negative value will decrease it.
+	 * 
+	 * If this makes combined regen ever go below 0, it will default to 1.
+	 * 
+	 * @author Elenai
+	 * @param player
+	 * @param modifier
+	 */
+	public void decreaseRegenModifier(ServerPlayerEntity player, int modifier) {
+		player.getCapability(RegenProvider.REGEN_CAP).ifPresent(r -> {
+			r.decrease(modifier);;
+		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player),
+				new RegenModifierMessageToClient(r.getRegen()));
+	});
+	}
+
+	
 }
