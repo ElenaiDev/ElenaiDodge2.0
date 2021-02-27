@@ -8,6 +8,7 @@ import com.elenai.elenaidodge2.capability.invincibility.InvincibilityProvider;
 import com.elenai.elenaidodge2.capability.joined.IJoined;
 import com.elenai.elenaidodge2.capability.joined.JoinedProvider;
 import com.elenai.elenaidodge2.capability.particles.ParticlesProvider;
+import com.elenai.elenaidodge2.capability.regen.RegenProvider;
 import com.elenai.elenaidodge2.capability.weight.WeightProvider;
 
 import net.minecraft.entity.Entity;
@@ -26,6 +27,7 @@ public class CapabilityHandler {
 	public static final ResourceLocation ABSORPTION_BOOL_CAP = new ResourceLocation(ElenaiDodge2.MODID, "absorption_bool");
 	public static final ResourceLocation INVINCIBILITY_CAP = new ResourceLocation(ElenaiDodge2.MODID, "invincibility");
 	public static final ResourceLocation PARTICLES_CAP = new ResourceLocation(ElenaiDodge2.MODID, "particles");
+	public static final ResourceLocation REGEN_CAP = new ResourceLocation(ElenaiDodge2.MODID, "regen");
 
 
 	@SubscribeEvent
@@ -51,6 +53,9 @@ public class CapabilityHandler {
 			}
 			if (!event.getObject().hasCapability(ParticlesProvider.PARTICLES_CAP, null)) {
 				event.addCapability(PARTICLES_CAP, new ParticlesProvider());
+			}
+			if (!event.getObject().hasCapability(RegenProvider.REGEN_CAP, null)) {
+				event.addCapability(REGEN_CAP, new RegenProvider());
 			}
 		}
 	}

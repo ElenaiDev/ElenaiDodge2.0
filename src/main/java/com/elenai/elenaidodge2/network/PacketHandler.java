@@ -8,6 +8,7 @@ import com.elenai.elenaidodge2.network.message.CPatronMessage;
 import com.elenai.elenaidodge2.network.message.CUpdateAbsorptionMessage;
 import com.elenai.elenaidodge2.network.message.CUpdateConfigMessage;
 import com.elenai.elenaidodge2.network.message.CUpdateDodgeMessage;
+import com.elenai.elenaidodge2.network.message.CUpdateRegenMessage;
 import com.elenai.elenaidodge2.network.message.CUpdateWeightMessage;
 import com.elenai.elenaidodge2.network.message.CVelocityMessage;
 import com.elenai.elenaidodge2.network.message.SDodgeMessage;
@@ -45,6 +46,7 @@ public class PacketHandler {
 		instance.registerMessage(CParticleMessage.Handler.class, CParticleMessage.class, nextId++, Side.CLIENT);
 		instance.registerMessage(CPatronMessage.Handler.class, CPatronMessage.class, nextId++, Side.CLIENT);
 		instance.registerMessage(CFeatherFailureMessage.Handler.class, CFeatherFailureMessage.class, nextId++, Side.CLIENT);
+		instance.registerMessage(CUpdateRegenMessage.Handler.class, CUpdateRegenMessage.class, nextId++, Side.CLIENT);
 
 
 

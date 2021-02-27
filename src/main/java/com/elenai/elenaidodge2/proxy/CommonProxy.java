@@ -20,6 +20,9 @@ import com.elenai.elenaidodge2.capability.joined.JoinedStorage;
 import com.elenai.elenaidodge2.capability.particles.IParticles;
 import com.elenai.elenaidodge2.capability.particles.Particles;
 import com.elenai.elenaidodge2.capability.particles.ParticlesStorage;
+import com.elenai.elenaidodge2.capability.regen.IRegen;
+import com.elenai.elenaidodge2.capability.regen.Regen;
+import com.elenai.elenaidodge2.capability.regen.RegenStorage;
 import com.elenai.elenaidodge2.capability.weight.IWeight;
 import com.elenai.elenaidodge2.capability.weight.Weight;
 import com.elenai.elenaidodge2.capability.weight.WeightStorage;
@@ -58,6 +61,7 @@ public class CommonProxy {
 		CapabilityManager.INSTANCE.register(IAbsorptionBool.class, new AbsorptionBoolStorage(), AbsorptionBool::new);
 		CapabilityManager.INSTANCE.register(IInvincibility.class, new InvincibilityStorage(), Invincibility::new);
 		CapabilityManager.INSTANCE.register(IParticles.class, new ParticlesStorage(), Particles::new);
+		CapabilityManager.INSTANCE.register(IRegen.class, new RegenStorage(), Regen::new);
 
 
 		MinecraftForge.EVENT_BUS.register(new RenderEventListener());

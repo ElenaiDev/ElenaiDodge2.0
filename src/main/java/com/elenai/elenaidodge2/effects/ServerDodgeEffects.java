@@ -1,6 +1,7 @@
 package com.elenai.elenaidodge2.effects;
 
 import com.elenai.elenaidodge2.ModConfig;
+import com.elenai.elenaidodge2.api.SpendFeatherEvent;
 import com.elenai.elenaidodge2.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge2.capability.absorption.IAbsorption;
 import com.elenai.elenaidodge2.capability.dodges.DodgesProvider;
@@ -16,6 +17,7 @@ import com.elenai.elenaidodge2.util.PatronRewardHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.common.MinecraftForge;
 
 public class ServerDodgeEffects {
 
@@ -46,17 +48,20 @@ public class ServerDodgeEffects {
 				player.posX, player.posY, player.posZ), (EntityPlayerMP) player);
 		}
 
+		SpendFeatherEvent event = new SpendFeatherEvent(ModConfig.common.feathers.cost, player);
+		if(!MinecraftForge.EVENT_BUS.post(event)) {
 		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
 		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
 		if (!player.isCreative() && !player.isSpectator()) {
 			if (a.getAbsorption() <= 0) {
-				d.set(d.getDodges() - ModConfig.common.feathers.cost);
-			} else if (a.getAbsorption() - ModConfig.common.feathers.cost >= 0) {
-				a.set(a.getAbsorption() - ModConfig.common.feathers.cost);
+				d.set(d.getDodges() - event.getCost());
+			} else if (a.getAbsorption() - event.getCost() >= 0) {
+				a.set(a.getAbsorption() - event.getCost());
 			} else {
-				d.increase(a.getAbsorption() - ModConfig.common.feathers.cost);
+				d.increase(a.getAbsorption() - event.getCost());
 				a.set(0);
 			}
+		}
 		}
 	}
 }

@@ -4,15 +4,19 @@ import com.elenai.elenaidodge2.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge2.capability.absorption.IAbsorption;
 import com.elenai.elenaidodge2.capability.dodges.DodgesProvider;
 import com.elenai.elenaidodge2.capability.dodges.IDodges;
+import com.elenai.elenaidodge2.capability.regen.IRegen;
+import com.elenai.elenaidodge2.capability.regen.RegenProvider;
 import com.elenai.elenaidodge2.capability.weight.IWeight;
 import com.elenai.elenaidodge2.capability.weight.WeightProvider;
 import com.elenai.elenaidodge2.network.PacketHandler;
 import com.elenai.elenaidodge2.network.message.CUpdateDodgeMessage;
+import com.elenai.elenaidodge2.network.message.CUpdateRegenMessage;
 import com.elenai.elenaidodge2.util.ClientStorage;
 import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
 
 public class FeathersHelper {
 
@@ -67,15 +71,17 @@ public class FeathersHelper {
 	 */
 	public void decreaseFeathers(EntityPlayerMP player, int amount) {		
 		
+		SpendFeatherEvent event = new SpendFeatherEvent(amount, player);
+		if(!MinecraftForge.EVENT_BUS.post(event)) {
 		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
 		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
 		if (!player.isCreative() && !player.isSpectator()) {
 			if (a.getAbsorption() <= 0) {
-				d.set(d.getDodges() - amount);
-			} else if (a.getAbsorption() - amount >= 0) {
-				a.set(a.getAbsorption() - amount);
+				d.set(d.getDodges() - event.getCost());
+			} else if (a.getAbsorption() - event.getCost() >= 0) {
+				a.set(a.getAbsorption() - event.getCost());
 			} else {
-				d.increase(a.getAbsorption() - amount);
+				d.increase(a.getAbsorption() - event.getCost());
 				a.set(0);
 			}
 		}
@@ -84,6 +90,7 @@ public class FeathersHelper {
 		}
 		PacketHandler.instance.sendTo(new CUpdateDodgeMessage(d.getDodges()), player);
 		Utils.showDodgeBar();
+		}
 	}
 	
 	/**
@@ -107,6 +114,57 @@ public class FeathersHelper {
 	 */
 	public int getWeight(EntityPlayerSP player) {
 		return ClientStorage.weight;
+	}
+	
+	/**
+	 * Sets the player's regen modifier on the server. This is a value that is added onto the Config specified regen.
+	 * A positive value will increase regen time, a negative value will decrease it.
+	 * 
+	 * WARNING! It is far better to use the increase and decrease methods for inter-mod compatibility.
+	 * To temporarily disable regen, simply set this to an almost unreachable value, such as 9999999999.
+	 * 
+	 * If this makes combined regen ever go below 0, it will default to 1.
+	 * 
+	 * @author Elenai
+	 * @param player
+	 * @param modifier
+	 */
+	public void setRegenModifier(EntityPlayerMP player, int modifier) {
+		IRegen r = player.getCapability(RegenProvider.REGEN_CAP, null);
+			r.set(modifier);
+			PacketHandler.instance.sendTo(new CUpdateRegenMessage(r.getRegen()), player);
+	}
+	
+	/**
+	 * Increases the player's regen modifier on the server. This is a value that is added onto the Config specified regen.
+	 * A positive value will increase regen time, a negative value will decrease it.
+	 * 
+	 * If this makes combined regen ever go below 0, it will default to 1.
+	 * 
+	 * @author Elenai
+	 * @param player
+	 * @param modifier
+	 */
+	public void increaseRegenModifier(EntityPlayerMP player, int modifier) {
+		IRegen r = player.getCapability(RegenProvider.REGEN_CAP, null);
+		r.increase(modifier);
+		PacketHandler.instance.sendTo(new CUpdateRegenMessage(r.getRegen()), player);
+	}
+	
+	/**
+	 * Decreases the player's regen modifier on the server. This is a value that is added onto the Config specified regen.
+	 * A positive value will increase regen time, a negative value will decrease it.
+	 * 
+	 * If this makes combined regen ever go below 0, it will default to 1.
+	 * 
+	 * @author Elenai
+	 * @param player
+	 * @param modifier
+	 */
+	public void decreaseRegenModifier(EntityPlayerMP player, int modifier) {
+		IRegen r = player.getCapability(RegenProvider.REGEN_CAP, null);
+		r.decrease(modifier);
+		PacketHandler.instance.sendTo(new CUpdateRegenMessage(r.getRegen()), player);
 	}
 
 }

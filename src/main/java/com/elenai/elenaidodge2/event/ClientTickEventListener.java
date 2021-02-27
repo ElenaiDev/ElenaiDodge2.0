@@ -126,7 +126,11 @@ public class ClientTickEventListener {
 							ClientStorage.dodges++;
 							PacketHandler.instance.sendToServer(new SDodgeRegenMessage(ClientStorage.dodges));
 							flashes = 0;
-							regen = ClientStorage.regenSpeed;
+							if(ClientStorage.regenSpeed + ClientStorage.regenModifier > 0) {
+							regen = ClientStorage.regenSpeed + ClientStorage.regenModifier;
+							} else {
+								regen = 1;
+							}
 						}
 					}
 				}

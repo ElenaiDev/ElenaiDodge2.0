@@ -3,10 +3,13 @@ package com.elenai.elenaidodge2.event;
 import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.capability.joined.IJoined;
 import com.elenai.elenaidodge2.capability.joined.JoinedProvider;
+import com.elenai.elenaidodge2.capability.regen.IRegen;
+import com.elenai.elenaidodge2.capability.regen.RegenProvider;
 import com.elenai.elenaidodge2.capability.weight.IWeight;
 import com.elenai.elenaidodge2.capability.weight.WeightProvider;
 import com.elenai.elenaidodge2.network.PacketHandler;
 import com.elenai.elenaidodge2.network.message.CPatronMessage;
+import com.elenai.elenaidodge2.network.message.CUpdateRegenMessage;
 import com.elenai.elenaidodge2.network.message.CUpdateWeightMessage;
 import com.elenai.elenaidodge2.util.PatronRewardHandler;
 import com.elenai.elenaidodge2.util.Utils;
@@ -40,8 +43,13 @@ public class ConfigEventListener {
 		if (event.getEntity() instanceof EntityPlayerMP && !event.getEntity().world.isRemote) {
 			PacketHandler.instance.sendTo(new CPatronMessage(PatronRewardHandler.getTier((EntityPlayerMP) event.getEntity())), (EntityPlayerMP) event.getEntity());
 			Utils.updateClientConfig((EntityPlayerMP) event.getEntity());
+			
 			IWeight w = event.getEntity().getCapability(WeightProvider.WEIGHT_CAP, null);
 			PacketHandler.instance.sendTo(new CUpdateWeightMessage(w.getWeight()), (EntityPlayerMP) event.getEntity());
+			
+			IRegen r = event.getEntity().getCapability(RegenProvider.REGEN_CAP, null);
+			PacketHandler.instance.sendTo(new CUpdateRegenMessage(r.getRegen()), (EntityPlayerMP) event.getEntity());
+			
 			IJoined j = event.getEntity().getCapability(JoinedProvider.JOINED_CAP, null);
 			if (!j.hasJoined()) {
 				Utils.initPlayer((EntityPlayer) event.getEntity());
