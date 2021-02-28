@@ -1,6 +1,6 @@
 # Elenai Dodge 2
 
-Elenai Dodge 2 is a dodging mod that serves as an API for all my fuure projects
+Elenai Dodge 2 is a dodging mod that serves as an API for all my future projects
 
 ## Installation
 
