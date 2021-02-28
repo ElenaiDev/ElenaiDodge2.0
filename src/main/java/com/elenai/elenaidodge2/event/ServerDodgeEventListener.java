@@ -1,5 +1,6 @@
 package com.elenai.elenaidodge2.event;
 
+import com.elenai.elenaidodge2.api.CheckFeatherEvent;
 import com.elenai.elenaidodge2.api.DodgeEvent.ServerDodgeEvent;
 import com.elenai.elenaidodge2.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge2.capability.dodges.DodgesProvider;
@@ -9,9 +10,11 @@ import com.elenai.elenaidodge2.list.PotionList;
 import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ServerDodgeEventListener {
@@ -76,6 +79,9 @@ public class ServerDodgeEventListener {
 		if (event.getForce() <= 0) {
 			event.setCanceled(true);
 		}
+		
+		CheckFeatherEvent e = new CheckFeatherEvent((ServerPlayerEntity) player);
+		if(!MinecraftForge.EVENT_BUS.post(e)) {
 		player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
 			player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 				if(d.getDodges() + a.getAbsorption() < ConfigHandler.cost) {
@@ -91,7 +97,7 @@ public class ServerDodgeEventListener {
 				
 			});
 
-		});
+		});}
 		
 	}
 }

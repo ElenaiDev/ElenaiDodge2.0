@@ -55,7 +55,7 @@ public final class ConfigHandler {
 					.define("hud.fadeout", false);
 			flash = builder.comment(
 					"Whether the Dodge Gui flashes when the player attempts to dodge when they haven't got enough feathers or too high a weight.")
-					.define("hud.flash", true);
+					.define("hud.flash", false);
 
 		}
 	}

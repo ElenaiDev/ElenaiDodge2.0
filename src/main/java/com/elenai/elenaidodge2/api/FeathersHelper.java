@@ -174,6 +174,19 @@ public class FeathersHelper {
 				new RegenModifierMessageToClient(r.getRegen()));
 	});
 	}
+	
+	/**
+	 * Returns the player's regen modifier on the server.
+	 * 
+	 * @author Elenai
+	 * @param player
+	 * @return The player's regen modifier
+	 */
+	public int getRegenModifier(ServerPlayerEntity player) {
+		return player.getCapability(RegenProvider.REGEN_CAP).map(r -> {
+			return r.getRegen();
+		}).orElse(0);
+	}
 
 	
 }
