@@ -1,6 +1,7 @@
 package com.elenai.elenaidodge2.event;
 
 import com.elenai.elenaidodge2.ModConfig;
+import com.elenai.elenaidodge2.api.CheckFeatherEvent;
 import com.elenai.elenaidodge2.api.DodgeEvent.ServerDodgeEvent;
 import com.elenai.elenaidodge2.capability.absorption.AbsorptionProvider;
 import com.elenai.elenaidodge2.capability.absorption.IAbsorption;
@@ -14,6 +15,7 @@ import com.elenai.elenaidodge2.util.Utils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ServerDodgeEventListener {
@@ -42,10 +44,12 @@ public class ServerDodgeEventListener {
 		
 		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
 		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
+		CheckFeatherEvent cfe = new CheckFeatherEvent(player);
+		if(!MinecraftForge.EVENT_BUS.post(cfe)) {
 		if(d.getDodges() + a.getAbsorption() < ModConfig.common.feathers.cost) {
 			Utils.cancelledByFeathers(player);
 			event.setCanceled(true);
-		}
+		}}
 		
 		if(player.isRiding()) {
 			event.setCanceled(true);
@@ -86,10 +90,11 @@ public class ServerDodgeEventListener {
 			event.setCanceled(true);
 		}
 		
+		if(!MinecraftForge.EVENT_BUS.post(cfe)) {
 		IWeight w = player.getCapability(WeightProvider.WEIGHT_CAP, null);
 		if((w.getWeight() > 0) && (d.getDodges() - ModConfig.common.feathers.cost < w.getWeight() && a.getAbsorption() - ModConfig.common.feathers.cost < 0)) {
 			Utils.cancelledByFeathers(player);
 			event.setCanceled(true);
-		}
+		}}
 	}
 }

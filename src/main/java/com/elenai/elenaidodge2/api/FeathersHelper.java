@@ -166,5 +166,17 @@ public class FeathersHelper {
 		r.decrease(modifier);
 		PacketHandler.instance.sendTo(new CUpdateRegenMessage(r.getRegen()), player);
 	}
+	
+	/**
+	 * Returns the player's regen modifier on the server.
+	 * 
+	 * @author Elenai
+	 * @param player
+	 * @return The player's regen modifier
+	 */
+	public int getRegenModifier(EntityPlayerSP player) {
+		IRegen r = player.getCapability(RegenProvider.REGEN_CAP, null);
+		return r.getRegen();
+	}
 
 }

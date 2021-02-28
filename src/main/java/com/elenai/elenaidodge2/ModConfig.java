@@ -50,7 +50,7 @@ public class ModConfig {
 			
 			@Name("Visual Dodge Failure")
 			@Comment("Whether the feather bar will flash when the player attempts to dodge without the required feathers or too high a weight.")
-			public boolean flash = true;
+			public boolean flash = false;
 
 			@Name("Show Tutorial")
 			@Comment("Whether to show the tutorial on joining a new world.")
