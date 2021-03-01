@@ -118,7 +118,7 @@ public class ClientTickEventListener {
                         }
                     } else if (regen > 0) {
                         regen--;
-                    } else if (regen <= 0) {
+                    } else {
 
                         if (ModList.get().isLoaded("toughasnails")) {
                             NetworkHandler.simpleChannel.sendToServer(new ThirstMessageToServer());
