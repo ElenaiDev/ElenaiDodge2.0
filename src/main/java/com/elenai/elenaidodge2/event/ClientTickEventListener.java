@@ -128,7 +128,7 @@ public class ClientTickEventListener {
                         NetworkHandler.simpleChannel.sendToServer(new DodgeRegenMessageToServer(ClientStorage.dodges));
                         flashes = 0;
                         int timer = ClientStorage.regenSpeed + ClientStorage.regenModifier;
-                        timer = (int) ((player.getAttributeValue(DodgeAttributes.FEATHERREGEN.get()) * timer + 1) / timer);
+                        timer = (int) (timer / (player.getAttributeValue(DodgeAttributes.FEATHERREGEN.get()) * timer + 1));
                         if (timer > 0) {
                             regen = timer;
                         } else {

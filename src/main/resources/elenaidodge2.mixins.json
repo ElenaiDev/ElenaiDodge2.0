@@ -2,7 +2,7 @@
   "required": true,
   "package": "com.elenai.elenaidodge2.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "wardance.refmap.json",
+  "refmap": "elenaidodge2.refmap.json",
   "mixins": [
     "MixinPlayerAttribute"
   ],

@@ -13,5 +13,5 @@ public class DodgeAttributes {
     /**
      * measured in feathers per tick.
      */
-    public static final RegistryObject<Attribute> FEATHERREGEN = ATTRIBUTES.register("feather_regeneration", () -> new RangedAttribute(ElenaiDodge2.MODID + ".featherTicks", 0d, Double.MIN_VALUE, Double.MAX_VALUE).setShouldWatch(true));
+    public static final RegistryObject<Attribute> FEATHERREGEN = ATTRIBUTES.register("feather_regeneration", () -> new RangedAttribute(ElenaiDodge2.MODID + ".featherTicks", 0d, -Double.MAX_VALUE, Double.MAX_VALUE).setShouldWatch(true));
 }
