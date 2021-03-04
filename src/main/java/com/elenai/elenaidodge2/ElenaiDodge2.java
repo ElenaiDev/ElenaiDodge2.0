@@ -1,6 +1,5 @@
 package com.elenai.elenaidodge2;
 
-import com.elenai.elenaidodge2.api.DodgeAttributes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,6 +30,5 @@ public class ElenaiDodge2 {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		ItemList.ITEMS.register(bus);
-		DodgeAttributes.ATTRIBUTES.register(bus);
 	   }
 }
