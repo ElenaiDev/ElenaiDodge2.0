@@ -3,6 +3,7 @@ package com.elenai.elenaidodge2.init;
 import com.elenai.elenaidodge2.potions.AbsorptionPotion;
 import com.elenai.elenaidodge2.potions.BasePotion;
 import com.elenai.elenaidodge2.potions.EndurancePotion;
+import com.elenai.elenaidodge2.potions.RegenPotion;
 import com.elenai.elenaidodge2.potions.WeightPotion;
 
 import net.minecraft.init.Items;
@@ -15,10 +16,11 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class PotionInit {
 	public static final Potion FEATHERS_EFFECT = new AbsorptionPotion("feathers", false, 13882323, 0, 0);
-	public static final Potion WEIGHT_EFFECT = new WeightPotion("weight", false, 5533805, 0, 1);
+	public static final Potion WEIGHT_EFFECT = new WeightPotion("weight", true, 5533805, 0, 1);
 	public static final Potion ENDURANCE_EFFECT = new EndurancePotion("endurance", false, 9318976, 1, 0);
 	public static final Potion FORCEFUL_EFFECT = new BasePotion("forceful", false, 5534118, 2, 0);
-	public static final Potion FEEBLE_EFFECT = new BasePotion("feeble", false, 10693147, 1, 1);
+	public static final Potion FEEBLE_EFFECT = new BasePotion("feeble", true, 10693147, 1, 1);
+	public static final Potion RENEWAL_EFFECT = new RegenPotion("renewal", false, 3093071, 2, 1);
 	
 	public static final PotionType FEATHERS = new PotionType("feathers", new PotionEffect[] {new PotionEffect(FEATHERS_EFFECT, 3600)}).setRegistryName("feathers");
 	public static final PotionType LONG_FEATHERS = new PotionType("feathers", new PotionEffect[] {new PotionEffect(FEATHERS_EFFECT, 9600)}).setRegistryName("long_feathers");
@@ -39,13 +41,18 @@ public class PotionInit {
 	public static final PotionType LONG_FEEBLE = new PotionType("feeble", new PotionEffect[] {new PotionEffect(FEEBLE_EFFECT, 9600)}).setRegistryName("long_feeble");
 	public static final PotionType STRONG_FEEBLE = new PotionType("feeble", new PotionEffect[] {new PotionEffect(FEEBLE_EFFECT, 1800, 1)}).setRegistryName("strong_feeble");
 	
+	public static final PotionType RENEWAL = new PotionType("renewal", new PotionEffect[] {new PotionEffect(RENEWAL_EFFECT, 3600)}).setRegistryName("renewal");
+	public static final PotionType LONG_RENEWAL = new PotionType("renewal", new PotionEffect[] {new PotionEffect(RENEWAL_EFFECT, 9600)}).setRegistryName("long_renewal");
+	public static final PotionType STRONG_RENEWAL = new PotionType("renewal", new PotionEffect[] {new PotionEffect(RENEWAL_EFFECT, 1800, 1)}).setRegistryName("strong_renewal");
+	
 	public static void registerPotions() {
 		registerPotion(FEATHERS, LONG_FEATHERS, STRONG_FEATHERS, FEATHERS_EFFECT);
 		registerPotion(WEIGHT, LONG_WEIGHT, WEIGHT_EFFECT);
 		registerPotion(ENDURANCE, LONG_ENDURANCE, STRONG_ENDURANCE, ENDURANCE_EFFECT);
 		registerPotion(FORCEFUL, LONG_FORCEFUL, STRONG_FORCEFUL, FORCEFUL_EFFECT);
 		registerPotion(FEEBLE, LONG_FEEBLE, STRONG_FEEBLE, FEEBLE_EFFECT);
-
+		registerPotion(RENEWAL, LONG_RENEWAL, STRONG_RENEWAL, RENEWAL_EFFECT);
+		
 		registerPotionMixes();
 	}
 	
@@ -81,11 +88,21 @@ public class PotionInit {
 		PotionHelper.addMix(WEIGHT, Items.REDSTONE, LONG_WEIGHT);
 		
 		PotionHelper.addMix(PotionTypes.SWIFTNESS, Items.FEATHER, FORCEFUL);
-		PotionHelper.addMix(PotionTypes.LONG_SWIFTNESS, Items.FEATHER, LONG_FORCEFUL);
-		PotionHelper.addMix(PotionTypes.STRONG_SWIFTNESS, Items.FEATHER, STRONG_FORCEFUL);
+		PotionHelper.addMix(PotionTypes.LONG_SWIFTNESS, ItemInit.IRON_FEATHER, LONG_FORCEFUL);
+		PotionHelper.addMix(PotionTypes.STRONG_SWIFTNESS, ItemInit.IRON_FEATHER, STRONG_FORCEFUL);
+		PotionHelper.addMix(FORCEFUL, Items.REDSTONE, LONG_FORCEFUL);
+		PotionHelper.addMix(FORCEFUL, Items.GLOWSTONE_DUST, STRONG_FORCEFUL);
 		
-		PotionHelper.addMix(PotionTypes.SLOWNESS, Items.FEATHER, FEEBLE);
-		PotionHelper.addMix(PotionTypes.LONG_SLOWNESS, Items.FEATHER, LONG_FEEBLE);
+		PotionHelper.addMix(PotionTypes.REGENERATION, ItemInit.GOLDEN_FEATHER, RENEWAL);
+		PotionHelper.addMix(PotionTypes.LONG_REGENERATION, ItemInit.GOLDEN_FEATHER, LONG_RENEWAL);
+		PotionHelper.addMix(PotionTypes.STRONG_REGENERATION, ItemInit.GOLDEN_FEATHER, STRONG_RENEWAL);
+		PotionHelper.addMix(RENEWAL, Items.REDSTONE, LONG_RENEWAL);
+		PotionHelper.addMix(RENEWAL, Items.GLOWSTONE_DUST, STRONG_RENEWAL);
+		
+		PotionHelper.addMix(PotionTypes.SLOWNESS, ItemInit.IRON_FEATHER, FEEBLE);
+		PotionHelper.addMix(PotionTypes.LONG_SLOWNESS, ItemInit.IRON_FEATHER, LONG_FEEBLE);
+		PotionHelper.addMix(FEEBLE, Items.REDSTONE, LONG_FEEBLE);
+		PotionHelper.addMix(FEEBLE, Items.GLOWSTONE_DUST, STRONG_FEEBLE);
 	}
 	
 }
