@@ -3,7 +3,7 @@ package com.elenai.elenaidodge2.init;
 import com.elenai.elenaidodge2.potions.AbsorptionPotion;
 import com.elenai.elenaidodge2.potions.BasePotion;
 import com.elenai.elenaidodge2.potions.EndurancePotion;
-import com.elenai.elenaidodge2.potions.RegenPotion;
+import com.elenai.elenaidodge2.potions.ReplenishmentPotion;
 import com.elenai.elenaidodge2.potions.WeightPotion;
 
 import net.minecraft.init.Items;
@@ -20,7 +20,7 @@ public class PotionInit {
 	public static final Potion ENDURANCE_EFFECT = new EndurancePotion("endurance", false, 9318976, 1, 0);
 	public static final Potion FORCEFUL_EFFECT = new BasePotion("forceful", false, 5534118, 2, 0);
 	public static final Potion FEEBLE_EFFECT = new BasePotion("feeble", true, 10693147, 1, 1);
-	public static final Potion REPLENISHMENT_EFFECT = new RegenPotion("replenishment", false, 3093071, 0, 2);
+	public static final Potion REPLENISHMENT_EFFECT = new ReplenishmentPotion("replenishment", false, 3093071, 0, 2);
 	
 	public static final PotionType FEATHERS = new PotionType("feathers", new PotionEffect[] {new PotionEffect(FEATHERS_EFFECT, 3600)}).setRegistryName("feathers");
 	public static final PotionType LONG_FEATHERS = new PotionType("feathers", new PotionEffect[] {new PotionEffect(FEATHERS_EFFECT, 9600)}).setRegistryName("long_feathers");

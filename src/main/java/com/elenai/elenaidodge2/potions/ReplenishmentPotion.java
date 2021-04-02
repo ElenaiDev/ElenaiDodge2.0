@@ -10,9 +10,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 
-public class RegenPotion extends Potion {
+public class ReplenishmentPotion extends Potion {
 
-	public RegenPotion(String name, boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
+	public ReplenishmentPotion(String name, boolean isBadEffectIn, int liquidColorIn, int iconIndexX, int iconIndexY) {
 		super(isBadEffectIn, liquidColorIn);
 		
 		setPotionName("effect." + name);
