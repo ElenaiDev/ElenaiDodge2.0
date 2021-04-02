@@ -16,7 +16,7 @@ public class ToughAsNailsServer {
 
 	public void addThirst() {
 		IThirst thirstManager = ThirstHelper.getThirstData(player);
-		if(thirstManager.getThirst() >= 18) {
+		if(thirstManager.getThirst() >= 18 && ModConfig.common.integration.toughAsNails.enabled) {
 			thirstManager.setExhaustion(thirstManager.getExhaustion() + (float) ModConfig.common.integration.toughAsNails.exhaustion); // UPDATE
 		}
 	}

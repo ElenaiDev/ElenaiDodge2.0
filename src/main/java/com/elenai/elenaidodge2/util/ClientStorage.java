@@ -19,5 +19,6 @@ public class ClientStorage {
 	public static int weight = 0;
 	public static int regenSpeed;
 	public static int absorption = 0;
+	public static boolean tanEnabled;
 
 }

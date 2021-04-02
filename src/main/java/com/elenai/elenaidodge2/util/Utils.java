@@ -18,13 +18,16 @@ import com.elenai.elenaidodge2.network.message.CInitPlayerMessage;
 import com.elenai.elenaidodge2.network.message.CUpdateConfigMessage;
 import com.elenai.elenaidodge2.network.message.CVelocityMessage;
 
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.common.Loader;
 
 public class Utils {
 
@@ -134,7 +137,7 @@ public class Utils {
 		IDodges d = player.getCapability(DodgesProvider.DODGES_CAP, null);
 		IAbsorption a = player.getCapability(AbsorptionProvider.ABSORPTION_CAP, null);
 		PacketHandler.instance.sendTo(new CUpdateConfigMessage(ModConfig.common.feathers.rate, d.getDodges(), arrayToString(ModConfig.common.weights.weights),
-				ModConfig.common.feathers.half, a.getAbsorption()), player);
+				ModConfig.common.feathers.half, a.getAbsorption(), ModConfig.common.integration.toughAsNails.enabled), player);
 	}
 	
 	/**
@@ -143,7 +146,7 @@ public class Utils {
 	 */
 	public static void updateClientConfig() {
 		PacketHandler.instance.sendToAll(new CUpdateConfigMessage(ModConfig.common.feathers.rate, 9999, arrayToString(ModConfig.common.weights.weights),
-				ModConfig.common.feathers.half, 9999));
+				ModConfig.common.feathers.half, 9999, ModConfig.common.integration.toughAsNails.enabled));
 	}
 	
 	/**
@@ -205,6 +208,38 @@ public class Utils {
 			DodgeGui.alpha = 1f;
 			ClientTickEventListener.alpha = ClientTickEventListener.alphaLen;
 		}
+	}
+	
+	/**
+	 * Checks if the player has the Dodge trait added in Reskillable implementation.
+	 * If Reskillable is not installed, this will simply return true.
+	 * 
+	 * @return Dodge Trait Unlocked
+	 * @author Elenai
+	 */
+	public static boolean dodgeTraitUnlocked(EntityPlayer player) {
+		if (Loader.isModLoaded("reskillable")) {
+			return (codersafterdark.reskillable.api.data.PlayerDataHandler.get(player)
+					.getSkillInfo(codersafterdark.reskillable.api.ReskillableRegistries.SKILLS
+							.getValue(new ResourceLocation(codersafterdark.reskillable.lib.LibMisc.MOD_ID, "agility")))
+					.isUnlocked(codersafterdark.reskillable.api.ReskillableRegistries.UNLOCKABLES
+							.getValue(new ResourceLocation(ElenaiDodge2.MODID, "dodge"))));
+		}
+		return true;
+	}
+	
+	/**
+	 * Checks if the player has the TAN implementation enabled and the mod is present on the Client.
+	 * If Reskillable is not installed, this will simply return true.
+	 * 
+	 * @return Dodge Trait Unlocked
+	 * @author Elenai
+	 */
+	public static boolean tanEnabled(EntityPlayerSP player) {
+		if (Loader.isModLoaded("toughasnails") && ClientStorage.tanEnabled) {
+			return true;
+		}
+		return false;
 	}
 	
 }

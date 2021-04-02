@@ -6,6 +6,7 @@ import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.ModConfig;
 import com.elenai.elenaidodge2.util.ClientStorage;
 import com.elenai.elenaidodge2.util.PatronRewardHandler;
+import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -26,7 +27,7 @@ public class DodgeGui {
 
 	@SubscribeEvent
 	public void onRenderDodgeGUIEvent(RenderGameOverlayEvent.Post event) {
-		if (ModConfig.client.hud.hud && !Minecraft.getMinecraft().player.isCreative() && !Minecraft.getMinecraft().player.isSpectator()) {
+		if (ModConfig.client.hud.hud && !Minecraft.getMinecraft().player.isCreative() && !Minecraft.getMinecraft().player.isSpectator() && Utils.dodgeTraitUnlocked(Minecraft.getMinecraft().player)) {
 
 			if((event.getType() == ElementType.ALL && ModConfig.client.hud.compatHud) || (event.getType() == ElementType.FOOD && !ModConfig.client.hud.compatHud)) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(DODGE_ICONS);

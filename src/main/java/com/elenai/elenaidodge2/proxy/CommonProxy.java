@@ -81,10 +81,8 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new ItemInit());
 		MinecraftForge.EVENT_BUS.register(new PlayerSleepEventListener());
 		MinecraftForge.EVENT_BUS.register(new InvincibilityEventListener());
-
-
 	}
-
+	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 

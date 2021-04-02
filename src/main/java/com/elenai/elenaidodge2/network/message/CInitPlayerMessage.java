@@ -6,6 +6,7 @@ import com.elenai.elenaidodge2.util.ClientStorage;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -66,7 +67,7 @@ public class CInitPlayerMessage implements IMessage {
 
 		void processMessage(CInitPlayerMessage message, MessageContext ctx) {
 				ClientStorage.dodges = message.dodges;
-				if(ModConfig.client.hud.tutorial) {
+				if(ModConfig.client.hud.tutorial && !Loader.isModLoaded("reskillable")) {
 				ClientStorage.shownTutorial = false;
 				ClientStorage.tutorialDodges = 0;
 				}

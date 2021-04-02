@@ -20,7 +20,7 @@ public class CUpdateConfigMessage implements IMessage {
 
 	private int regenRate, dodges, absorption;
 	private String weights;
-	private boolean half;
+	private boolean half, tanEnabled;
 
 	private boolean messageValid;
 
@@ -28,12 +28,13 @@ public class CUpdateConfigMessage implements IMessage {
 		this.messageValid = false;
 	}
 
-	public CUpdateConfigMessage(int regenRate, int dodges, String weights, boolean half, int absorption) {
+	public CUpdateConfigMessage(int regenRate, int dodges, String weights, boolean half, int absorption, boolean tanEnabled) {
 		this.regenRate = regenRate;
 		this.dodges = dodges;
 		this.weights = weights;
 		this.half = half;
 		this.absorption = absorption;
+		this.tanEnabled = tanEnabled;
 
 
 		this.messageValid = true;
@@ -47,6 +48,7 @@ public class CUpdateConfigMessage implements IMessage {
 			this.weights = ByteBufUtils.readUTF8String(buf);
 			this.half = buf.readBoolean();
 			this.absorption = buf.readInt();
+			this.tanEnabled = buf.readBoolean();
 
 
 		} catch (IndexOutOfBoundsException ioe) {
@@ -66,6 +68,7 @@ public class CUpdateConfigMessage implements IMessage {
 		ByteBufUtils.writeUTF8String(buf, weights);
 		buf.writeBoolean(half);
 		buf.writeInt(absorption);
+		buf.writeBoolean(tanEnabled);
 
 	}
 
@@ -90,6 +93,7 @@ public class CUpdateConfigMessage implements IMessage {
 			}
 			ClientStorage.weightValues = message.weights;
 			ClientStorage.halfFeathers = message.half;
+			ClientStorage.tanEnabled = message.tanEnabled;
 			
 			// Forces Armor Refresh
 			ArmorTickEventListener.previousArmor.clear();

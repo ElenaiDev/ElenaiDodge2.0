@@ -2,6 +2,9 @@ key.elenaidodge2.dodge=Dodge
 elenaidodge2.general.common.weights.weights=Weights Override
 elenaidodge2.general.common.balance.potions=Potion Blacklist
 
+reskillable.unlock.elenaidodge2.dodge=Dodge
+reskillable.unlock.elenaidodge2.dodge.desc=Your hardwork is finally starting to pay off. You are now able to dodge enemy attacks!
+
 tutorial.dodge.title=Hold down %s
 tutorial.dodge.description=Dodge with %s, %s, %s or %s
 
@@ -16,6 +19,12 @@ splash_potion.effect.feathers=Splash Potion of Feathers
 lingering_potion.effect.feathers=Lingering Potion of Feathers
 tipped_arrow.effect.feathers=Arrow of Feathers
 effect.feathers=Feathery
+
+potion.effect.replenishment=Potion of Replenishment
+splash_potion.effect.replenishment=Splash Potion of Replenishment
+lingering_potion.effect.replenishment=Lingering Potion of Replenishment
+tipped_arrow.effect.replenishment=Arrow of Replenishment
+effect.replenishment=Replenishment
 
 potion.effect.weight=Potion of Weight
 splash_potion.effect.weight=Splash Potion of Weight

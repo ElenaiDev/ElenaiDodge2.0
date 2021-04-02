@@ -20,7 +20,7 @@ public class PotionInit {
 	public static final Potion ENDURANCE_EFFECT = new EndurancePotion("endurance", false, 9318976, 1, 0);
 	public static final Potion FORCEFUL_EFFECT = new BasePotion("forceful", false, 5534118, 2, 0);
 	public static final Potion FEEBLE_EFFECT = new BasePotion("feeble", true, 10693147, 1, 1);
-	public static final Potion RENEWAL_EFFECT = new RegenPotion("renewal", false, 3093071, 2, 1);
+	public static final Potion REPLENISHMENT_EFFECT = new RegenPotion("replenishment", false, 3093071, 0, 2);
 	
 	public static final PotionType FEATHERS = new PotionType("feathers", new PotionEffect[] {new PotionEffect(FEATHERS_EFFECT, 3600)}).setRegistryName("feathers");
 	public static final PotionType LONG_FEATHERS = new PotionType("feathers", new PotionEffect[] {new PotionEffect(FEATHERS_EFFECT, 9600)}).setRegistryName("long_feathers");
@@ -41,9 +41,9 @@ public class PotionInit {
 	public static final PotionType LONG_FEEBLE = new PotionType("feeble", new PotionEffect[] {new PotionEffect(FEEBLE_EFFECT, 9600)}).setRegistryName("long_feeble");
 	public static final PotionType STRONG_FEEBLE = new PotionType("feeble", new PotionEffect[] {new PotionEffect(FEEBLE_EFFECT, 1800, 1)}).setRegistryName("strong_feeble");
 	
-	public static final PotionType RENEWAL = new PotionType("renewal", new PotionEffect[] {new PotionEffect(RENEWAL_EFFECT, 3600)}).setRegistryName("renewal");
-	public static final PotionType LONG_RENEWAL = new PotionType("renewal", new PotionEffect[] {new PotionEffect(RENEWAL_EFFECT, 9600)}).setRegistryName("long_renewal");
-	public static final PotionType STRONG_RENEWAL = new PotionType("renewal", new PotionEffect[] {new PotionEffect(RENEWAL_EFFECT, 1800, 1)}).setRegistryName("strong_renewal");
+	public static final PotionType REPLENISHMENT = new PotionType("replenishment", new PotionEffect[] {new PotionEffect(REPLENISHMENT_EFFECT, 900)}).setRegistryName("replenishment");
+	public static final PotionType LONG_REPLENISHMENT = new PotionType("replenishment", new PotionEffect[] {new PotionEffect(REPLENISHMENT_EFFECT, 1800)}).setRegistryName("long_replenishment");
+	public static final PotionType STRONG_REPLENISHMENT = new PotionType("replenishment", new PotionEffect[] {new PotionEffect(REPLENISHMENT_EFFECT, 440, 1)}).setRegistryName("strong_replenishment");
 	
 	public static void registerPotions() {
 		registerPotion(FEATHERS, LONG_FEATHERS, STRONG_FEATHERS, FEATHERS_EFFECT);
@@ -51,7 +51,7 @@ public class PotionInit {
 		registerPotion(ENDURANCE, LONG_ENDURANCE, STRONG_ENDURANCE, ENDURANCE_EFFECT);
 		registerPotion(FORCEFUL, LONG_FORCEFUL, STRONG_FORCEFUL, FORCEFUL_EFFECT);
 		registerPotion(FEEBLE, LONG_FEEBLE, STRONG_FEEBLE, FEEBLE_EFFECT);
-		registerPotion(RENEWAL, LONG_RENEWAL, STRONG_RENEWAL, RENEWAL_EFFECT);
+		registerPotion(REPLENISHMENT, LONG_REPLENISHMENT, STRONG_REPLENISHMENT, REPLENISHMENT_EFFECT);
 		
 		registerPotionMixes();
 	}
@@ -93,11 +93,11 @@ public class PotionInit {
 		PotionHelper.addMix(FORCEFUL, Items.REDSTONE, LONG_FORCEFUL);
 		PotionHelper.addMix(FORCEFUL, Items.GLOWSTONE_DUST, STRONG_FORCEFUL);
 		
-		PotionHelper.addMix(PotionTypes.REGENERATION, ItemInit.GOLDEN_FEATHER, RENEWAL);
-		PotionHelper.addMix(PotionTypes.LONG_REGENERATION, ItemInit.GOLDEN_FEATHER, LONG_RENEWAL);
-		PotionHelper.addMix(PotionTypes.STRONG_REGENERATION, ItemInit.GOLDEN_FEATHER, STRONG_RENEWAL);
-		PotionHelper.addMix(RENEWAL, Items.REDSTONE, LONG_RENEWAL);
-		PotionHelper.addMix(RENEWAL, Items.GLOWSTONE_DUST, STRONG_RENEWAL);
+		PotionHelper.addMix(PotionTypes.REGENERATION, ItemInit.GOLDEN_FEATHER, REPLENISHMENT);
+		PotionHelper.addMix(PotionTypes.LONG_REGENERATION, ItemInit.GOLDEN_FEATHER, LONG_REPLENISHMENT);
+		PotionHelper.addMix(PotionTypes.STRONG_REGENERATION, ItemInit.GOLDEN_FEATHER, STRONG_REPLENISHMENT);
+		PotionHelper.addMix(REPLENISHMENT, Items.REDSTONE, LONG_REPLENISHMENT);
+		PotionHelper.addMix(REPLENISHMENT, Items.GLOWSTONE_DUST, STRONG_REPLENISHMENT);
 		
 		PotionHelper.addMix(PotionTypes.SLOWNESS, ItemInit.IRON_FEATHER, FEEBLE);
 		PotionHelper.addMix(PotionTypes.LONG_SLOWNESS, ItemInit.IRON_FEATHER, LONG_FEEBLE);

@@ -120,6 +120,11 @@ public class ModConfig {
 			@Comment("How many half feathers dodging requires.")
 			@RangeInt(min = 0, max = 20)
 			public int cost = 2;
+			
+			@Name("Airborne Cost")
+			@Comment("How many half feathers dodging midair requires. [Dodge Whilst Airborne must be Enabled]")
+			@RangeInt(min = 0, max = 20)
+			public int airborneCost = 4;
 
 			@Name("Regeneration Rate")
 			@Comment("The amount of ticks required to regenerate half a feather.")
@@ -296,6 +301,10 @@ public class ModConfig {
 			@Comment("How much exhaustion (thirstiness) is added when the player regenerates a dodge feather.")
 			@RangeDouble(min = 0.0, max = 40.0)
 			public double exhaustion = 6;
+			
+			@Name("Enabled")
+			@Comment("Whether to enable Tough as Nails support")
+			public boolean enabled = true;
 			}
 		}
 

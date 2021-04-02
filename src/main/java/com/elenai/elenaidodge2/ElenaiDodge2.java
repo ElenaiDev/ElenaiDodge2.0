@@ -3,8 +3,10 @@ package com.elenai.elenaidodge2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.elenai.elenaidodge2.integration.ReskillableTraitDodge;
 import com.elenai.elenaidodge2.proxy.CommonProxy;
 
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -34,10 +36,17 @@ public class ElenaiDodge2
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init(event);
+
+		if (Loader.isModLoaded("reskillable")) {
+			codersafterdark.reskillable.api.ReskillableRegistries.UNLOCKABLES.register(
+                new ReskillableTraitDodge()
+        );
+		}
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);
 	}
+
 }

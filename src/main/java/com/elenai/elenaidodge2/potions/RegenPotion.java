@@ -31,7 +31,7 @@ public class RegenPotion extends Potion {
 		super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
 		
 		if(entityLivingBaseIn instanceof EntityPlayerMP) {
-			FeathersHelper.decreaseRegenModifier((EntityPlayerMP) entityLivingBaseIn, (amplifier*20) + 40);
+			FeathersHelper.decreaseRegenModifier((EntityPlayerMP) entityLivingBaseIn, ((amplifier+1)*20) + 30);
 		}
 	}
 	
@@ -40,7 +40,7 @@ public class RegenPotion extends Potion {
 		super.removeAttributesModifiersFromEntity(entityLivingBaseIn, attributeMapIn, amplifier);	
 		
 		if(entityLivingBaseIn instanceof EntityPlayerMP) {
-			FeathersHelper.increaseRegenModifier((EntityPlayerMP) entityLivingBaseIn, (amplifier*20) + 40);
+			FeathersHelper.increaseRegenModifier((EntityPlayerMP) entityLivingBaseIn, ((amplifier+1)*20) + 30);
 		}
 	}
 
