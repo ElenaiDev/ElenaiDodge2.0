@@ -8,12 +8,12 @@ import com.elenai.elenaidodge2.network.NetworkHandler;
 import com.elenai.elenaidodge2.network.message.server.DodgeRegenMessageToServer;
 import com.elenai.elenaidodge2.network.message.server.ThirstMessageToServer;
 import com.elenai.elenaidodge2.util.ClientStorage;
+import com.elenai.elenaidodge2.util.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 
 public class ClientTickEventListener {
 
@@ -111,7 +111,7 @@ public class ClientTickEventListener {
 				// REGENERATION LOGIC
 				if (ClientStorage.dodges < 20) {
 
-					if (regen > 0 && ModList.get().isLoaded("toughasnails")) {
+					if (regen > 0 && Utils.tanEnabled(player)) {
 						if (ToughAsNailsClient.highThirst()) {
 							regen--;
 						}
@@ -119,7 +119,7 @@ public class ClientTickEventListener {
 						regen--;
 					} else if (regen <= 0) {
 
-						if (ModList.get().isLoaded("toughasnails")) {
+						if (Utils.tanEnabled(player)) {
 							NetworkHandler.simpleChannel.sendToServer(new ThirstMessageToServer());
 						}
 

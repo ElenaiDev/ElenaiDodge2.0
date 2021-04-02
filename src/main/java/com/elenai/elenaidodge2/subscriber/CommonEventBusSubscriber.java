@@ -38,6 +38,7 @@ import com.elenai.elenaidodge2.network.NetworkHandler;
 import com.elenai.elenaidodge2.potion.AbsorptionEffect;
 import com.elenai.elenaidodge2.potion.BaseEffect;
 import com.elenai.elenaidodge2.potion.EnduranceEffect;
+import com.elenai.elenaidodge2.potion.ReplenishmentEffect;
 import com.elenai.elenaidodge2.potion.WeightEffect;
 import com.elenai.elenaidodge2.util.PatronRewardHandler;
 
@@ -57,12 +58,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = ElenaiDodge2.MODID, bus = Bus.MOD)
 public class CommonEventBusSubscriber {
-	
+
 	@SubscribeEvent
 	public static void onStaticCommonSetup(FMLCommonSetupEvent event) {
 		NetworkHandler.init();
 		PatronRewardHandler.init();
-		
+
 		CapabilityManager.INSTANCE.register(IAbsorption.class, new AbsorptionStorage(), Absorption::new);
 		CapabilityManager.INSTANCE.register(IAbsorptionBool.class, new AbsorptionBoolStorage(), AbsorptionBool::new);
 		CapabilityManager.INSTANCE.register(IDodges.class, new DodgesStorage(), Dodges::new);
@@ -71,7 +72,7 @@ public class CommonEventBusSubscriber {
 		CapabilityManager.INSTANCE.register(IWeight.class, new WeightStorage(), Weight::new);
 		CapabilityManager.INSTANCE.register(IParticles.class, new ParticlesStorage(), Particles::new);
 		CapabilityManager.INSTANCE.register(IRegen.class, new RegenStorage(), Regen::new);
-		
+
 		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new TickEventListener());
 		MinecraftForge.EVENT_BUS.register(new ConfigEventListener());
@@ -79,10 +80,10 @@ public class CommonEventBusSubscriber {
 		MinecraftForge.EVENT_BUS.register(new InvincibilityEventListener());
 		MinecraftForge.EVENT_BUS.register(new PotionTickEventListener());
 
-		PotionList.addRecipes(); //TODO We will switch to Deferred Registries eventually
+		PotionList.addRecipes(); // TODO We will switch to Deferred Registries eventually
 
 	}
-	
+
 	@SubscribeEvent
 	public static void registerPotions(final RegistryEvent.Register<Potion> event) {
 		event.getRegistry().registerAll(
@@ -113,7 +114,14 @@ public class CommonEventBusSubscriber {
 				PotionList.LONG_FEEBLE = new Potion(new EffectInstance(PotionList.FEEBLE_EFFECT, 9600))
 						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "long_feeble")),
 				PotionList.STRONG_FEEBLE = new Potion(new EffectInstance(PotionList.FEEBLE_EFFECT, 1800, 1))
-						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "strong_feeble"))
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "strong_feeble")),
+				PotionList.REPLENISHMENT = new Potion(new EffectInstance(PotionList.REPLENISHMENT_EFFECT, 900))
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "replenishment")),
+				PotionList.LONG_REPLENISHMENT = new Potion(new EffectInstance(PotionList.REPLENISHMENT_EFFECT, 1800))
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "long_replenishment")),
+				PotionList.STRONG_REPLENISHMENT = new Potion(
+						new EffectInstance(PotionList.REPLENISHMENT_EFFECT, 440, 1))
+								.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "strong_replenishment"))
 
 		);
 	}
@@ -130,7 +138,9 @@ public class CommonEventBusSubscriber {
 				PotionList.FORCEFUL_EFFECT = new BaseEffect(EffectType.BENEFICIAL, 5534118)
 						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "forceful")),
 				PotionList.FEEBLE_EFFECT = new BaseEffect(EffectType.HARMFUL, 10693147)
-						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "feeble")));
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "feeble")),
+				PotionList.REPLENISHMENT_EFFECT = new ReplenishmentEffect(EffectType.BENEFICIAL, 3093071)
+						.setRegistryName(new ResourceLocation(ElenaiDodge2.MODID, "replenishment")));
 	}
 
 	@SubscribeEvent

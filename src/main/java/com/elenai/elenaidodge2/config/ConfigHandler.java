@@ -82,6 +82,7 @@ public final class ConfigHandler {
 		public final ForgeConfigSpec.ConfigValue<String> potions;
 		
 		public final ForgeConfigSpec.IntValue cost;
+		public final ForgeConfigSpec.IntValue airborneCost;
 		public final ForgeConfigSpec.IntValue rate;
 		public final ForgeConfigSpec.BooleanValue half;
 		
@@ -93,6 +94,8 @@ public final class ConfigHandler {
 		public final ForgeConfigSpec.BooleanValue enableParticles;
 
 		public final ForgeConfigSpec.DoubleValue tanCost;
+		public final ForgeConfigSpec.BooleanValue enableTan;
+
 		
 		public Common(ForgeConfigSpec.Builder builder) {
 
@@ -129,6 +132,9 @@ public final class ConfigHandler {
 			cost = builder
 					.comment("How many half feathers dodging requires.")
 					.defineInRange("feathers.cost", 2, 0, 20);
+			airborneCost = builder
+					.comment("How many half feathers dodging in midair requires. [Enable Whilst Airborne must be Enabled]")
+					.defineInRange("feathers.airborne_cost", 4, 0, 20);
 			rate = builder
 					.comment("The amount of ticks required to regenerate half a feather.")
 					.defineInRange("feathers.regen_rate", 80, 1, Integer.MAX_VALUE);
@@ -168,6 +174,9 @@ public final class ConfigHandler {
 			tanCost = builder
 					.comment("If Tough as Nails is installed: How much exhaustion (thirst) regenerating a feather costs. Idea Credit: ArtyArtyArtemis")
 					.defineInRange("integration.tough_as_nails_cost", 2d, 0d, 40d);
+			enableTan = builder
+					.comment("Whether to use TAN integration.")
+					.define("misc.enable_tough_as_nails", true);
 		}
 	}
 
@@ -207,8 +216,8 @@ public final class ConfigHandler {
 	
 	// Common
 	public static double force, verticality, exhaustion, tanCost;
-	public static int hunger, invincibilityTicks, cost, rate;
-	public static boolean enableWhilstSneaking, enableWhilstBlocking, enableWhilstAirborne, half, message, nether, end, enableParticles;
+	public static int hunger, invincibilityTicks, cost, rate, airborneCost;
+	public static boolean enableWhilstSneaking, enableWhilstBlocking, enableWhilstAirborne, half, message, nether, end, enableParticles, enableTan;
 	public static String[] potions = new String[] {};
 	public static String[] weights = new String[] {};
 
@@ -231,6 +240,8 @@ public final class ConfigHandler {
 		weights = COMMON.weights.get().split(",");
 		tanCost = COMMON.tanCost.get();
 		enableParticles = COMMON.enableParticles.get();
+		enableTan = COMMON.enableTan.get();
+		airborneCost = COMMON.airborneCost.get();
 
 	}
 }

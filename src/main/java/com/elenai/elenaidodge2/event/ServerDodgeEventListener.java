@@ -80,16 +80,18 @@ public class ServerDodgeEventListener {
 			event.setCanceled(true);
 		}
 		
+		int dodgeCost = player.isOnGround() ? ConfigHandler.cost : ConfigHandler.airborneCost;
+
 		CheckFeatherEvent e = new CheckFeatherEvent((ServerPlayerEntity) player);
 		if(!MinecraftForge.EVENT_BUS.post(e)) {
 		player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
 			player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
-				if(d.getDodges() + a.getAbsorption() < ConfigHandler.cost) {
+				if(d.getDodges() + a.getAbsorption() < dodgeCost) {
 					Utils.cancelledByFeathers(player);
 					event.setCanceled(true);
 				}
 				player.getCapability(WeightProvider.WEIGHT_CAP).ifPresent(w -> {
-					if((w.getWeight() > 0) && (d.getDodges() - ConfigHandler.cost < w.getWeight() && a.getAbsorption() - ConfigHandler.cost < 0)) {
+					if((w.getWeight() > 0) && (d.getDodges() - dodgeCost < w.getWeight() && a.getAbsorption() - dodgeCost < 0)) {
 						Utils.cancelledByFeathers(player);
 						event.setCanceled(true);
 					}

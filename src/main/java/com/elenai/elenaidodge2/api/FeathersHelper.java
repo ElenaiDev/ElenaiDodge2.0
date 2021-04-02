@@ -24,7 +24,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @return The player's feathers
 	 */
-	public int getFeatherLevel(ServerPlayerEntity player) {
+	public static int getFeatherLevel(ServerPlayerEntity player) {
 		return player.getCapability(DodgesProvider.DODGES_CAP).map(d -> {
 			return d.getDodges();
 		}).orElse(0);
@@ -37,7 +37,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @return The player's feathers
 	 */
-	public int getFeatherLevel(ClientPlayerEntity player) {
+	public static int getFeatherLevel(ClientPlayerEntity player) {
 		return ClientStorage.dodges;
 	}
 
@@ -48,7 +48,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @param amount
 	 */
-	public void increaseFeathers(ServerPlayerEntity player, int amount) {
+	public static void increaseFeathers(ServerPlayerEntity player, int amount) {
 		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 			if (d.getDodges() + amount <= 20) {
 				d.increase(amount);
@@ -68,7 +68,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @param amount
 	 */
-	public void decreaseFeathers(ServerPlayerEntity player, int amount) {
+	public static void decreaseFeathers(ServerPlayerEntity player, int amount) {
 		SpendFeatherEvent event = new SpendFeatherEvent(amount, player);
 		if(!MinecraftForge.EVENT_BUS.post(event)) {
 		player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
@@ -101,7 +101,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @return The player's weight
 	 */
-	public int getWeight(ServerPlayerEntity player) {
+	public static int getWeight(ServerPlayerEntity player) {
 		return player.getCapability(WeightProvider.WEIGHT_CAP).map(w -> {
 			return w.getWeight();
 		}).orElse(0);
@@ -114,7 +114,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @return The player's weight
 	 */
-	public int getWeight(ClientPlayerEntity player) {
+	public static int getWeight(ClientPlayerEntity player) {
 		return ClientStorage.weight;
 	}
 
@@ -131,7 +131,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @param modifier
 	 */
-	public void setRegenModifier(ServerPlayerEntity player, int modifier) {
+	public static void setRegenModifier(ServerPlayerEntity player, int modifier) {
 		player.getCapability(RegenProvider.REGEN_CAP).ifPresent(r -> {
 			r.set(modifier);
 		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player),
@@ -149,7 +149,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @param modifier
 	 */
-	public void increaseRegenModifier(ServerPlayerEntity player, int modifier) {
+	public static void increaseRegenModifier(ServerPlayerEntity player, int modifier) {
 		player.getCapability(RegenProvider.REGEN_CAP).ifPresent(r -> {
 			r.increase(modifier);
 		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player),
@@ -167,7 +167,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @param modifier
 	 */
-	public void decreaseRegenModifier(ServerPlayerEntity player, int modifier) {
+	public static void decreaseRegenModifier(ServerPlayerEntity player, int modifier) {
 		player.getCapability(RegenProvider.REGEN_CAP).ifPresent(r -> {
 			r.decrease(modifier);;
 		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player),
@@ -182,7 +182,7 @@ public class FeathersHelper {
 	 * @param player
 	 * @return The player's regen modifier
 	 */
-	public int getRegenModifier(ServerPlayerEntity player) {
+	public static int getRegenModifier(ServerPlayerEntity player) {
 		return player.getCapability(RegenProvider.REGEN_CAP).map(r -> {
 			return r.getRegen();
 		}).orElse(0);

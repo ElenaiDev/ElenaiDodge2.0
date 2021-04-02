@@ -16,6 +16,7 @@ import com.elenai.elenaidodge2.network.message.client.DodgeEffectsMessageToClien
 import com.elenai.elenaidodge2.network.message.client.InitPlayerMessageToClient;
 import com.elenai.elenaidodge2.network.message.client.VelocityMessageToClient;
 
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -23,6 +24,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 public class Utils {
@@ -209,6 +211,20 @@ public class Utils {
 			DodgeGui.alpha = 1f;
 			ClientTickEventListener.alpha = ClientTickEventListener.alphaLen;
 		}
+	}
+	
+	/**
+	 * Checks if the player has the TAN implementation enabled and the mod is present on the Client.
+	 * If Reskillable is not installed, this will simply return true.
+	 * 
+	 * @return Dodge Trait Unlocked
+	 * @author Elenai
+	 */
+	public static boolean tanEnabled(ClientPlayerEntity player) {
+		if (ModList.get().isLoaded("toughasnails") && ConfigHandler.enableTan) {
+			return true;
+		}
+		return false;
 	}
 
 }

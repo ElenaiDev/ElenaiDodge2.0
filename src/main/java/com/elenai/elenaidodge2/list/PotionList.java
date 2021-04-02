@@ -30,12 +30,16 @@ public class PotionList {
 	public static Potion LONG_FEEBLE = null;
 	public static Potion STRONG_FEEBLE = null;
 
+	public static Potion REPLENISHMENT = null;
+	public static Potion LONG_REPLENISHMENT = null;
+	public static Potion STRONG_REPLENISHMENT = null;
 	
 	public static Effect FEATHERS_EFFECT = null;
 	public static Effect WEIGHT_EFFECT = null;
 	public static Effect ENDURANCE_EFFECT = null;
 	public static Effect FORCEFUL_EFFECT = null;
 	public static Effect FEEBLE_EFFECT = null;
+	public static Effect REPLENISHMENT_EFFECT = null;
 	
 	public static void addRecipes() {
 		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), FEATHERS)),
@@ -75,12 +79,31 @@ public class PotionList {
 				Ingredient.fromStacks(new ItemStack(Items.FEATHER)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),LONG_FORCEFUL));
 		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_SWIFTNESS)),
 				Ingredient.fromStacks(new ItemStack(Items.FEATHER)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),STRONG_FORCEFUL));
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), FORCEFUL)),
+				Ingredient.fromStacks(new ItemStack(Items.REDSTONE)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),LONG_FORCEFUL));
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), FORCEFUL)),
+				Ingredient.fromStacks(new ItemStack(Items.GLOWSTONE_DUST)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),STRONG_FORCEFUL));
 		
 		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.SLOWNESS)),
 				Ingredient.fromStacks(new ItemStack(Items.FEATHER)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),FEEBLE));
 		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.LONG_SLOWNESS)),
 				Ingredient.fromStacks(new ItemStack(Items.FEATHER)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),LONG_FEEBLE));
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), FEEBLE)),
+				Ingredient.fromStacks(new ItemStack(Items.REDSTONE)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),LONG_FEEBLE));
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), FEEBLE)),
+				Ingredient.fromStacks(new ItemStack(Items.GLOWSTONE_DUST)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),STRONG_FEEBLE));
 
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.REGENERATION)),
+				Ingredient.fromStacks(new ItemStack(ItemList.GOLDEN_FEATHER.get())), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),REPLENISHMENT));
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.LONG_REGENERATION)),
+				Ingredient.fromStacks(new ItemStack(ItemList.GOLDEN_FEATHER.get())), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),LONG_REPLENISHMENT));
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_REGENERATION)),
+				Ingredient.fromStacks(new ItemStack(ItemList.GOLDEN_FEATHER.get())), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),STRONG_REPLENISHMENT));
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), REPLENISHMENT)),
+				Ingredient.fromStacks(new ItemStack(Items.REDSTONE)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),LONG_REPLENISHMENT));
+		BrewingRecipeRegistry.addRecipe(Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), REPLENISHMENT)),
+				Ingredient.fromStacks(new ItemStack(Items.GLOWSTONE_DUST)), PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION),STRONG_REPLENISHMENT));
+		
 	}
 	
 }

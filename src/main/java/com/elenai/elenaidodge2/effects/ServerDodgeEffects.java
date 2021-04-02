@@ -47,6 +47,9 @@ public class ServerDodgeEffects {
 
 		SpendFeatherEvent event = new SpendFeatherEvent(ConfigHandler.cost, player);
 		if(!MinecraftForge.EVENT_BUS.post(event)) {
+			if(!player.isOnGround()) {
+				event.setCost(ConfigHandler.airborneCost);
+			}
 		player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
 			player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 				if (!player.isCreative() && !player.isSpectator()) {
