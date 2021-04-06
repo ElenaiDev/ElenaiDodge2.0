@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16.X-1.0.9'
+version = '1.16.X-1.0.9b'
 group = 'com.elenai.elenaidodge2' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'ElenaiDodge2'
 
@@ -82,7 +82,7 @@ repositories {
 
 dependencies {
 
-    minecraft 'net.minecraftforge:forge:1.16.4-35.1.37'
+    minecraft 'net.minecraftforge:forge:1.16.3-34.1.0'
     compileOnly fg.deobf("curse.maven:tough-as-nails-246391:3203069")
 	//compile fg.deobf("curse.maven:classic-bars-317642:3098254")
 
