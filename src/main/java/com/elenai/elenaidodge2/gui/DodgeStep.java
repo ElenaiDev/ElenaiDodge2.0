@@ -20,12 +20,13 @@ public class DodgeStep {
 					Tutorial.createKeybindComponent("right") });
 	private static final ITextComponent DOUBLE_DODGE_DESCRIPTION = new TextComponentTranslation(
 			"tutorial.doubledodge.description", new Object[] { Tutorial.createKeybindComponent("elenaidodge.dodge") });
-	
-	private static final ITextComponent FORWARDS_DOUBLE_DODGE_TITLE = new TextComponentTranslation("tutorial.forwardsdoubledodge.title"
-			);
+
+	private static final ITextComponent FORWARDS_DOUBLE_DODGE_TITLE = new TextComponentTranslation(
+			"tutorial.forwardsdoubledodge.title");
 	private static final ITextComponent FORWARDS_DOUBLE_DODGE_DESCRIPTION = new TextComponentTranslation(
-			"tutorial.forwardsdoubledodge.description", new Object[] { Tutorial.createKeybindComponent("forward"), Tutorial.createKeybindComponent("left"), Tutorial.createKeybindComponent("back"),
-					Tutorial.createKeybindComponent("right") });
+			"tutorial.forwardsdoubledodge.description",
+			new Object[] { Tutorial.createKeybindComponent("forward"), Tutorial.createKeybindComponent("left"),
+					Tutorial.createKeybindComponent("back"), Tutorial.createKeybindComponent("right") });
 
 	public static DodgeToast moveToast;
 	private static Tutorial tutorial;
@@ -33,12 +34,12 @@ public class DodgeStep {
 	public static void show() {
 		tutorial = new Tutorial(Minecraft.getMinecraft());
 		if (ModConfig.client.controls.doubleTap) {
-			if(!ModConfig.client.controls.doubleTapForwards) {
-			moveToast = new DodgeToast(DodgeToast.Icons.DODGE_BOOT, DOUBLE_DODGE_TITLE, DOUBLE_DODGE_DESCRIPTION,
-					true);
-			} else {
-				moveToast = new DodgeToast(DodgeToast.Icons.DODGE_BOOT, FORWARDS_DOUBLE_DODGE_TITLE, FORWARDS_DOUBLE_DODGE_DESCRIPTION,
+			if (!ModConfig.client.controls.doubleTapForwards) {
+				moveToast = new DodgeToast(DodgeToast.Icons.DODGE_BOOT, DOUBLE_DODGE_TITLE, DOUBLE_DODGE_DESCRIPTION,
 						true);
+			} else {
+				moveToast = new DodgeToast(DodgeToast.Icons.DODGE_BOOT, FORWARDS_DOUBLE_DODGE_TITLE,
+						FORWARDS_DOUBLE_DODGE_DESCRIPTION, true);
 			}
 		} else {
 			moveToast = new DodgeToast(DodgeToast.Icons.DODGE_BOOT, DODGE_TITLE, DODGE_DESCRIPTION, true);
@@ -47,8 +48,8 @@ public class DodgeStep {
 	}
 
 	public static void hide() {
-		if(moveToast != null) {
-		moveToast.hide();
+		if (moveToast != null) {
+			moveToast.hide();
 		}
 	}
 }

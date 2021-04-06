@@ -9,7 +9,7 @@ public class Keybinds {
 	public static KeyBinding dodge;
 
 	public static void register() {
-		dodge = new KeyBinding("key.elenaidodge.dodge", Keyboard.KEY_LMENU, "key.categories.movement");
+		dodge = new KeyBinding("key.elenaidodge2.dodge", Keyboard.KEY_LMENU, "key.categories.movement");
 
 		ClientRegistry.registerKeyBinding(dodge);
 	}
