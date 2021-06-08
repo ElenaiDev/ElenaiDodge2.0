@@ -59,6 +59,17 @@ public class ModConfig {
 			@Name("Show Tooltips")
 			@Comment("Whether to show armor weight tooltips. If Quark is installed, please restart the game after disabling or enabling 'Quark Settings -> Client -> Visual Stat Display'.")
 			public boolean tooltips = true;
+			
+			@Name("X Offset")
+			@Comment("The X-Offset of the Feather Bar.")
+			@RangeInt(min = Integer.MIN_VALUE, max = Integer.MAX_VALUE)
+			public int xOffset = 0;
+			
+			@Name("Y Offset")
+			@Comment("The Y-Offset of the Feather Bar.")
+			@RangeInt(min = Integer.MIN_VALUE, max = Integer.MAX_VALUE)
+			public int yOffset = 0;
+
 		}
 	}
 
@@ -127,7 +138,7 @@ public class ModConfig {
 			public int airborneCost = 4;
 
 			@Name("Regeneration Rate")
-			@Comment("The amount of ticks required to regenerate half a feather.")
+			@Comment("The amount of ticks required to regenerate half a feather. Please only change this when you have full feathers.")
 			@RangeInt(min = 1, max = Integer.MAX_VALUE)
 			public int rate = 80;
 

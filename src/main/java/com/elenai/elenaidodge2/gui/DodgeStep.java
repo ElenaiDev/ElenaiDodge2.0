@@ -10,7 +10,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 public class DodgeStep {
 
 	private static final ITextComponent DODGE_TITLE = new TextComponentTranslation("tutorial.dodge.title",
-			new Object[] { Tutorial.createKeybindComponent("elenaidodge.dodge") });
+			new Object[] { Tutorial.createKeybindComponent("elenaidodge2.dodge") });
 	private static final ITextComponent DODGE_DESCRIPTION = new TextComponentTranslation("tutorial.dodge.description",
 			new Object[] { Tutorial.createKeybindComponent("forward"), Tutorial.createKeybindComponent("left"),
 					Tutorial.createKeybindComponent("back"), Tutorial.createKeybindComponent("right") });
@@ -19,7 +19,7 @@ public class DodgeStep {
 			new Object[] { Tutorial.createKeybindComponent("left"), Tutorial.createKeybindComponent("back"),
 					Tutorial.createKeybindComponent("right") });
 	private static final ITextComponent DOUBLE_DODGE_DESCRIPTION = new TextComponentTranslation(
-			"tutorial.doubledodge.description", new Object[] { Tutorial.createKeybindComponent("elenaidodge.dodge") });
+			"tutorial.doubledodge.description", new Object[] { Tutorial.createKeybindComponent("elenaidodge2.dodge") });
 
 	private static final ITextComponent FORWARDS_DOUBLE_DODGE_TITLE = new TextComponentTranslation(
 			"tutorial.forwardsdoubledodge.title");

@@ -78,10 +78,10 @@ public class DodgeGui {
 			rows = 1;
 		}
 		int rowHeight = Math.min(Math.max(10 - (rows - 2), 3), 10);
-		int top = (screenHeight - GuiIngameForge.right_height) - ((rows * rowHeight) - 10);
+		int top = (screenHeight - GuiIngameForge.right_height) - ((rows * rowHeight) - 10) + ModConfig.client.hud.yOffset;
 
 		for (int i = rows - 1; i >= 0; i--) {
-			int right = screenWidth / 2 + 82;
+			int right = (screenWidth / 2 + 82) + ModConfig.client.hud.xOffset;
 			for (int j = 1; j < 20; j += 2) {
 
 				if (j + (i * 20) < dodges) {
@@ -128,10 +128,10 @@ public class DodgeGui {
 
 		int rows = MathHelper.ceil(dodges / 20.0F);
 		int rowHeight = Math.min(Math.max(10 - (rows - 2), 3), 10);
-		int top = (screenHeight - GuiIngameForge.right_height) - ((rows * rowHeight) - 10);
+		int top = (screenHeight - GuiIngameForge.right_height) - ((rows * rowHeight) - 10) + ModConfig.client.hud.yOffset;
 
 		for (int i = rows - 1; i >= 0; i--) {
-			int right = screenWidth / 2 + 82;
+			int right = (screenWidth / 2 + 82) + ModConfig.client.hud.xOffset;
 			for (int j = 1; j < 20; j += 2) {
 
 				if (j + (i * 20) < dodges) {
