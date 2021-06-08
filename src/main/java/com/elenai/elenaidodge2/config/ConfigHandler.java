@@ -23,6 +23,9 @@ public final class ConfigHandler {
 		public final ForgeConfigSpec.BooleanValue flash;
 		public final ForgeConfigSpec.BooleanValue tutorial;
 		public final ForgeConfigSpec.BooleanValue tooltips;
+		public final ForgeConfigSpec.IntValue xOffset;
+		public final ForgeConfigSpec.IntValue yOffset;
+
 
 
 		public Client(ForgeConfigSpec.Builder builder) {
@@ -56,6 +59,12 @@ public final class ConfigHandler {
 			flash = builder.comment(
 					"Whether the Dodge Gui flashes when the player attempts to dodge when they haven't got enough feathers or too high a weight.")
 					.define("hud.flash", false);
+			xOffset = builder.comment(
+					"The X-Offset of the Feather Bar.")
+					.defineInRange("hud.x_offset", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+			yOffset = builder.comment(
+					"The Y-Offset of the Feather Bar.")
+					.defineInRange("hud.y_offset", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 		}
 	}
@@ -136,7 +145,7 @@ public final class ConfigHandler {
 					.comment("How many half feathers dodging in midair requires. [Enable Whilst Airborne must be Enabled]")
 					.defineInRange("feathers.airborne_cost", 4, 0, 20);
 			rate = builder
-					.comment("The amount of ticks required to regenerate half a feather.")
+					.comment("The amount of ticks required to regenerate half a feather. Please only change this when you have full feathers.")
 					.defineInRange("feathers.regen_rate", 80, 1, Integer.MAX_VALUE);
 			half = builder
 					.comment("Whether to enable 'Half Feathers'. Instead of weight values rounding down, they will instead show as a half feather. These can be used if the 'Cost' value is set to an odd number.")
@@ -200,7 +209,7 @@ public final class ConfigHandler {
 	
 	// Client
 	public static boolean doubleTap, hud, tutorial, tooltips, compatHud, doubleTapForwards, fadeout, flash;
-	public static int doubleTapTicks;
+	public static int doubleTapTicks, xOffset, yOffset;
 
 	public static void bakeClientConfig() {
 		doubleTap = CLIENT.doubleTap.get();
@@ -212,6 +221,8 @@ public final class ConfigHandler {
 		doubleTapForwards = CLIENT.doubleTapForwards.get();
 		fadeout = CLIENT.fadeout.get();
 		flash = CLIENT.flash.get();
+		xOffset = CLIENT.xOffset.get();
+		yOffset = CLIENT.yOffset.get();
 	}
 	
 	// Common

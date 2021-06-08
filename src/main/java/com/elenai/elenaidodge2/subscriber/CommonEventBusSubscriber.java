@@ -38,6 +38,7 @@ import com.elenai.elenaidodge2.network.NetworkHandler;
 import com.elenai.elenaidodge2.potion.AbsorptionEffect;
 import com.elenai.elenaidodge2.potion.BaseEffect;
 import com.elenai.elenaidodge2.potion.EnduranceEffect;
+import com.elenai.elenaidodge2.potion.PotionBrewingRecipe;
 import com.elenai.elenaidodge2.potion.ReplenishmentEffect;
 import com.elenai.elenaidodge2.potion.WeightEffect;
 import com.elenai.elenaidodge2.util.PatronRewardHandler;
@@ -80,7 +81,8 @@ public class CommonEventBusSubscriber {
 		MinecraftForge.EVENT_BUS.register(new InvincibilityEventListener());
 		MinecraftForge.EVENT_BUS.register(new PotionTickEventListener());
 
-		PotionList.addRecipes(); // TODO We will switch to Deferred Registries eventually
+		@SuppressWarnings("unused")
+		PotionBrewingRecipe potionBrewingRecipe = new PotionBrewingRecipe(); // TODO We will switch to Deferred Registries eventually
 
 	}
 

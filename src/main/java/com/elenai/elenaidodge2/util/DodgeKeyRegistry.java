@@ -1,6 +1,5 @@
 package com.elenai.elenaidodge2.util;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

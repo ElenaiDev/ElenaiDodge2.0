@@ -43,7 +43,7 @@ public class Utils {
 		NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player),
 				new VelocityMessageToClient(x, y, z));
 	}
-	
+
 	/**
 	 * Tells the Client to flash the GUI white and show the GUI.
 	 * 
@@ -104,7 +104,8 @@ public class Utils {
 		ServerDodgeEffects.run(player);
 		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 			player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
-				NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new DodgeEffectsMessageToClient(d.getDodges(), a.getAbsorption()));
+				NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player),
+						new DodgeEffectsMessageToClient(d.getDodges(), a.getAbsorption()));
 			});
 		});
 	}
@@ -146,7 +147,7 @@ public class Utils {
 		player.getCapability(DodgesProvider.DODGES_CAP).ifPresent(d -> {
 			player.getCapability(AbsorptionProvider.ABSORPTION_CAP).ifPresent(a -> {
 
-				NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player), 
+				NetworkHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player),
 						new ConfigMessageToClient(ConfigHandler.rate, d.getDodges(),
 								arrayToString(ConfigHandler.weights), ConfigHandler.half, a.getAbsorption()));
 			});
@@ -202,7 +203,7 @@ public class Utils {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Shows the player's dodge bar if it is hidden
 	 */
@@ -212,10 +213,11 @@ public class Utils {
 			ClientTickEventListener.alpha = ClientTickEventListener.alphaLen;
 		}
 	}
-	
+
 	/**
-	 * Checks if the player has the TAN implementation enabled and the mod is present on the Client.
-	 * If Reskillable is not installed, this will simply return true.
+	 * Checks if the player has the TAN implementation enabled and the mod is
+	 * present on the Client. If Reskillable is not installed, this will simply
+	 * return true.
 	 * 
 	 * @return Dodge Trait Unlocked
 	 * @author Elenai
