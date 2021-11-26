@@ -54,19 +54,19 @@ public class TooltipEventListener {
 	public void makeTooltip(ItemTooltipEvent event) {
 		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ArmorItem && ClientStorage.weightValues != null) {
 			if(ConfigHandler.tooltips) {
-				int weight =  getWeight(event.getItemStack());
+			int weight =  getWeight(event.getItemStack());
 			if(weight > 0) {
-					int len = (int) Math.ceil((double) weight / divisor);
-					
-					StringBuilder s = new StringBuilder("'");
-					for (int i = 0; i < len; i++)
-						s.append("  ");
-					
-					List<ITextComponent> tooltip = event.getToolTip();
-					if (tooltip.isEmpty())
-						tooltip.add(new StringTextComponent(s.toString()));
+			int len = (int) Math.ceil((double) weight / divisor);
+			
+			StringBuilder s = new StringBuilder("'");
+			for(int i = 0; i < len; i++)
+				s.append("  ");
+			
+			List<ITextComponent> tooltip = event.getToolTip();
+			if(tooltip.isEmpty())
+				tooltip.add(new StringTextComponent(s.toString()));
 			else tooltip.add(1, (new StringTextComponent(s.toString())));
-				}
+			}
 			}
 		}
 	}
