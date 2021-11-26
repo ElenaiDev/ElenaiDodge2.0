@@ -8,6 +8,7 @@ import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.config.ConfigHandler;
 import com.elenai.elenaidodge2.util.ClientStorage;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ArmorItem;
@@ -53,19 +54,19 @@ public class TooltipEventListener {
 	public void makeTooltip(ItemTooltipEvent event) {
 		if(!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ArmorItem && ClientStorage.weightValues != null) {
 			if(ConfigHandler.tooltips) {
-			int weight =  getWeight(event.getItemStack());
+				int weight =  getWeight(event.getItemStack());
 			if(weight > 0) {
-			int len = (int) Math.ceil((double) weight / divisor);
-			
-			StringBuilder s = new StringBuilder("'");
-			for(int i = 0; i < len; i++)
-				s.append("  ");
-			
-			List<ITextComponent> tooltip = event.getToolTip();
-			if(tooltip.isEmpty())
-				tooltip.add(new StringTextComponent(s.toString()));
+					int len = (int) Math.ceil((double) weight / divisor);
+					
+					StringBuilder s = new StringBuilder("'");
+					for (int i = 0; i < len; i++)
+						s.append("  ");
+					
+					List<ITextComponent> tooltip = event.getToolTip();
+					if (tooltip.isEmpty())
+						tooltip.add(new StringTextComponent(s.toString()));
 			else tooltip.add(1, (new StringTextComponent(s.toString())));
-			}
+				}
 			}
 		}
 	}
@@ -75,7 +76,11 @@ public class TooltipEventListener {
 		if (!event.getStack().isEmpty() && event.getStack().getItem() instanceof ArmorItem && ConfigHandler.tooltips) {
 
 			Minecraft mc = Minecraft.getInstance();
+			MatrixStack matrix = event.getMatrixStack();
+			matrix.push();
+			matrix.translate(0, 0, 500);
 			mc.getTextureManager().bindTexture(ICONS_RESOURCE);
+
 			int weight = getWeight(event.getStack());
 			if (weight < 28) {
 
@@ -90,9 +95,10 @@ public class TooltipEventListener {
 					if (weight % 2 != 0 && i == 0)
 						u += 9;
 
-					Screen.blit(event.getMatrixStack(), x, y, u, v, 9, 9, 256, 256);
+					Screen.blit(matrix, x, y, u, v, 9, 9, 256, 256);
 				}
 			}
+			matrix.pop();
 		}
 	}
 
