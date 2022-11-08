@@ -1,6 +1,6 @@
 # Elenai Dodge 2
 
-Elenai Dodge 2 is a dodging mod that serves as an API for all my future projects
+Elenai Dodge 2 is a simple dodging mod!
 
 ## Installation
 
@@ -37,8 +37,6 @@ dependencies {
 ```
 
 Then simply run your gradle setup commands as normal, e.g. ```gradlew genEclipseRuns``` then ```gradlew eclipse```.
-
-You now have access to Elenai Dodge 2's API and code! The API is pretty self explanatory but if you need any help, feel free to private message me [here](https://www.curseforge.com/members/elenaidev/followers)!
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
