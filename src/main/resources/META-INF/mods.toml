@@ -1,32 +1,48 @@
-modLoader="javafml"
-loaderVersion="[34,)"
-license="Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"
-[[mods]]
-modId="elenaidodge2"
-version="1.1.0"
-displayName="Elenai Dodge 2"
-#displayURL="https://www.curseforge.com/minecraft/mc-mods/elenai-dodge-2"
-credits="ElenaiDev"
+modLoader="javafml" 
+loaderVersion="[43,)"
+license="All rights reserved"
+[[mods]] 
+modId="elenaidodge2" 
+# ${file.jarVersion} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
+version="${file.jarVersion}" 
+displayName="Elenai Dodge 2" 
+logoFile="elenaidodge2.png" 
+credits="Thanks to all of the community for their amazing ideas, and to SandwichHorror for the armor weight system idea and incredible support in the past!"
 authors="Elenai"
-description='''
-Welcome to Elenai Dodge 2!
-Elenai Dodge 2 is a dodging mod that focuses on overhauling the combat of the vanilla game.
-Have a look at the Mod Config for more settings! Navigate to:
-.minecraft/config/elenaidodge-client.toml
-.minecraft/config/elenaidodge-common.toml
-Enjoy!
 
-A MASSIVE thanks to my Patrons: SandwichHorror, Brent, DevilDogHons, Ethan McGowen (ArtyArtyArtemis)
+description='''
+Elenai Dodge 2 adds a highly configurable animated dodge mechanic based upon Feathers' stamina system!
+To make changes to the Config, please navigate to the config folder in your Minecraft directory and do it from there (where your mods folder is).
 '''
-[[dependencies.elenaidodge2]]
+[[dependencies.elenaidodge2]] #optional
+    # the modid of the dependency
     modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
-    versionRange="[34,)" #mandatory
+    # The version range of the dependency
+    versionRange="[43,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
+# Here's another dependency
 [[dependencies.elenaidodge2]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3,1.17)"
+# This version range declares a minimum of the current minecraft version up to but not including the next major version
+    versionRange="[1.19.2,1.20)"
     ordering="NONE"
+    side="BOTH"
+    
+[[dependencies.elenaidodge2]]
+    modId="feathers"
+    mandatory=true
+    versionRange="[0.1,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.elenaidodge2]]
+    modId="playeranimator"
+    mandatory=true
+    versionRange="[0.4.0-test1,)"
+    ordering="BEFORE"
     side="BOTH"
