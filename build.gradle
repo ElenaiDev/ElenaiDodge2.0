@@ -6,7 +6,7 @@ plugins {
 
 version = '1.0'
 group = 'com.elenai.elenaidodge2' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'elenaidodge2-1.19.2'
+archivesBaseName = 'elenaidodge2'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
