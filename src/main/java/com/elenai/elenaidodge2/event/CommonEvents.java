@@ -4,8 +4,8 @@ import com.elenai.elenaidodge2.ElenaiDodge2;
 import com.elenai.elenaidodge2.capability.InvincibleCapability;
 import com.elenai.elenaidodge2.capability.PlayerInvincibilityProvider;
 import com.elenai.elenaidodge2.config.ED2CommonConfig;
-import com.elenai.elenaidodge2.networking.ConfigSyncSTCPacket;
 import com.elenai.elenaidodge2.networking.ED2Messages;
+import com.elenai.elenaidodge2.networking.messages.ConfigSyncSTCPacket;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

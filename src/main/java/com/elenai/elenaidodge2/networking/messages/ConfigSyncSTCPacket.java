@@ -1,4 +1,4 @@
-package com.elenai.elenaidodge2.networking;
+package com.elenai.elenaidodge2.networking.messages;
 
 import java.util.function.Supplier;
 

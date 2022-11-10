@@ -1,9 +1,10 @@
-package com.elenai.elenaidodge2.networking;
+package com.elenai.elenaidodge2.networking.messages;
 
 import java.util.function.Supplier;
 
 import com.elenai.elenaidodge2.capability.PlayerInvincibilityProvider;
 import com.elenai.elenaidodge2.config.ED2CommonConfig;
+import com.elenai.elenaidodge2.networking.ED2Messages;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

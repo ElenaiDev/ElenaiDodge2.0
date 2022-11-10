@@ -1,6 +1,9 @@
 package com.elenai.elenaidodge2.networking;
 
 import com.elenai.elenaidodge2.ElenaiDodge2;
+import com.elenai.elenaidodge2.networking.messages.ConfigSyncSTCPacket;
+import com.elenai.elenaidodge2.networking.messages.DodgeAnimationSTCPacket;
+import com.elenai.elenaidodge2.networking.messages.DodgeEffectsCTSPacket;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;

@@ -4,8 +4,8 @@ import com.elenai.elenaidodge2.client.ED2ClientStorage;
 import com.elenai.elenaidodge2.client.animation.DodgeAnimator;
 import com.elenai.elenaidodge2.client.animation.DodgeAnimator.DodgeDirection;
 import com.elenai.elenaidodge2.event.ClientEvents;
-import com.elenai.elenaidodge2.networking.DodgeEffectsCTSPacket;
 import com.elenai.elenaidodge2.networking.ED2Messages;
+import com.elenai.elenaidodge2.networking.messages.DodgeEffectsCTSPacket;
 import com.elenai.feathers.api.FeathersHelper;
 
 import net.minecraft.client.Minecraft;
