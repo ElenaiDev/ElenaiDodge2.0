@@ -73,9 +73,9 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.19.2-43.1.47'
     implementation fg.deobf("com.elenai:feathers:1.19.2-1.0")
-    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.4.0-test1") 
-    jarJar ("dev.kosmx.player-anim:player-animation-lib-forge:[0.4.0-test0,0.4.0-test1)") { //TODO: get rid of 0.3.5
-    	jarJar.pin(it, "0.4.0-test1")
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.4.0-test4") 
+    jarJar ("dev.kosmx.player-anim:player-animation-lib-forge:[0.4.0-test0,0.4.0-test4)") { //TODO: get rid of 0.3.5
+    	jarJar.pin(it, "0.4.0-test4")
     }
 }
 
