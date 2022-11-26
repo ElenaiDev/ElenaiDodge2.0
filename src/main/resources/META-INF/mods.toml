@@ -43,6 +43,6 @@ To make changes to the Config, please navigate to the config folder in your Mine
 [[dependencies.elenaidodge2]]
     modId="playeranimator"
     mandatory=true
-    versionRange="[0.4.0-test1,)"
+    versionRange="[0.4.0,)"
     ordering="BEFORE"
     side="BOTH"
