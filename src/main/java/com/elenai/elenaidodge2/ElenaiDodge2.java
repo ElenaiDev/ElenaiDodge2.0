@@ -3,6 +3,7 @@ package com.elenai.elenaidodge2;
 import com.elenai.elenaidodge2.config.ED2ClientConfig;
 import com.elenai.elenaidodge2.config.ED2CommonConfig;
 import com.elenai.elenaidodge2.networking.ED2Messages;
+import com.elenai.elenaidodge2.sound.ED2Sounds;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -22,6 +23,8 @@ public class ElenaiDodge2 {
         
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ED2ClientConfig.SPEC, "Elenai-Dodge-2-Client.toml");
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ED2CommonConfig.SPEC, "Elenai-Dodge-2-Common.toml");
+		
+		ED2Sounds.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

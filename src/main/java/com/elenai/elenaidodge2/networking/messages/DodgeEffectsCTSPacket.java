@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.elenai.elenaidodge2.capability.PlayerInvincibilityProvider;
 import com.elenai.elenaidodge2.config.ED2CommonConfig;
 import com.elenai.elenaidodge2.networking.ED2Messages;
+import com.elenai.elenaidodge2.sound.ED2Sounds;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -31,7 +32,7 @@ public class DodgeEffectsCTSPacket {
 		public boolean handle(Supplier<NetworkEvent.Context> supplier) {
 			NetworkEvent.Context context = supplier.get();
 			context.enqueueWork(() -> {
-				context.getSender().level.playSound(null, new BlockPos(context.getSender().position()), SoundEvents.PLAYER_ATTACK_SWEEP,
+				context.getSender().level.playSound(null, new BlockPos(context.getSender().position()), ED2Sounds.DODGE_SOUND.get(),
 						SoundSource.PLAYERS, 1f, 4f + context.getSender().level.random.nextFloat());
 				
 				context.getSender().getCapability(PlayerInvincibilityProvider.PLAYER_INVINCIBILITY).ifPresent(i -> {
