@@ -15,6 +15,7 @@ public class ED2CommonConfig {
 
 	
 	public static final ForgeConfigSpec.ConfigValue<Boolean> DODGE_WHILST_AIRBORNE;
+	public static final ForgeConfigSpec.ConfigValue<Integer> DODGE_COST_WHILST_AIRBORNE;
 	
 	//TODO: Add the tutorial back!
 	static {
@@ -34,8 +35,10 @@ public class ED2CommonConfig {
 		DODGE_HEIGHT = BUILDER.comment("How high the player moves when dodging")
 				.define("Dodge Height", 0.2d);
 		
-		
 		DODGE_WHILST_AIRBORNE = BUILDER.comment("Whether the player can dodge in mid-air").define("Dodge Whilst Airborne", false);
+		
+		DODGE_COST_WHILST_AIRBORNE = BUILDER.comment("How many half feathers it costs to dodge while airborne")
+				.define("Dodge Cost Air", 2);
 
 		BUILDER.pop();
 		SPEC = BUILDER.build();

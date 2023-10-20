@@ -57,7 +57,7 @@ public class CommonEvents {
 		Level level = event.getLevel();
 		if (!level.isClientSide && (event.getEntity() instanceof ServerPlayer player)) {
 			ED2Messages.sendToPlayer(new ConfigSyncSTCPacket(ED2CommonConfig.DODGE_WHILST_AIRBORNE.get(),
-					ED2CommonConfig.COOLDOWN_TIME.get(), ED2CommonConfig.DODGE_COST.get(), ED2CommonConfig.DODGE_STRENGTH.get(), ED2CommonConfig.DODGE_HEIGHT.get()), player);
+					ED2CommonConfig.COOLDOWN_TIME.get(), ED2CommonConfig.DODGE_COST.get(), ED2CommonConfig.DODGE_STRENGTH.get(), ED2CommonConfig.DODGE_HEIGHT.get(), ED2CommonConfig.DODGE_COST_WHILST_AIRBORNE.get()), player);
 		}
 	}
 

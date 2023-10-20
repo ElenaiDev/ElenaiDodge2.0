@@ -9,6 +9,7 @@ public class ED2ClientStorage {
 	private static boolean airborne;
 	private static double power;
 	private static double verticality;
+	private static int airborneCost;
 	private static boolean animating = ED2ClientConfig.DISPLAY_ANIMATION.get();
 	
 	public static int getCooldown() {
@@ -40,6 +41,12 @@ public class ED2ClientStorage {
 	}
 	public static void setPower(double power) {
 		ED2ClientStorage.power = power;
+	}
+	public static int getAirborneCost() {
+		return airborneCost;
+	}
+	public static void setAirborneCost(int airborneCost) {
+		ED2ClientStorage.airborneCost = airborneCost;
 	}
 	public static boolean isAnimating() {
 		return animating;
