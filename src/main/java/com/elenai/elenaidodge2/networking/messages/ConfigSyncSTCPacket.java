@@ -13,13 +13,15 @@ public class ConfigSyncSTCPacket {
 	private final int cost;
 	private final double power;
 	private final double verticality;
+	private final int airborneCost;
 	
-	public ConfigSyncSTCPacket(boolean airborne, int cooldown, int cost, double power, double verticality) {
+	public ConfigSyncSTCPacket(boolean airborne, int cooldown, int cost, double power, double verticality, int airborneCost) {
 	this.airborne = airborne;
 	this.cooldown = cooldown;
 	this.cost = cost;
 	this.power = power;
 	this.verticality = verticality;
+	this.airborneCost = airborneCost;
 	}
 
 	public ConfigSyncSTCPacket(FriendlyByteBuf buf) {
@@ -28,6 +30,7 @@ public class ConfigSyncSTCPacket {
 		this.cost = buf.readInt();
 		this.power = buf.readDouble();
 		this.verticality = buf.readDouble();
+		this.airborneCost = buf.readInt();
 	}
 
 	public void toBytes(FriendlyByteBuf buf) {
@@ -36,6 +39,7 @@ public class ConfigSyncSTCPacket {
 		buf.writeInt(cost);
 		buf.writeDouble(power);
 		buf.writeDouble(verticality);
+		buf.writeInt(airborneCost);
 	}
 
 	public boolean handle(Supplier<NetworkEvent.Context> supplier) {
@@ -46,6 +50,7 @@ public class ConfigSyncSTCPacket {
 			ED2ClientStorage.setCost(cost);
 			ED2ClientStorage.setPower(power);
 			ED2ClientStorage.setVerticality(verticality);
+			ED2ClientStorage.setAirborneCost(airborneCost);
 		});
 		return true;
 	}

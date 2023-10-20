@@ -19,7 +19,7 @@ public class DodgeHandler {
 				&& !instance.player.isRidingJumpable() && !instance.player.isCrouching()
 				&& ClientEvents.currentCooldown == 0 && instance.screen == null && !instance.player.isSwimming()
 				&& (instance.player.getFoodData().getFoodLevel() > 6) && !instance.player.isBlocking()
-				&&FeathersHelper.spendFeathers(ED2ClientStorage.getCost())) {
+				&& FeathersHelper.spendFeathers(instance.player.isOnGround() ? ED2ClientStorage.getCost() : ED2ClientStorage.getAirborneCost())) {
 
 			String animationDirection = DodgeDirection.BACKWARDS.name();
 
